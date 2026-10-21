@@ -21,6 +21,22 @@
 .duo-x{font-size:18px;font-weight:400;color:#8a9c93;align-self:center;margin-bottom:24px;}
 
 
+
+/* iPhone에서도 별 장식의 모양과 색상을 동일하게 유지 */
+.doodle{display:block;width:19px;height:19px;pointer-events:none}
+.doodle svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:butt}
+/* 날짜 입력의 기기 기본 최소 너비가 카드 밖으로 넘치지 않도록 제한 */
+.form,.field{min-width:0;max-width:100%}
+.field input,.field textarea{box-sizing:border-box;min-width:0;max-width:100%}
+.field input[type="date"]{
+ display:block;appearance:none;-webkit-appearance:none;
+ width:100%;min-width:0;max-width:100%;min-inline-size:0;
+ height:48px;min-height:48px;padding:12px;
+ text-align:left;background:#fff;line-height:22px;
+}
+.field input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0;min-height:22px}
+.field input[type="date"]::-webkit-datetime-edit{display:inline-flex;padding:0;min-width:0;max-width:100%}
+.field input[type="date"]::-webkit-datetime-edit-fields-wrapper{padding:0}
 </style>
 </head>
 <body>
@@ -184,7 +200,7 @@ function back(){const p=stack.pop()||['home',null];go(p[0],p[1],false)}
 const heading=(t,s='')=>`<div class="eyebrow">LET’S GO, MY DUO</div><h1 class="title">${t}</h1>${s?`<p class="sub">${s}</p>`:''}`;
 const backhead=t=>`<div class="backhead"><button data-back aria-label="뒤로">${icon('back')}</button><h1>${esc(t)}</h1></div>`;
 const section=(t,v)=>`<div class="section"><h2>${t}</h2><button class="link" data-go="${v}">열어보기 ${icon('arrow')}</button></div>`;
-function home(){return `<div class="couple-hero"><div class="hero-top">너와 나, 어느새</div><div class="day-number">${esc(couple.days)}<span>일째</span></div><div class="since">SINCE ${esc(couple.start)}</div><span class="doodle">✳</span>${duo()}</div><div class="mood-card"><p>오늘의 기분은?</p><div class="moods">${['🥳','😑','🥱','🥺'].map(m=>`<button data-mood="${m}" class="${mood===m?'selected':''}" aria-label="기분 ${m}">${m}</button>`).join('')}</div></div>${section('오늘의 우리 질문','question')}<div class="question-card"><span class="pill">DAY ${esc(couple.days)} · 하루 한 번</span><h2>${esc(answers[0].question).replace(/\n/g,'<br>')}</h2><button data-go="question"><span>${answers[0].mine===null?'내 답변 적고 [도운이] 답변 보기':'우리의 답변 다시 보기'}</span>${icon('arrow')}</button></div><div class="grid2" style="margin-top:16px"><button class="tile" data-go="location">${icon('pin')}<div><b>지금 어디야?</b><p>윤도운 [레슨] 하는 중!</p></div></button><button class="tile green" data-go="plans">${icon('calendar')}<div><b>08:25 윤도운도윤 생일</b><p>식당 예약 19:30, 여행 계획 짜기</p></div></button></div>${section('2027 우리는,','wishes')}<div class="card">${wishes.slice(0,2).map((w,i)=>wishRow(w,i)).join('')}</div><p class="note">LET’S GO, MY DUO</p>`}
+function home(){return `<div class="couple-hero"><div class="hero-top">너와 나, 어느새</div><div class="day-number">${esc(couple.days)}<span>일째</span></div><div class="since">SINCE ${esc(couple.start)}</div><span class="doodle" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07 19.07 4.93"/></svg></span>${duo()}</div><div class="mood-card"><p>오늘의 기분은?</p><div class="moods">${['🥳','😑','🥱','🥺'].map(m=>`<button data-mood="${m}" class="${mood===m?'selected':''}" aria-label="기분 ${m}">${m}</button>`).join('')}</div></div>${section('오늘의 우리 질문','question')}<div class="question-card"><span class="pill">DAY ${esc(couple.days)} · 하루 한 번</span><h2>${esc(answers[0].question).replace(/\n/g,'<br>')}</h2><button data-go="question"><span>${answers[0].mine===null?'내 답변 적고 [도운이] 답변 보기':'우리의 답변 다시 보기'}</span>${icon('arrow')}</button></div><div class="grid2" style="margin-top:16px"><button class="tile" data-go="location">${icon('pin')}<div><b>지금 어디야?</b><p>윤도운 [레슨] 하는 중!</p></div></button><button class="tile green" data-go="plans">${icon('calendar')}<div><b>08:25 윤도운도윤 생일</b><p>식당 예약 19:30, 여행 계획 짜기</p></div></button></div>${section('2027 우리는,','wishes')}<div class="card">${wishes.slice(0,2).map((w,i)=>wishRow(w,i)).join('')}</div><p class="note">LET’S GO, MY DUO</p>`}
 function question(){const q=answers[0],answered=q.mine!==null;return `${heading('오늘의 질문','하루에 하나씩, 서로를 더 알아가는 중')}<div class="question-card" style="margin:22px 0 16px"><span class="pill">#${q.id} · ${q.date}</span><h2 style="margin-bottom:0">${esc(q.question).replace(/\n/g,'<br>')}</h2></div>${answered?answerCards(q):`<form class="card form" id="answer-form"><label class="field" style="margin-top:0"><span>[나]의 답변</span><textarea id="answer-input" name="answer" required maxlength="1500" placeholder="멋진 말이 아니어도 괜찮아."></textarea></label><p class="sub" style="margin-bottom:15px">답변을 남기면 [도운이]의 답변도 열려요.<br>오늘의 답변은 한 번만 등록할 수 있어요.</p><button class="primary">오늘의 마음 남기기</button></form><div class="card answer blue" style="margin-top:12px"><div class="answer-head">윤도운 <span class="mini">답변 완료</span></div><p style="color:#8d9fa8;font-size:13px">[도운이]가 먼저 마음을 남겼어요.<br>나의 답변을 기다리는 중!</p></div>`}<button class="secondary" style="margin-top:18px" data-go="history">지난 질문과 답변 보기</button>`}
 function answerCards(q){return `<div class="stack"><div class="card answer pink"><div class="answer-head">강영현 <span class="mini">나의 답변</span></div><p>${esc(q.mine)}</p></div><div class="card answer blue"><div class="answer-head">윤도운 <span class="mini">짝꿍의 답변</span></div><p>${esc(q.partner)}</p></div></div>`}
 function history(){return `${backhead('우리가 남긴 답변')}<p class="sub" style="margin-bottom:18px">별거 아닌 마음들이 모여, 우리의 이야기가 돼.</p><div class="card">${answers.filter(q=>q.mine!==null).map(q=>`<button class="row" data-go="past" data-arg="${q.id}"><span class="badge" style="background:var(--pink);font-size:12px">${q.id}</span><div class="grow"><div class="small">${q.date}</div><div class="row-title">${esc(q.question)}</div></div>${icon('arrow','arrow')}</button>`).join('')}</div>`}
