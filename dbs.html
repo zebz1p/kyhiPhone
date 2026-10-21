@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>DBS · Inside</title>
+<style>
+:root{--blue:#2055ed;--ink:#172028;--muted:#7a838c;--line:#e8ecef;--green:#16744e;--paper:#f5f7f9}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:white}body,button,input,textarea,select{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink)}button,input,textarea,select{font-size:14px}button{border:0;background:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}button:active{opacity:.7}button:focus-visible{outline:2px solid var(--blue);outline-offset:3px}svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block}h1,h2,h3,p{margin:0}#app{position:fixed;inset:0;width:100%;height:100%;height:100dvh;display:flex;flex-direction:column;background:var(--paper)}.top{padding:calc(12px + env(safe-area-inset-top,0px)) 20px 12px;display:flex;align-items:center;justify-content:space-between;flex:none;background:#fff;border-bottom:1px solid var(--line);min-height:62px}.brand{display:flex;align-items:center;gap:9px}.brand b{font-size:26px;font-weight:900;letter-spacing:-1.5px;color:var(--blue)}.brand span{font-size:10px;letter-spacing:2px;border-left:1px solid #ccd2d8;padding-left:10px;font-weight:700}.top-actions{display:flex;gap:18px;align-items:center}.top-button{position:relative}.dot{position:absolute;right:0;top:0;width:5px;height:5px;background:var(--green);border-radius:50%}main{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:24px 20px 28px}main::-webkit-scrollbar{display:none}.nav{flex:none;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:7px 5px calc(9px + env(safe-area-inset-bottom,0px));height:calc(65px + env(safe-area-inset-bottom,0px))}.nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#89919b;font-size:10px}.nav button.active{color:var(--blue);font-weight:700}.nav button svg{width:23px;height:23px}.eyebrow{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1.5px;margin-bottom:9px}.heading{font-size:25px;letter-spacing:-1px;line-height:1.4;font-weight:700}.sub{font-size:13px;color:var(--muted);line-height:1.6;margin-top:5px}.section-head{display:flex;justify-content:space-between;align-items:center;margin:25px 0 12px}.section-head h2{font-size:16px;letter-spacing:-.4px}.text-link{font-size:12px;color:var(--muted);display:flex;gap:4px;align-items:center}.text-link svg{width:14px;height:14px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}.hero{margin-top:21px;background:var(--blue);color:#fff;padding:23px;border-radius:20px;position:relative;overflow:hidden}.hero .eyebrow{color:#b7cdff}.hero h2{font-size:22px;line-height:1.4;letter-spacing:-.7px;font-weight:600}.hero p{font-size:12px;color:#d9e4ff;margin:8px 0 24px}.hero-foot{display:flex;justify-content:space-between;align-items:center;font-size:12px}.hero-mark{position:absolute;font-size:140px;line-height:1;right:-8px;top:-6px;font-weight:900;opacity:.08;letter-spacing:-15px;pointer-events:none}.pill{font-size:10px;padding:5px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;background:#eef3ff;color:var(--blue);font-weight:600}.pill.green{color:var(--green);background:#e9f6ee}.pill.gray{background:#f1f3f5;color:#737c85}.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}.quick button{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 2px;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:11px}.quick svg{color:var(--blue)}.row{width:100%;display:flex;align-items:center;gap:12px;padding:17px;text-align:left;border-bottom:1px solid var(--line)}.row:last-child{border:0}.grow{flex:1;min-width:0}.row-title{font-size:14px;line-height:1.5;font-weight:600}.small{font-size:11px;color:var(--muted);line-height:1.5;margin-top:4px}.arrow{color:#a6afb7;width:17px;height:17px;flex:none}.menu-card{padding:20px}.menu-top{display:flex;justify-content:space-between;align-items:center}.menu-title{font-size:21px;margin:15px 0 8px;letter-spacing:-.6px}.menu-items{color:#6b747e;font-size:13px;line-height:1.9}.menu-footer{margin-top:18px;padding-top:13px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:#7a838c;font-size:11px}.notice-text{font-size:13px;line-height:1.6}.back-title{display:flex;align-items:center;gap:12px;margin-bottom:23px}.back-title button{padding:5px;background:#fff;border:1px solid var(--line);border-radius:50%}.back-title h1{font-size:20px;letter-spacing:-.5px}.tabs{display:flex;gap:7px;margin:20px 0 16px}.tabs button{font-size:12px;border:1px solid var(--line);border-radius:30px;padding:9px 15px;background:#fff;color:#707981}.tabs button.selected{background:var(--ink);color:#fff;border-color:var(--ink)}.avatar{height:43px;width:43px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;color:var(--blue);background:#edf2ff;font-size:14px;font-weight:700}.avatar.green{background:#eaf3ed;color:var(--green)}.preview{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:#808892;margin-top:5px}.timestamp{font-size:10px;color:#929aa3;white-space:nowrap;align-self:flex-start;margin-top:3px}.conversation{display:flex;flex-direction:column;gap:18px}.message{display:flex;gap:9px;align-items:flex-start}.message .avatar{width:30px;height:30px;border-radius:10px;font-size:10px}.message-name{font-size:10px;color:#7e8790;margin-bottom:6px}.bubble{background:#fff;border:1px solid var(--line);border-radius:0 15px 15px 15px;padding:12px 14px;font-size:13px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}.message.me{justify-content:flex-end}.message.me .bubble{background:var(--blue);color:white;border:0;border-radius:15px 0 15px 15px}.message-body{max-width:80%;min-width:0}.message.me .small{text-align:right;font-size:10px}.composer{display:flex;gap:8px;padding:10px 16px;background:white;border-top:1px solid var(--line);flex:none}.composer input{flex:1;min-width:0;background:var(--paper);border:0;border-radius:12px;padding:12px}.composer button{background:var(--blue);color:#fff;border-radius:12px;width:42px;display:grid;place-items:center}.primary{background:var(--blue);color:#fff;padding:14px 16px;border-radius:12px;font-weight:600;width:100%;font-size:14px}.secondary{border:1px solid var(--line);background:#fff;padding:13px 16px;border-radius:12px;width:100%;font-size:13px}.form{padding:20px}.field{display:block;margin-bottom:20px}.field span{display:block;font-size:12px;font-weight:600;margin-bottom:9px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe4e9;background:#fff;padding:12px;border-radius:9px;outline:none;font-size:14px}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue)}.field textarea{min-height:110px;resize:vertical;line-height:1.6}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{padding:18px}.stat strong{font-size:28px;letter-spacing:-1px;display:block;margin:8px 0 0}.stat strong small{font-size:12px;font-weight:400;margin-left:4px}.post{display:block;width:100%;padding:19px;text-align:left;border-bottom:1px solid var(--line)}.post:last-child{border:0}.post h3{font-size:14px;font-weight:600;line-height:1.6;margin:9px 0}.post p{font-size:12px;line-height:1.6;color:#7d8690}.post-meta{margin-top:15px;display:flex;gap:12px;font-size:10px;color:#929ba4}.article{padding:22px}.article h2{font-size:22px;line-height:1.5;letter-spacing:-.6px;margin:14px 0}.article-content{font-size:14px;line-height:1.9;margin:24px 0;white-space:pre-wrap;overflow-wrap:anywhere}.id-card{margin-top:24px;background:#fff;border-radius:22px;border:1px solid var(--line);overflow:hidden;box-shadow:0 8px 25px #17202808}.id-band{background:var(--blue);color:#fff;padding:19px 22px;display:flex;justify-content:space-between;align-items:center}.id-band b{font-size:27px;letter-spacing:-1.5px}.id-band span{font-size:9px;letter-spacing:1.7px}.id-content{padding:25px 25px 20px}.id-avatar{width:72px;height:82px;border-radius:14px;background:#edf2f6;display:grid;place-items:center;margin-bottom:20px}.id-avatar svg{width:43px;height:43px;color:#8ca0b2}.id-name{font-size:29px;letter-spacing:-1px}.id-role{color:#7d8790;font-size:13px;margin:8px 0 22px}.detail{display:flex;justify-content:space-between;gap:10px;font-size:12px;padding:10px 0}.detail span{color:#9099a2}.detail strong{font-weight:500;overflow-wrap:anywhere}.barcode{margin-top:18px;border-top:1px solid var(--line);padding-top:22px;text-align:center}.barcode svg{display:block;width:100%;height:62px;stroke:none;fill:#111}.barcode p{letter-spacing:5px;font-size:13px;margin:10px 0 3px}.id-bottom{padding:11px 0;background:#eef7f1;display:block;overflow:hidden;white-space:nowrap;color:var(--green)}
+.id-marquee{display:flex;width:max-content;align-items:center;animation:dbs-id-marquee 17s linear infinite;will-change:transform}
+.id-marquee-set{display:flex;flex:0 0 auto;align-items:center;gap:14px;padding-right:14px}
+.id-marquee-dot{display:block;width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:var(--green)}
+.id-marquee-word{font-size:13px;line-height:22px;font-weight:800;letter-spacing:2.5px}
+@keyframes dbs-id-marquee{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.id-marquee{animation:none}}.muted-note{font-size:11px;line-height:1.7;color:#929ba4;text-align:center;margin-top:18px}.empty{text-align:center;padding:40px 15px;color:#8b949e;font-size:13px}#toast{position:fixed;bottom:calc(85px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#172028;color:white;font-size:12px;line-height:1.5;padding:12px 18px;border-radius:12px;z-index:30;max-width:90%;width:max-content;box-shadow:0 6px 24px #0002}[hidden]{display:none!important}@media(min-width:700px){main{padding-left:max(24px,calc((100% - 680px)/2));padding-right:max(24px,calc((100% - 680px)/2))}}@media(prefers-reduced-motion:no-preference){main{scroll-behavior:smooth}}
+
+/* 편지함: 기존 화면과 같은 카드 및 iPhone 안전영역 구조 사용 */
+.dbs-mail-header{width:25px;height:30px;display:grid;place-items:center}
+.dbs-mail-unread-dot{position:absolute;right:-4px;top:-1px;width:7px;height:7px;background:#16744e;border:1px solid #fff;border-radius:50%}
+.dbs-mail-folders{display:flex;gap:9px;margin:19px 0 14px}
+.dbs-mail-folders button{border-radius:22px;padding:9px 15px;font-size:12px;font-weight:600;border:1px solid var(--line);background:#fff;color:#75808c}
+.dbs-mail-folders button.selected{color:#fff;background:var(--ink);border-color:var(--ink)}
+.dbs-mail-row{width:100%;display:flex;gap:12px;align-items:flex-start;padding:17px 16px;text-align:left;border-bottom:1px solid var(--line);background:#fff}
+.dbs-mail-row:last-child{border-bottom:0}
+.dbs-mail-row .avatar{font-size:12px;border-radius:14px}
+.dbs-mail-row > button.grow{width:100%;text-align:left;min-width:0}
+.dbs-mail-row .dbs-mail-from{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dbs-mail-from{font-size:13px;line-height:1.5;font-weight:650}
+.dbs-mail-subject{font-size:13px;font-weight:500;line-height:1.5;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dbs-mail-preview{font-size:11px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dbs-mail-row.is-unread .dbs-mail-subject,.dbs-mail-row.is-unread .dbs-mail-from{font-weight:800;color:#172028}
+.dbs-mail-row .timestamp{font-size:10px;margin-top:3px}
+.dbs-mail-star{font-size:20px;line-height:1;color:#b8c2ce;padding:7px 5px;flex:none;align-self:center}
+.dbs-mail-star.is-starred{color:#edaf23}
+.dbs-mail-article{padding:23px 21px}
+.dbs-mail-article h2{font-size:21px;line-height:1.45;letter-spacing:-.5px;margin:3px 0 22px}
+.dbs-mail-meta{font-size:12px;color:#727e8a;line-height:1.9;padding:0 0 17px;border-bottom:1px solid var(--line)}
+.dbs-mail-body{font-size:13px;line-height:1.95;white-space:pre-wrap;overflow-wrap:anywhere;margin-top:22px;min-height:90px}
+.dbs-mail-cta{display:flex;gap:9px;margin-top:20px}.dbs-mail-cta>button{flex:1;min-width:0}
+
+
+/* 상단 메일 수신 알림: 문자 알림처럼 발신자와 제목만 표시 */
+#dbs-mail-notification{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translate(-50%,-12px);width:min(430px,calc(100% - 24px));padding:14px 18px 15px;border:1px solid rgba(220,225,232,.93);border-radius:18px;background:rgba(255,255,255,.97);box-shadow:0 12px 34px rgba(19,32,46,.19);z-index:10001;text-align:left;opacity:0;pointer-events:none;transition:opacity .22s ease,transform .22s ease;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+#dbs-mail-notification.show{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+#dbs-mail-notification .dbs-notify-sender{display:block;color:#172028;font-size:13px;line-height:1.35;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dbs-mail-notification .dbs-notify-subject{display:block;color:#57626f;font-size:12px;line-height:1.4;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(prefers-reduced-motion:reduce){#dbs-mail-notification{transition:none}}
+</style>
+</head>
+<body>
+<div id="app"><header class="top"><button class="brand" data-go="home" aria-label="DBS 홈"><b>DBS<span style="border:0;padding:0;color:#1c9a69;font-size:26px;letter-spacing:0">.</span></b></button><div class="top-actions"><button class="top-button" data-go="notices" aria-label="공지사항" id="bell"></button><button class="top-button dbs-mail-header" data-go="mail" aria-label="메일함" id="dbs-mail-button"></button><button data-go="id" aria-label="사원증" id="user"></button></div></header><main id="main"></main><form class="composer" id="composer" hidden=""><input id="message-input" aria-label="메시지" placeholder="메시지를 입력하세요" autocomplete="off" required=""><button aria-label="전송" id="send"></button></form><nav class="nav" id="nav"></nav></div><div id="toast" role="status" hidden=""></div><button type="button" id="dbs-mail-notification" aria-label="새 메일 보기" aria-live="polite" hidden><span class="dbs-notify-sender"></span><span class="dbs-notify-subject"></span></button>
+
+
+<script>
+(()=>{
+
+
+/* ━━━ DBS 편집 가능한 초기 데이터 ━━━ */
+const DBS_CONFIG = /* DBS_CONFIG_START */{
+  "employee": {
+    "name": "강영현",
+    "team": "경영본부 기획 2팀",
+    "role": "사원",
+    "number": "82595",
+    "email": "imkyhiyo@dbs.com"
+  },
+  "meal": {
+    "main": "직화 제육볶음",
+    "items": [
+      "흑미밥 · 맑은 콩나물국",
+      "계란말이 · 양배추쌈",
+      "배추김치 · 제철 과일"
+    ],
+    "hours": "11:30 — 13:30",
+    "place": "본관 B1 구내식당",
+    "dinner": "소고기 버섯덮밥",
+    "dinnerItems": [
+      "미소장국 · 단호박 샐러드",
+      "깍두기 · 요구르트"
+    ],
+    "dinnerHours": "17:30 — 19:00"
+  },
+  "initialChats": [
+    {
+      "name": "기획 2팀",
+      "label": "P2",
+      "members": "팀 대화 · 6명",
+      "messages": [
+        {
+          "name": "김서연",
+          "text": "영현 씨, 오전에 올린 기획안 혹시 마지막 버전 맞아요?",
+          "time": "09:11"
+        },
+        {
+          "name": "나",
+          "text": "네! 3페이지 오프닝 부분만 한 번 더 수정했습니다.",
+          "time": "09:12"
+        },
+        {
+          "name": "박지훈",
+          "text": "혹시 파일명에 final_final 써 있는 거 말고 진짜 최종 있는지 ㅋㅋ",
+          "time": "09:13"
+        },
+        {
+          "name": "나",
+          "text": "final_final_진짜최종 입니다",
+          "time": "09:13"
+        },
+        {
+          "name": "김서연",
+          "text": "그럼 제발 오늘은 진짜 최종이길…",
+          "time": "09:14"
+        },
+        {
+          "name": "이도현",
+          "text": "3층 B룸 프로젝터 연결해 봤는데 잘 됩니다.",
+          "time": "09:15"
+        },
+        {
+          "name": "박지훈",
+          "text": "감사합니다. 회의 10시에 시작할게요.",
+          "time": "09:16"
+        },
+        {
+          "name": "나",
+          "text": "저 9시 50분까지 들어가겠습니다!",
+          "time": "09:17"
+        },
+        {
+          "name": "김서연",
+          "text": "영현 씨 커피는 제가 사갈게요. 메뉴 보내주세요.",
+          "time": "09:18"
+        },
+        {
+          "name": "나",
+          "text": "헉 감사합니다 선배님 아이스 아메리카노로 부탁드려요",
+          "time": "09:18"
+        },
+        {
+          "name": "박지훈",
+          "text": "저도요",
+          "time": "09:19"
+        },
+        {
+          "name": "김서연",
+          "text": "박지훈 씨는 셀프입니다",
+          "time": "09:19"
+        }
+      ]
+    },
+    {
+      "name": "김서연 선배",
+      "label": "서연",
+      "members": "기획 2팀 · 대리",
+      "messages": [
+        {
+          "name": "김서연",
+          "text": "영현 씨, 기획안 잘 봤어요. 오프닝 부분만 조금 더 다듬어 볼까요?",
+          "time": "08:50"
+        },
+        {
+          "name": "나",
+          "text": "어느 부분이 제일 걸리셨어요?",
+          "time": "08:51"
+        },
+        {
+          "name": "김서연",
+          "text": "첫 문장이 조금 길어요. 아이디어는 좋아서 아깝다 싶었어요.",
+          "time": "08:52"
+        },
+        {
+          "name": "나",
+          "text": "그럼 첫 문장만 줄이고 뒤에 설명을 붙여 볼게요.",
+          "time": "08:53"
+        },
+        {
+          "name": "김서연",
+          "text": "좋아요. 이렇게 빨리 알아들으면 제가 편하죠 ㅎㅎ",
+          "time": "08:54"
+        },
+        {
+          "name": "나",
+          "text": "편하신 김에 점심도 추천 부탁드립니다",
+          "time": "08:54"
+        },
+        {
+          "name": "김서연",
+          "text": "그건 저도 물어보려고 했는데요?",
+          "time": "08:55"
+        }
+      ]
+    },
+    {
+      "name": "제작 협업방",
+      "label": "ON",
+      "members": "그룹 대화 · 12명",
+      "messages": [
+        {
+          "name": "이도현",
+          "text": "스튜디오 리허설 시간 확인 부탁드려요. 오후 2시 예정입니다.",
+          "time": "08:32"
+        },
+        {
+          "name": "나",
+          "text": "기획팀 자료는 1시 30분까지 공유할게요.",
+          "time": "08:35"
+        },
+        {
+          "name": "최민지",
+          "text": "이번에는 큐시트 페이지 번호 맞춰 주실 수 있나요 ㅠ",
+          "time": "08:36"
+        },
+        {
+          "name": "나",
+          "text": "지난번엔 제가 4페이지 누락했습니다 죄송합니다…",
+          "time": "08:37"
+        },
+        {
+          "name": "이도현",
+          "text": "ㅋㅋ 오늘은 4페이지 있는 걸로 믿습니다",
+          "time": "08:38"
+        },
+        {
+          "name": "최민지",
+          "text": "파일명도 최신으로 부탁드려요!",
+          "time": "08:41"
+        },
+        {
+          "name": "나",
+          "text": "네 13시 전에 다 올릴게요!",
+          "time": "08:42"
+        }
+      ]
+    },
+    {
+      "name": "인사총무팀",
+      "label": "HR",
+      "members": "업무 지원",
+      "messages": [
+        {
+          "name": "인사총무팀",
+          "text": "안녕하세요. 연차 신청 관련해 확인드릴 사항이 있어 연락드립니다.",
+          "time": "어제 16:10"
+        },
+        {
+          "name": "나",
+          "text": "네 말씀 주세요!",
+          "time": "어제 16:12"
+        },
+        {
+          "name": "인사총무팀",
+          "text": "8/25 오후 반차 신청 건 승인 처리했습니다.",
+          "time": "어제 16:16"
+        },
+        {
+          "name": "나",
+          "text": "확인했습니다. 감사합니다.",
+          "time": "어제 16:17"
+        },
+        {
+          "name": "인사총무팀",
+          "text": "좋은 하루 보내세요.",
+          "time": "어제 16:18"
+        }
+      ]
+    }
+  ],
+  "notices": [
+    {
+      "title": "사내 시스템 정기 점검 안내",
+      "tag": "시스템",
+      "department": "정보시스템팀",
+      "author": "윤OO",
+      "date": "2027-08-24T16:40:00",
+      "time": "2027. 08. 24. 16:40",
+      "body": "[정기 점검 일정 안내]\n\n2027. 08. 25. 01:00~06:00\n\n위 시간 동안 그룹웨어 로그인과 전자결재, 사내 메신저 일부 기능의 이용이 원활하지 않을 수 있습니다. 야간 편집·송출 관련 필수 시스템은 별도 운영합니다.\n\n작업 상황에 따라 종료 시각이 앞당겨지거나 다소 늦어질 수 있으니, 새벽 시간 업무가 예정된 부서에서는 필요한 자료를 미리 내려받아 주시기 바랍니다.\n\n진행 상황과 변동 사항은 정보시스템팀에서 추가 안내하겠습니다.\n문의: 정보시스템팀 · 윤OO"
+    },
+    {
+      "title": "별관 3층 구내식당 임시 휴업 안내",
+      "tag": "시설·복지",
+      "department": "복지팀",
+      "author": "조OO",
+      "date": "2027-08-21T11:15:00",
+      "time": "2027. 08. 21. 11:15",
+      "body": "식당 이용하시는 분들께 안내드립니다.\n\n별관 3층 구내식당은 외벽 보수 공사로 인해 임시 휴업합니다. 안전을 위한 조치이니 양해 부탁드립니다.\n\n기간: 2027년 8월 25일 ~ 9월 말(예정)\n대체 이용: 본관 지하 1층 구내식당\n\n공사 진행에 따라 재개장일이 변경될 수 있습니다. 9월 말까지는 본관 B1 구내식당을 이용해 주세요.\n\n식사 동선이 번거로우실 수 있지만 안전하게 정비해서 다시 문 열겠습니다.\n복지팀 · 조OO"
+    }
+  ],
+  "initialPosts": [
+    {
+      "id": 9001,
+      "category": "공지",
+      "title": "[필독] 익명게시판 기본 이용 수칙",
+      "body": "익명 게시판이라고 해서 서로에게 함부로 말해도 되는 건 아닙니다.\n\n업무에 대한 불만이나 의견은 자유롭게 적어 주세요. 다만 특정인을 지목한 조롱, 신상 추측, 사내 자료 유출, 확인되지 않은 소문은 자제해 주세요.\n\n선을 넘는 게시글은 운영 기준에 따라 숨김 처리될 수 있습니다. 익명이 편한 공간이 될 수 있도록 서로 조금씩만 배려 부탁드립니다.\n\n— 운영관리팀",
+      "time": "2024. 12. 19.",
+      "date": "2024-12-19T09:00:00",
+      "author": "운영관리팀 · 최OO",
+      "pinned": true,
+      "likes": 24,
+      "comments": []
+    },
+    {
+      "id": 9006,
+      "category": "공지",
+      "title": "업무 자료 외부 공유 시 확인 사항",
+      "body": "[보안 협조 요청]\n\n대외비 자료, 미공개 편성표, 출연자 개인정보를 개인 메일이나 외부 클라우드로 옮기지 말아 주세요. 외부 협력사 전달이 필요한 문서는 팀 책임자 승인 후 지정 공유 폴더를 사용해 주시기 바랍니다.\n\n의심스러운 메일이나 링크를 열었다면 즉시 정보시스템팀으로 연락해 주세요.\n\n사고 예방에 협조 부탁드립니다.\n정보시스템팀 한OO",
+      "time": "2027. 07. 28.",
+      "date": "2027-07-28T16:10:00",
+      "author": "정보시스템팀 · 한OO",
+      "likes": 6,
+      "comments": []
+    },
+    {
+      "id": 9002,
+      "category": "공지",
+      "title": "[DKDK STAGE] 임직원 방청 신청 안내",
+      "body": "안녕하세요. DKDK STAGE 제작팀 박OO입니다.\n\n7월 17일 방송 녹화에 사내 직원 여러분을 소수 초대합니다. 무대 가까이에서 함께해 주실 분들의 신청을 받습니다.\n\n출연: DAY6(데이식스)\n방송·녹화 예정: 2027년 7월 17일\n모집: 2027년 7월 5일 ~ 7월 9일 18:00\n\n신청하실 분은 제목을 [DKDK 방청 신청 / 이름 / 소속]으로 적고, 희망 인원(본인 포함 최대 2명)과 연락처를 함께 보내 주세요.\n신청 메일: impoo@dbs.com\n\n좌석이 한정되어 있어 신청자 중 추첨으로 선정되며, 당첨 안내는 개별 메일로 전달드립니다. 제작 일정상 입장 시각은 추후 안내될 수 있습니다.\n\n많은 관심 부탁드립니다.\n- DKDK STAGE 제작팀 박OO",
+      "time": "2027. 07. 05.",
+      "date": "2027-07-05T10:30:00",
+      "author": "DKDK STAGE 제작팀 · 박OO",
+      "likes": 56,
+      "comments": []
+    },
+    {
+      "id": 1028,
+      "category": "자유",
+      "title": "오늘 두시 쯤 별관 카페",
+      "body": "흰색 줄무늬 있는 남색셔츠 입고 검은색 백팩매신 남자분 어느 팀이신가요? 사원증 메고 계신 거 봤는데... 이마 드러낸 머리였어요 진짜 이런 말해도 되는지 모르겠는데 섹시하다고 느꼈어요 이름 알고 싶어요 꼭 연락할게요 꼭 댓글 남겨주세요 애인 없어주세요 제발 ㅠㅠㅠㅠ 진짜 너무 섹시했어요..",
+      "time": "2027. 07. 20. 18:31",
+      "date": "2027-07-20T18:31:00",
+      "likes": 38,
+      "comments": [
+        "일이나 해라",
+        "기획팀 너구리 아님?"
+      ]
+    }
+  ],
+  "initialRequests": [
+    {
+      "type": "연차 신청",
+      "start": "2027-08-25",
+      "end": "2027-08-25",
+      "reason": "8/25 오후 반차 신청합니다",
+      "status": "승인",
+      "part": "오후 반차"
+    }
+  ],
+  "initialLiked": [],
+  "storageRevision": "r1792568043591",
+  "initialMails": [
+    {
+      "id": 701,
+      "folder": "inbox",
+      "fromName": "윤도운",
+      "fromEmail": "ydwdw@doke.com",
+      "to": "imkyhiyo@dbs.com",
+      "subject": "안녕하세요",
+      "body": "보고 싶어요\n빨리 퇴근하세요\n\n도운 올림",
+      "date": "2027. 01. 07. 10:18",
+      "read": true,
+      "starred": true,
+      "pinned": true
+    },
+    {
+      "id": 702,
+      "folder": "inbox",
+      "fromName": "윤도운",
+      "fromEmail": "ydwdw@doke.com",
+      "to": "imkyhiyo@dbs.com",
+      "subject": "저녁 메뉴 결정의 건",
+      "body": "안녕하세요 윤도운입니다\n\n오늘 저녁 메뉴로 삼겹살이랑 오리고기 중에 뭐가 좋을까요?\n답장 주세요\n\n감사합니다",
+      "date": "2027. 07. 15. 15:02",
+      "read": true,
+      "starred": false
+    },
+    {
+      "id": 720,
+      "folder": "inbox",
+      "fromName": "DBS 복지팀",
+      "fromEmail": "benefits@dbs.com",
+      "to": "imkyhiyo@dbs.com",
+      "subject": "[임직원 제휴] OO 호텔 예약 확정 안내",
+      "body": "안녕하세요, 영현 님. 복지팀입니다.\n신청해주신 임직원 제휴 할인 건 확정되어 안내드립니다. \n\n신청 서비스: OO 호텔 제휴 할인\n\n예약자: 강영현(동행인 1인)\n이용 기간: 2027년 9월 10일(금) 체크인 ~ 9월 16일(목) 체크아웃\n\n안내\n체크인 시 현장에서 재직증명서와 모바일 사원증을 모두 확인합니다. 두 가지 증빙을 제시하지 못할 경우 제휴 할인이 적용되지 않을 수 있으니 출발 전에 반드시 준비해 주세요.\n\n예약 변경 또는 취소는 이용일 기준 14일 전까지 부탁드립니다.\n그밖에 호텔 서비스 이용과 관련한 사항은 호텔 홈페이지에서 확인 바랍니다.\n\n감사합니다.\nDBS 복지팀 문OO 드림.",
+      "date": "2027. 06. 18. 11:24",
+      "read": true,
+      "starred": false
+    },
+    {
+      "id": 721,
+      "folder": "inbox",
+      "fromName": "OO쥬얼리",
+      "fromEmail": "reservation@oojewelry.example",
+      "to": "imkyhiyo@dbs.com",
+      "subject": "[OO쥬얼리] 반지 예약 및 픽업 일정 확인",
+      "body": "강영현 고객님, 안녕하세요. OO쥬얼리입니다.\n\n예약해 주신 반지의 주문 및 픽업 일정을 확인해 드립니다.\n\n예약 상품: 반지 1점\n예약자: 강영현\n픽업 예정일: 2027년 8월 25일(수) 오후 2시 (14:00)\n픽업 장소: 예약하신 OO쥬얼리 매장\n\n방문하실 때 예약자 성함을 말씀해 주세요. 사이즈와 상품 상태를 확인하신 후 수령하실 수 있습니다.\n일정 변경이 필요한 경우 방문 전 매장으로 연락 부탁드립니다.\n\n감사합니다.\nOO쥬얼리 예약 담당자",
+      "date": "2027. 07. 21. 16:08",
+      "read": true,
+      "starred": false
+    },
+    {
+      "id": 1792565468504,
+      "folder": "sent",
+      "fromName": "강영현",
+      "fromEmail": "imkyhiyo@dbs.com",
+      "to": "ydwdw@doke.com",
+      "subject": "RE: 안녕하세요",
+      "body": "ㅡㅡ\n님아\n회사메일로 이런 거 보내지 말아주세요\n\n나도 보고 싶습니다\n\n강영현 드림\n\n-----Original Message-----\nFrom: \"윤도운\"\u003cydwdw@doke.com>\nTo: \u003cimkyhiyo@dbs.com>;\nCc:\nSubject: 안녕하세요",
+      "date": "2027. 01. 07. 10:25",
+      "read": true,
+      "starred": false
+    },
+    {
+      "id": 1792565442821,
+      "folder": "sent",
+      "fromName": "강영현",
+      "fromEmail": "imkyhiyo@dbs.com",
+      "to": "ydwdw@doke.com",
+      "subject": "RE: 저녁 메뉴 결정의 건",
+      "body": "삼겹살 구워주세요\n마니\n\n-----Original Message-----\nFrom: \"윤도운\" \u003cydwdw@doke.com>\nTo: 강영현 \u003cimkyhiyo@dbs.com>;\nCc:\nSubject: 저녁 메뉴 결정의 건",
+      "date": "2027. 07. 15. 15:50",
+      "read": true,
+      "starred": false
+    }
+  ]
+}/* DBS_CONFIG_END */;
+let {employee,meal,initialChats,notices,initialPosts,initialRequests,initialLiked,initialMails}=DBS_CONFIG;
+let textOverrides=/* DBS_TEXT_START */{
+  "main:home::::text:2": "오늘도 힘내세요!",
+  "main:home::::text:5": "매일 같은 하루가",
+  "main:home::::text:6": "매일 기다려지게 하는",
+  "main:home::::text:7": "대한민국 방송의 나무, DBS",
+  "main:home::::text:16": "해물 칼국수",
+  "main:home::::text:17": "쌀밥 · 꽃게탕",
+  "main:home::::text:18": "해물 파전 · 배추김치",
+  "main:home::::text:19": "포도 봉봉",
+  "main:meal:::점심:text:5": "해물 칼국수",
+  "main:meal:::점심:text:6": "쌀밥 · 꽃게탕",
+  "main:meal:::점심:text:7": "해물 파전 · 배추김치",
+  "main:meal:::점심:text:8": "포도 봉봉",
+  "main:meal:::저녁:text:5": "회 덮밥",
+  "main:meal:::저녁:text:6": "흑미밥 · 해물 라면",
+  "main:meal:::저녁:text:7": "깍두기 · 사이다",
+  "main:meal:::저녁:text:12": "",
+  "main:meal:::저녁:text:11": "알레르기 정보는 식당 게시판에서 확인해 주세요.",
+  "main:id::::text:2": "",
+  "main:apply:0:::text:8": "",
+  "main:apply:1:::text:8": "",
+  "main:apply:2:::text:8": "",
+  "main:apply:3:::text:8": "",
+  "main:room:0:::text:4": "1층인데 커피 드실 분?",
+  "main:room:0:::text:6": "저요 저요",
+  "main:room:0:::text:10": "아메 통일?",
+  "main:room:0:::text:12": "저는 녹차요 아이스",
+  "main:room:0:::text:16": "왜 아메 안 먹고?",
+  "main:room:0:::text:20": "책상에 반려 아아 키우던데요",
+  "main:room:0:::text:24": "반려 박테리아 아냐?",
+  "main:room:0:::text:26": "반려 얘기 그만요 제발",
+  "main:room:0:::text:30": "오늘 퇴근할 수 있어?",
+  "main:room:0:::text:32": "해야 돼요...",
+  "main:room:0:::text:36": "지금 하는 거 몇 번 까였다고?",
+  "main:room:0:::text:40": "네 번 이후로는 세지도 않음",
+  "main:room:0:::text:38": "유O",
+  "main:room:0:::text:39": "유OO",
+  "main:room:0:::text:34": "박O",
+  "main:room:0:::text:35": "박OO",
+  "main:room:0:::text:28": "김O",
+  "main:room:0:::text:29": "김OO",
+  "main:room:0:::text:22": "박O",
+  "main:room:0:::text:23": "박OO",
+  "main:room:0:::text:18": "이O",
+  "main:room:0:::text:19": "이OO",
+  "main:room:0:::text:14": "김O",
+  "main:room:0:::text:15": "김OO",
+  "main:room:0:::text:8": "박O",
+  "main:room:0:::text:9": "박OO",
+  "main:room:0:::text:2": "김O",
+  "main:room:0:::text:3": "김OO",
+  "main:room:0:::text:1": "그룹 대화 · 7명",
+  "main:chat::::text:7": "네 번 이후로는 세지도 않음",
+  "main:chat::::text:10": "김OO",
+  "main:chat::::text:9": "김O",
+  "main:room:1:::text:2": "김O",
+  "main:room:1:::text:0": "김OO",
+  "main:room:1:::text:4": "퇴근했어?",
+  "main:room:1:::text:6": "아직요....",
+  "main:room:1:::text:10": "야식 시켜먹고 해",
+  "main:room:1:::text:12": "간절하긴한데 내일 얼굴 부으면 안 돼요",
+  "main:room:1:::text:16": "아 내일이야?",
+  "main:room:1:::text:18": "네 네",
+  "main:room:1:::text:22": "좋을 때다",
+  "main:room:1:::text:5": "01:50",
+  "main:room:1:::text:7": "01:55",
+  "main:room:1:::text:11": "01:56",
+  "main:room:1:::text:13": "01:56",
+  "main:room:1:::text:17": "01:57",
+  "main:room:1:::text:19": "01:57",
+  "main:room:1:::text:23": "01:57",
+  "main:room:1:::text:20": "김O",
+  "main:room:1:::text:21": "김OO",
+  "main:room:1:::text:15": "김OO",
+  "main:room:1:::text:14": "김O",
+  "main:room:1:::text:8": "김O",
+  "main:room:1:::text:9": "김OO",
+  "main:room:1:::text:3": "김OO",
+  "main:chat::::text:11": "좋을 때다",
+  "main:chat::::text:12": "01:57",
+  "main:chat::::text:5": "기획",
+  "main:chat::::text:13": "경영",
+  "main:chat::::text:14": "운동회 진행팀 (경영 1, 기획2)",
+  "main:room:2:::text:2": "이O",
+  "main:room:2:::text:4": "오늘 회의 시간 좀 미룰 수 있을까요",
+  "main:room:2:::text:6": "저희는 세 시 전까지만 가능해요",
+  "main:room:2:::text:8": "백O",
+  "main:room:2:::text:0": "운동회 진행팀 (경영 1, 기획2)",
+  "main:room:2:::text:3": "이OO",
+  "main:room:2:::text:10": "두 시는 돼야 될 것 같은데",
+  "main:room:2:::text:9": "백OO",
+  "main:room:2:::text:5": "11:32",
+  "main:room:2:::text:7": "11:35",
+  "main:room:2:::text:11": "11:37",
+  "main:room:2:::text:12": "내일 할까요?",
+  "main:room:2:::text:13": "11:40",
+  "main:room:2:::text:15": "이OO",
+  "main:room:2:::text:14": "이O",
+  "main:room:2:::text:16": "팀장님이랑 영현 님만 오는 걸로 하고 세 시 이후는 어렵나요?",
+  "main:room:2:::text:18": "서O",
+  "main:room:2:::text:19": "서OO",
+  "main:room:2:::text:22": "넵",
+  "main:room:2:::text:17": "11:50",
+  "main:room:2:::text:20": "그렇게 합시다 그럼",
+  "main:room:2:::text:21": "12:03",
+  "main:room:2:::text:23": "12:04",
+  "main:chat::::text:15": "넵",
+  "main:chat::::text:16": "어제 12:04",
+  "main:chat::::text:17": "최O",
+  "main:chat::::text:18": "최OO",
+  "main:room:3:::text:2": "최O",
+  "main:room:3:::text:3": "최OO",
+  "main:room:3:::text:4": "내일 점심 파스타",
+  "main:room:3:::text:6": "내일 오후 반찬데",
+  "main:room:3:::text:8": "최O",
+  "main:room:3:::text:9": "최OO",
+  "main:room:3:::text:10": "아 왜?",
+  "main:room:3:::text:12": "데이트",
+  "main:room:3:::text:14": "최O",
+  "main:room:3:::text:15": "최OO",
+  "main:room:3:::text:16": "재수없네",
+  "main:chat::::text:19": "재수없네",
+  "main:room:3:::text:0": "최OO",
+  "main:room:3:::text:1": "기획 2팀 · 사원",
+  "main:notice:1:::text:4": "식당 이용하시는 분들께 안내드립니다.\n\n별관 3층 구내식당 외벽 보수 공사로 아래 기간 동안 임시 휴업합니다. 안전을 위한 조치이니 양해 부탁드립니다.\n\n기간: 2027년 8월 17일 ~ 9월 말(예정)\n대체 이용: 본관 지하 1층 구내식당\n\n공사 진행에 따라 재개장일이 변경될 수 있습니다. 9월 말까지는 본관 B1 구내식당을 이용해 주세요.\n\n식사 동선이 번거로우실 수 있지만 안전하게 정비해서 다시 문 열겠습니다.\n복지팀 · 조OO",
+  "main:notice:1:::text:3": "복지팀 · 조OO · 2027. 08. 09. 11:15",
+  "main:home::::text:26": "복지팀 · 조OO · 2027. 08. 09. 11:15",
+  "main:meal:::점심:text:13": "",
+  "main:meal:::점심:text:12": "알레르기 정보는 식당 게시판에서 확인해 주세요.",
+  "main:board::전체::text:3": "",
+  "main:board::전체::text:2": "",
+  "main:work::::text:2": "",
+  "main:chat::::text:2": "",
+  "main:post:9006:::text:4": "[보안 협조 요청]\n\n대외비 자료, 미공개 편성표, 출연자 개인정보를 개인 메일이나 외부 클라우드로 옮기지 말아 주세요. 외부 협력사 전달이 필요한 문서는 팀 책임자 승인 후 지정 공유 폴더를 사용해 주시기 바랍니다.\n\n의심스러운 메일이나 링크를 열었다면 즉시 정보시스템팀으로 연락해 주세요.\n\n사고 예방에 협조 부탁드립니다.\n정보시스템팀",
+  "main:board::공지::text:3": "",
+  "main:board::공지::text:2": "",
+  "main:board::자유::text:3": "",
+  "main:board::자유::text:2": "",
+  "main:board::회사생활::text:3": "",
+  "main:board::회사생활::text:2": "",
+  "main:composemail::::text:5": "",
+  "main:maildetail:720:::text:5": "안녕하세요, 영현 님. 복지팀입니다.\n신청해주신 임직원 제휴 할인 건 확정되어 안내드립니다. \n\n신청 서비스: OO 호텔 제휴 할인\n\n예약자: 강영현(동행인 1인)\n이용 기간: 2027년 9월 10일(금) 체크인 ~ 9월 16일(목) 체크아웃\n\n안내\n체크인 시 현장에서 재직증명서와 모바일 사원증을 모두 확인합니다. 두 가지 증빙을 제시하지 못할 경우 제휴 할인이 적용되지 않을 수 있으니 출발 전에 반드시 준비해 주세요.\n\n예약 변경 또는 취소는 이용일 기준 14일 전까지 부탁드립니다.\n그밖에 호텔 서비스 이용과 관련한 사항은 호텔 홈페이지에서 확인 바랍니다.\n\n감사합니다.\nDBS 복지팀 문OO 드림.",
+  "main:maildetail:721:::text:2": "보낸 사람　OO쥬얼리 \u003creservation@oojewelry>",
+  "main:maildetail:720:::text:2": "보낸 사람　DBS 복지팀 \u003cbenefits@dbs.com>",
+  "main:maildetail:721:::text:3": "받는 사람　강영현 \u003cimkyhiyo@dbs.com>",
+  "main:maildetail:702:::text:3": "받는 사람　강영현 \u003cimkyhiyo@dbs.com>",
+  "main:maildetail:720:::text:3": "받는 사람　강영현 \u003cimkyhiyo@dbs.com>",
+  "main:maildetail:701:::text:3": "받는 사람　강영현 \u003cimkyhiyo@dbs.com>",
+  "main:maildetail:721:::text:5": "강영현 고객님, 안녕하세요. OO쥬얼리입니다.\n\n예약해 주신 반지의 주문 및 픽업 일정을 확인해 드립니다.\n\n예약 상품: 반지 2점\n예약자: 강영현\n픽업 예정일: 2027년 8월 25일(수) 14:00\n\n방문하실 때 예약자 성함을 말씀해 주세요.\n일정 변경이 필요한 경우 방문 전 매장으로 연락 부탁드립니다.\n\n감사합니다.\nOO쥬얼리 예약 담당자",
+  "main:maildetail:1792565442821:::text:3": "받는 사람　윤도운 \u003cydwdw@doke.com>",
+  "main:maildetail:1792565468504:::text:3": "받는 사람　윤도운 \u003cydwdw@doke.com>"
+}/* DBS_TEXT_END */;
+let attrOverrides=/* DBS_ATTR_START */{
+  "main:apply:0:::placeholder:0": "내용을 작성해주세요.",
+  "main:apply:1:::placeholder:0": "내용을 작성해주세요.",
+  "main:apply:2:::placeholder:0": "내용을 작성해주세요.",
+  "main:apply:3:::placeholder:0": "내용을 작성해주세요."
+}/* DBS_ATTR_END */;
+/* ━━━ 데이터 설정 끝 ━━━ */
+
+const $=id=>document.getElementById(id),icons={home:'<path d="m3 10 9-7 9 7v10H15v-6H9v6H3Z"/>',chat:'<path d="M21 11a8 8 0 0 1-8 8H8l-5 3V11a9 9 0 0 1 18 0Z"/>',work:'<rect x="4" y="5" width="16" height="16" rx="3"/><path d="M9 5V3h6v2M8 11h8M8 15h5"/>',board:'<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9h10M7 13h10M7 17h5"/>',id:'<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M9 4V2h6v2M14 11h4M14 15h4"/><circle cx="8" cy="11" r="2"/><path d="M5 17c0-4 6-4 6 0"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/>',bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-10 16-10 16 0"/>',arrow:'<path d="m9 5 7 7-7 7"/>',back:'<path d="m15 5-7 7 7 7"/>',food:'<path d="M4 3v6c0 4 6 4 6 0V3M7 3v19M19 22V3c-6 3-5 12 0 12"/>',leave:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 2v6M17 2v6M3 11h18m-13 5 3 3 5-5"/>',send:'<path d="m3 11 18-8-8 18-2-10-8 0Zm8 0L21 3"/>',plus:'<path d="M12 4v16M4 12h16"/>'};
+const icon=(key,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${icons[key]||icons.work}</svg>`;
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/* 방문 중의 변경은 이 페이지 메모리에만 보관합니다.
+   페이지 이동 중에는 유지되지만 새로고침·재접속 시 최초 설정으로 돌아옵니다.
+   예전 버전이 localStorage에 저장한 임시 기록도 가져오지 않습니다. */
+const freshData=data=>JSON.parse(JSON.stringify(data));
+let chats=freshData(initialChats),posts=freshData(initialPosts),requests=freshData(initialRequests),
+    liked=freshData(initialLiked),mails=freshData(initialMails),mailFolder='inbox',
+    view='home',arg=null,filter='전체',mealTab='점심',routeStack=[],drafts={};
+function save(){ /* 페이지 이동 간 메모리 상태는 자동 유지; 영구 저장하지 않음. */ }
+function toast(t){$('toast').textContent=t;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,2600)}
+
+function go(v,a=null,push=true){if(view==='room')drafts[arg]=$('message-input').value;if(push)routeStack.push([view,arg]);view=v;arg=a;render();$('main').scrollTop=0;if(v==='room'){$('message-input').value=drafts[a]||'';$('main').scrollTop=$('main').scrollHeight}}
+function back(){const prev=routeStack.pop()||['home',null];go(prev[0],prev[1],false)}
+const head=(title,sub='')=>`<div class="eyebrow">DBS WORKPLACE</div><h1 class="heading">${title}</h1>${sub?`<p class="sub">${sub}</p>`:''}`;
+const backHead=title=>`<div class="back-title"><button data-action="back" aria-label="뒤로">${icon('back')}</button><h1>${esc(title)}</h1></div>`;
+const section=(name,target)=>`<div class="section-head"><h2>${name}</h2><button class="text-link" data-go="${target}">전체보기 ${icon('arrow')}</button></div>`;
+function menuCard(){const dinner=mealTab==='저녁';return `<div class="card menu-card"><div class="menu-top"><span class="pill green">${dinner?'DINNER':'LUNCH'}</span>${icon('food')}</div><h2 class="menu-title">${esc(dinner?meal.dinner:meal.main)}</h2><p class="menu-items">${(dinner?meal.dinnerItems:meal.items).map(esc).join('<br>')}</p><div class="menu-footer"><span>${esc(meal.place)}</span><span>${esc(dinner?meal.dinnerHours:meal.hours)}</span></div></div>`}
+function noticeList(){return `<div class="card">${notices.map((n,i)=>`<button class="row" data-go="notice" data-arg="${i}"><div class="grow"><div class="small">${esc(n.department||'DBS 운영팀')} · ${esc(n.author||'OO')} · ${esc(n.time)}</div><div class="row-title">${n.title}</div></div>${icon('arrow','arrow')}</button>`).join('')}</div>`}
+function home(){mealTab='점심';return `${head('좋은 하루예요, 영현 님.','오늘도 새로운 이야기가 시작되는 곳.')}<div class="hero"><div class="hero-mark">DBS</div><div class="eyebrow">WE MAKE THE NEXT</div><h2>좋은 이야기는<br>우리 안에서 시작됩니다.</h2><p>DBS 방송국 임직원을 위한 업무 공간</p><button class="hero-foot" style="width:100%;color:white" data-go="id"><span>${employee.team} · ${employee.role} 강영현</span>${icon('arrow')}</button></div><div class="quick">${[['id','id','사원증'],['meal','food','오늘의 메뉴'],['apply','leave','연차 신청'],['board','board','익명게시판']].map(([v,i,t])=>`<button data-go="${v}">${icon(i)}<span>${t}</span></button>`).join('')}</div>${section('오늘의 메뉴','meal')}${menuCard()}${section('DBS 소식','notices')}${noticeList()}${section('업무 체크','work')}<button class="card row" data-go="work"><span class="avatar green">${icon('work')}</span><div class="grow"><div class="row-title">나의 신청 현황</div><p class="small">접수한 신청 ${requests.length}건을 확인하세요.</p></div>${icon('arrow','arrow')}</button>`}
+function chatList(){return `${head('채팅','함께 만드는 방송, 더 가까운 소통.')}<div class="section-head"><h2>내 대화</h2><span class="pill green">온라인</span></div><div class="card">${chats.map((c,i)=>{const m=c.messages.at(-1);return `<button class="row" data-go="room" data-arg="${i}"><div class="avatar ${i%2?'green':''}">${esc(c.label)}</div><div class="grow"><div class="row-title">${esc(c.name)}</div><div class="preview">${esc(m?.text||'대화를 시작해 보세요')}</div></div><span class="timestamp">${esc(m?.time||'')}</span></button>`}).join('')}</div>`}
+function room(){const c=chats[arg];return `${backHead(c.name)}<div class="eyebrow" style="text-align:center;margin-bottom:25px">${esc(c.members)}</div><div class="conversation">${c.messages.map(m=>`<div class="message ${m.name==='나'?'me':''}">${m.name!=='나'?`<div class="avatar">${esc(m.name.slice(0,2))}</div>`:''}<div class="message-body">${m.name!=='나'?`<div class="message-name">${esc(m.name)}</div>`:''}<div class="bubble">${esc(m.text)}</div><p class="small">${esc(m.time)}</p></div></div>`).join('')}</div>`}
+function work(){return `${head('업무','필요한 신청과 내 업무를 한곳에서.')}<div class="grid2" style="margin-top:20px"><div class="card stat"><p class="small">잔여 연차</p><strong>5<small>일</small></strong></div><div class="card stat"><p class="small">진행 중 신청</p><strong style="color:var(--blue)">${requests.length}<small>건</small></strong></div></div><div class="section-head"><h2>새로운 신청</h2></div><div class="card">${['연차 신청','장비 신청','회의실 예약','증명서 발급'].map((t,i)=>`<button class="row" data-go="apply" data-arg="${i}"><span class="avatar ${i%2?'green':''}">${icon(i===0?'leave':'work')}</span><span class="grow row-title">${t}</span>${icon('arrow','arrow')}</button>`).join('')}</div><div class="section-head"><h2>나의 신청 내역</h2><span class="small">${requests.length}건</span></div><div class="card">${requests.length?requests.map((r,i)=>`<button class="row" data-go="request" data-arg="${i}"><span class="pill ${r.status==='승인'?'green':''}">${esc(r.status||'검토 대기')}</span><div class="grow"><div class="row-title">${esc(r.type)}</div><div class="small">${esc(r.reason||r.start)}${!r.reason&&r.end&&r.end!==r.start?' — '+esc(r.end):''}</div></div>${icon('arrow','arrow')}</button>`).join(''):'<div class="empty">아직 신청한 내역이 없습니다.</div>'}</div>`}
+function apply(){return `${backHead('업무 신청')}<form class="card form" id="request-form"><label class="field"><span>신청 유형</span><select name="type">${['연차 신청','장비 신청','회의실 예약','증명서 발급'].map((t,i)=>`<option ${i===Number(arg)?'selected':''}>${t}</option>`).join('')}</select></label><div class="grid2"><label class="field"><span>시작일 / 필요일</span><input name="start" type="date" required></label><label class="field"><span>종료일</span><input name="end" type="date"></label></div><label class="field"><span>신청 내용</span><textarea name="reason" required maxlength="2000" placeholder="사유, 외근 장소 또는 필요한 증명서 종류를 적어주세요."></textarea></label><div class="detail" style="margin-bottom:20px"><span>신청자</span><strong>강영현 · ${employee.team}</strong></div><button class="primary">신청하기</button></form><p class="muted-note">이 앱 안에 신청 내역이 저장됩니다.</p>`}
+const boardAuthor=p=>p.department?`${p.department} · ${p.author||'OO'}`:(p.author||'익명');
+function board(){const list=posts.filter(p=>filter==='전체'||p.category===filter).sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned)||String(b.date||'').localeCompare(String(a.date||'')));return `${head('익명게시판','이름 없이, 조금 더 솔직한 이야기.')}<div class="section-head"><span class="small">서로를 존중하는 DBS의 대화</span><button class="text-link" style="color:var(--blue)" data-go="write">${icon('plus')} 글쓰기</button></div><div class="tabs">${['전체','공지','회사생활','자유'].map(t=>`<button class="${filter===t?'selected':''}" data-filter="${t}">${t}</button>`).join('')}</div><div class="card">${list.map(p=>`<button class="post" data-go="post" data-arg="${p.id}">${p.pinned?'<span class="pill green">고정</span> ':''}<span class="pill gray">${esc(p.category)}</span><h3>${esc(p.title)}</h3><p>${esc(p.body.slice(0,75))}${p.body.length>75?'…':''}</p><div class="post-meta"><span>${esc(boardAuthor(p))} · ${esc(p.time)}</span><span>공감 ${p.likes}</span><span>댓글 ${p.comments.length}</span></div></button>`).join('')||'<div class="empty">아직 게시글이 없습니다.</div>'}</div>`}
+function post(){const p=posts.find(p=>p.id===Number(arg));return `${backHead('익명게시판')}<article class="card article">${p.pinned?'<span class="pill green">고정</span> ':''}<span class="pill gray">${esc(p.category)}</span><h2>${esc(p.title)}</h2><p class="small">${esc(boardAuthor(p))} · ${esc(p.time)}</p><div class="article-content">${esc(p.body)}</div><button class="secondary" data-like="${p.id}">${liked.includes(p.id)?'공감했어요':'공감해요'} · ${p.likes}</button></article><div class="section-head"><h2>댓글 ${p.comments.length}</h2></div><div class="card">${p.comments.map((c,i)=>`<div class="row"><div class="grow"><div class="small">익명 ${i+1}</div><p class="notice-text">${esc(c)}</p></div></div>`).join('')||'<div class="empty">첫 댓글을 남겨보세요.</div>'}</div><form id="comment-form" style="margin-top:14px"><label class="field"><textarea name="comment" required maxlength="1000" placeholder="익명으로 댓글 남기기" aria-label="댓글"></textarea></label><button class="primary">댓글 등록</button></form>`}
+function write(){return `${backHead('익명 글쓰기')}<form id="post-form" class="card form"><label class="field"><span>게시판</span><select name="category"><option>회사생활</option><option>자유</option></select></label><label class="field"><span>제목</span><input name="title" maxlength="80" required placeholder="제목을 입력하세요"></label><label class="field"><span>내용</span><textarea name="body" maxlength="5000" required placeholder="나누고 싶은 이야기를 적어주세요." style="min-height:200px"></textarea></label><button class="primary">익명으로 등록</button></form>`}
+function barcode(value){const patterns={'0':'nnnwwnwnn','1':'wnnwnnnnw','2':'nnwwnnnnw','3':'wnwwnnnnn','4':'nnnwwnnnw','5':'wnnwwnnnn','6':'nnwwwnnnn','7':'nnnwnnwnw','8':'wnnwnnwnn','9':'nnwwnnwnn','*':'nwnnwnwnn'};let x=12,rects='';for(const c of '*'+value+'*'){patterns[c].split('').forEach((w,i)=>{const width=w==='w'?3:1;if(i%2===0)rects+=`<rect x="${x}" y="0" width="${width}" height="60"/>`;x+=width});x+=1}return `<svg viewBox="0 0 ${x+12} 60" preserveAspectRatio="none" role="img" aria-label="사번 ${value} 바코드">${rects}</svg>`}
+function id(){return `${head('모바일 사원증','DBS의 이야기를 만드는 사람.')}<div class="id-card"><div class="id-band"><b>DBS.</b><span>EMPLOYEE PASS</span></div><div class="id-content"><div style="display:flex;justify-content:space-between;align-items:start"><div class="id-avatar">${icon('user')}</div><span class="pill green">재직 중</span></div><h2 class="id-name">${employee.name}</h2><p class="id-role">${employee.team} · ${employee.role}</p><div class="detail"><span>사번</span><strong>${employee.number}</strong></div><div class="detail"><span>이메일</span><strong>${employee.email}</strong></div><div class="barcode">${barcode(employee.number)}<p>${employee.number}</p></div></div><div class="id-bottom" aria-label="DBS"><div class="id-marquee">${Array.from({length:2},()=>`<div class="id-marquee-set" aria-hidden="true">${Array.from({length:8},()=>'<span class="id-marquee-dot"></span><span class="id-marquee-word">DBS</span>').join('')}</div>`).join('')}</div></div></div>`}
+
+function mailToDisplay(to){
+ const value=String(to||'');
+ if(/<[^>]+>/.test(value))return value;
+ if(value.trim().toLowerCase()===String(employee.email).toLowerCase())return employee.name+' <'+value+'>';
+ if(value.trim().toLowerCase()==='ydwdw@doke.com')return '윤도운 <'+value+'>';
+ return value;
+}
+function mailList(){
+ const folder=mails.filter(m=>(m.folder||'inbox')===mailFolder).sort((a,b)=>(mailFolder==='inbox'?Number(!!b.pinned)-Number(!!a.pinned):0)||String(b.date||'').localeCompare(String(a.date||'')));
+ const unread=mails.filter(m=>(m.folder||'inbox')==='inbox'&&!m.read).length;
+ return `${head('메일함')}<div class="section-head" style="margin-top:18px"><span class="small">${unread?`읽지 않은 메일 ${unread}개`:'새 메일이 없습니다.'}</span><button class="text-link" style="color:var(--blue)" data-go="composemail">${icon('plus')} 메일 쓰기</button></div><div class="dbs-mail-folders"><button class="${mailFolder==='inbox'?'selected':''}" data-mail-folder="inbox">받은메일</button><button class="${mailFolder==='sent'?'selected':''}" data-mail-folder="sent">보낸메일</button></div><div class="card">${folder.map(m=>`<div class="dbs-mail-row ${m.read?'':'is-unread'}"><button data-go="maildetail" data-arg="${esc(m.id)}" class="grow" style="display:flex;gap:12px;align-items:flex-start;min-width:0"><span class="avatar ${m.read?'green':''}">${esc((m.folder==='sent'?'나':m.fromName||'메일').slice(0,2))}</span><span class="grow"><span class="dbs-mail-from" style="display:block">${esc(m.folder==='sent'?m.to:m.fromName)}</span><span class="dbs-mail-subject" style="display:block">${esc(m.subject)}</span><span class="dbs-mail-preview" style="display:block">${esc(m.body.replace(/\s+/g,' ').slice(0,90))}</span></span><span class="timestamp">${esc((m.date||'').slice(6))}</span></button><button aria-label="${m.starred?'중요 표시 해제':'중요 표시'}" class="dbs-mail-star ${m.starred?'is-starred':''}" data-mail-star="${esc(m.id)}">${m.starred?'★':'☆'}</button></div>`).join('')||'<div class="empty">메일이 없습니다.</div>'}</div>`;
+}
+function mailDetail(){
+ const m=mails.find(x=>String(x.id)===String(arg));if(!m)return `${backHead('메일')}<div class="empty">메일을 찾을 수 없습니다.</div>`;
+ if(!m.read){m.read=true;save();}
+ return `${backHead('메일 보기')}<article class="card dbs-mail-article"><h2>${esc(m.subject)}</h2><div class="dbs-mail-meta">보낸 사람　${esc(m.fromName)} &lt;${esc(m.fromEmail)}&gt;<br>받는 사람　${esc(mailToDisplay(m.to))}<br>날짜　　　　${esc(m.date)}</div><div class="dbs-mail-body">${esc(m.body)}</div></article><div class="dbs-mail-cta"><button class="secondary" data-go="mail">목록으로</button><button class="secondary" data-mail-star="${esc(m.id)}">${m.starred?'★ 중요 해제':'☆ 중요 표시'}</button></div>`;
+}
+function composeMail(){return `${backHead('메일 쓰기')}<form class="card form" id="dbs-mail-compose-form"><label class="field"><span>받는 사람</span><input type="email" name="to" required autocomplete="off" placeholder="name@dbs.com"></label><label class="field"><span>제목</span><input name="subject" required maxlength="140" placeholder="메일 제목"></label><label class="field"><span>내용</span><textarea name="body" required maxlength="10000" placeholder="메일 내용을 작성하세요." style="min-height:240px"></textarea></label><button class="primary">보내기</button></form>`;}
+
+function render(){let content='';if(view==='home')content=home();else if(view==='chat')content=chatList();else if(view==='room')content=room();else if(view==='work')content=work();else if(view==='apply')content=apply();else if(view==='board')content=board();else if(view==='post')content=post();else if(view==='write')content=write();else if(view==='id')content=id();else if(view==='mail')content=mailList();else if(view==='maildetail')content=mailDetail();else if(view==='composemail')content=composeMail();else if(view==='meal')content=`${backHead('오늘의 메뉴')}<p class="sub">따뜻한 한 끼, 잠깐의 쉼.</p><div class="tabs">${['점심','저녁'].map(t=>`<button data-meal="${t}" class="${mealTab===t?'selected':''}">${t}</button>`).join('')}</div>${menuCard()}<div class="card menu-card" style="margin-top:14px"><h3 style="font-size:14px">이용 안내</h3><p class="sub">사원증을 지참해 주세요.<br>알레르기 정보는 배식 담당자에게 문의해 주세요.</p></div>`;else if(view==='notices')content=`${backHead('DBS 소식')}${noticeList()}`;else if(view==='notice'){const n=notices[arg];content=`${backHead('DBS 소식')}<article class="card article"><span class="pill">${n.tag}</span><h2>${n.title}</h2><p class="small">${esc(n.department||'DBS 운영팀')} · ${esc(n.author||'OO')} · ${esc(n.time)}</p><div class="article-content">${esc(n.body)}</div></article>`}else if(view==='request'){const r=requests[arg];content=`${backHead('신청 상세')}<div class="card article"><span class="pill ${r.status==='승인'?'green':''}">${esc(r.status||'검토 대기')}</span><h2>${esc(r.type)}</h2><div class="detail"><span>신청자</span><strong>강영현 · ${employee.team}</strong></div><div class="detail"><span>신청 기간</span><strong>${esc(r.start)} ${r.end?'— '+esc(r.end):''}</strong></div><div class="article-content">${esc(r.reason)}</div><button class="secondary" data-cancel="${arg}">신청 취소</button></div>`}
+$('main').innerHTML=content;$('composer').hidden=view!=='room';const active=['room'].includes(view)?'chat':['apply','request'].includes(view)?'work':['post','write'].includes(view)?'board':['meal','notices','notice','mail','maildetail','composemail'].includes(view)?'home':view;$('nav').innerHTML=[['home','홈'],['chat','채팅'],['work','업무'],['board','게시판'],['id','사원증']].map(([v,t])=>`<button data-go="${v}" class="${v===active?'active':''}" ${v===active?'aria-current="page"':''}>${icon(v)}<span>${t}</span></button>`).join('');applySavedText();updateMailBadge()}
+function updateMailBadge(){const node=$('dbs-mail-button');if(node)node.innerHTML=icon('mail')+(mails.some(m=>(m.folder||'inbox')==='inbox'&&!m.read)?'<span class="dbs-mail-unread-dot"></span>':'');}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.go)go(b.dataset.go,b.dataset.arg??null);else if(b.dataset.action==='back')back();else if(b.dataset.filter){filter=b.dataset.filter;render()}else if(b.dataset.meal){mealTab=b.dataset.meal;render()}else if(b.dataset.like){const id=Number(b.dataset.like),p=posts.find(p=>p.id===id);if(liked.includes(id)){liked=liked.filter(x=>x!==id);p.likes--}else{liked.push(id);p.likes++}save();render()}else if(b.dataset.mailFolder){mailFolder=b.dataset.mailFolder;render()}else if(b.dataset.mailStar!==undefined){const msg=mails.find(m=>String(m.id)===String(b.dataset.mailStar));if(msg){msg.starred=!msg.starred;save();render();}}else if(b.dataset.cancel!==undefined){requests.splice(Number(b.dataset.cancel),1);save();go('work');toast('신청을 취소했습니다.')}});
+/* 메일 도착 배너: 발신자·제목만 표시, 누르면 해당 메일을 엽니다. */
+let mailNoticeTimer=null,mailNoticeHideTimer=null,mailNoticeId=null;
+function showMailNotification(mail){
+ const notice=$('dbs-mail-notification');
+ clearTimeout(mailNoticeTimer);clearTimeout(mailNoticeHideTimer);
+ notice.querySelector('.dbs-notify-sender').textContent=mail.fromName;
+ notice.querySelector('.dbs-notify-subject').textContent=mail.subject;
+ mailNoticeId=mail.id;
+ notice.hidden=false;
+ // [hidden] 해제 후 CSS 전환이 실행되도록 처리
+ requestAnimationFrame(()=>requestAnimationFrame(()=>notice.classList.add('show')));
+ mailNoticeTimer=setTimeout(()=>{
+   notice.classList.remove('show');
+   mailNoticeHideTimer=setTimeout(()=>{if(!notice.classList.contains('show'))notice.hidden=true},250);
+ },4800);
+}
+$('dbs-mail-notification').addEventListener('click',()=>{
+ if(mailNoticeId===null)return;
+ clearTimeout(mailNoticeTimer);clearTimeout(mailNoticeHideTimer);
+ $('dbs-mail-notification').classList.remove('show');
+ $('dbs-mail-notification').hidden=true;
+ go('maildetail',mailNoticeId);
+});
+/* 윤도운의 자동 답장: 실제 메일 서버가 아닌 이 페이지 안에서만 생성됩니다. */
+const DOWOON_MAIL='ydwdw@doke.com';
+function chooseDowoonReply(subject,body){
+ const content=String(subject||'')+'\n'+String(body||'');
+ const hasLove=content.includes('사랑해');
+ const hasMiss=/보고\s*싶(?:어|다)/.test(content);
+ if(hasLove&&hasMiss)return Math.random()<.5?{subject:'나도',body:'사랑해 보고 싶어 죽겠다'}:{subject:'웬일이야?',body:'내가 더 보고 싶어'};
+ if(hasLove)return {subject:'나도',body:'사랑해 보고 싶어 죽겠다'};
+ if(hasMiss)return {subject:'웬일이야?',body:'내가 더 보고 싶어'};
+ return {subject:'뭐고?',body:'내한테는 보내지 말라면서 지는 맨날 이거 쓴다 ㅡㅡ\n나 지금 원장쌤이랑 어디 가는 중\n일찍 끝나면 형 퇴근할 때 델러 갈게\n일 열심히 해라 사랑해~'};
+}
+function deliverDowoonReply(sent){
+ const response=chooseDowoonReply(sent.subject,sent.body);
+ const reply={id:'dowoon-'+sent.id,folder:'inbox',fromName:'윤도운',fromEmail:DOWOON_MAIL,
+   to:employee.email,subject:response.subject,body:response.body,
+   date:'2027. 08. 25. '+new Date().toTimeString().slice(0,5),read:false,starred:false};
+ mails.unshift(reply);
+ save();updateMailBadge();
+ if(view==='mail'&&mailFolder==='inbox')render();
+ showMailNotification(reply);
+}
+document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f));if(f.id==='composer'){const text=$('message-input').value.trim();if(!text)return;const time=new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());chats[arg].messages.push({name:'나',text,time});$('message-input').value='';drafts[arg]='';save();render();$('main').scrollTop=$('main').scrollHeight;$('message-input').focus()}else if(f.id==='request-form'){if(d.end&&d.end<d.start){toast('종료일은 시작일 이후로 선택해 주세요.');return}if(!d.reason.trim())return;requests.unshift(d);save();go('work');toast('신청이 접수되었습니다.')}else if(f.id==='post-form'){if(!d.title.trim()||!d.body.trim())return;const id=Date.now();posts.unshift({...d,id,time:'방금',date:'2027-08-25T23:59:00',likes:0,comments:[]});save();go('post',id);toast('익명으로 등록했습니다.')}else if(f.id==='comment-form'){if(!d.comment.trim())return;posts.find(p=>p.id===Number(arg)).comments.push(d.comment.trim());save();render();toast('댓글을 등록했습니다.')}else if(f.id==='dbs-mail-compose-form'){if(!d.to.trim()||!d.subject.trim()||!d.body.trim())return;const sent={id:Date.now(),folder:'sent',fromName:employee.name,fromEmail:employee.email,to:d.to.trim(),subject:d.subject.trim(),body:d.body.trim(),date:'2027. 08. 25. '+new Date().toTimeString().slice(0,5),read:true,starred:false};mails.unshift(sent);save();mailFolder='sent';go('mail');if(sent.to.toLowerCase()===DOWOON_MAIL)window.setTimeout(()=>deliverDowoonReply(sent),1600);}});
+
+/* 기존에 저장된 화면 문구를 읽기 전용으로 표시합니다. */
+function applySavedText(){
+ const roots=[['header',$('app').querySelector('.top')],['main:'+view+':'+String(arg??'')+':'+(view==='board'?filter:'')+':'+(view==='meal'?mealTab:'')+(view==='mail'?'|'+mailFolder:''),$('main')],['nav',$('nav')]];
+ for(const [scope,root] of roots){
+  if(!root)continue;
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode()){
+   const node=walker.currentNode;
+   if(!node.textContent.trim()||!node.parentElement)continue;
+   if(node.parentElement.closest('svg,script,style,textarea,option'))continue;
+   nodes.push(node);
+  }
+  nodes.forEach((node,i)=>{
+   const key=scope+':text:'+i;
+   if(Object.prototype.hasOwnProperty.call(textOverrides,key))node.textContent=textOverrides[key];
+  });
+  [...root.querySelectorAll('input[placeholder],textarea[placeholder]')].forEach((el,i)=>{
+   const key=scope+':placeholder:'+i;
+   if(Object.prototype.hasOwnProperty.call(attrOverrides,key))el.setAttribute('placeholder',attrOverrides[key]);
+  });
+ }
+}
+$('bell').innerHTML=icon('bell')+'<span class="dot"></span>';$('user').innerHTML=icon('user');$('send').innerHTML=icon('send');render();
+})();
+</script></body></html>

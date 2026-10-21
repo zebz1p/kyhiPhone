@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <title>캐릭터 휴대폰 홈 화면</title>
+  <link rel="stylesheet" crossorigin="anonymous" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* 한 파일 통합판: 닷홈 페이지 안에 들어가도 기존 테마와 최대한 충돌하지 않게 범위를 분리함 */
+    html,body{margin:0!important;padding:0!important;width:100%!important;height:100%!important;overflow:hidden!important;background:#000!important}
+    #chs-root,#chs-root *{box-sizing:border-box}
+    #chs-root{
+      position:fixed;inset:0;z-index:99999;width:100%;height:100%;height:100dvh;
+      background:#000;color:#fff;overflow:hidden;isolation:isolate;
+      font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      -webkit-tap-highlight-color:transparent;
+    }
+    #chs-root a{color:inherit;text-decoration:none;border:0;-webkit-tap-highlight-color:transparent}
+    #chs-root a:focus-visible{outline:2px solid white;outline-offset:3px}
+    #chs-root .chs-statusbar{
+      position:absolute;left:0;right:0;top:0;z-index:30;pointer-events:none;
+      padding:calc(12px + env(safe-area-inset-top,0px)) 22px 0;
+      display:flex;justify-content:space-between;align-items:flex-start;
+      color:#fff;font-size:15px;font-weight:600;line-height:17px;
+    }
+    #chs-root .chs-status-left,#chs-root .chs-status-right{
+      display:flex;align-items:center;
+      filter:drop-shadow(0 1px 2px rgba(0,0,0,.3));
+    }
+    #chs-root .chs-status-right{gap:7px}
+    #chs-root .chs-signal{display:flex;align-items:flex-end;gap:1.5px;height:11px;margin-right:2px}
+    #chs-root .chs-signal i{display:block;width:3px;background:#fff;border-radius:1px}
+    #chs-root .chs-signal i:nth-child(1){height:40%}
+    #chs-root .chs-signal i:nth-child(2){height:60%}
+    #chs-root .chs-signal i:nth-child(3){height:80%}
+    #chs-root .chs-signal i:nth-child(4){height:100%}
+    #chs-root .chs-lte{font-size:11px;font-weight:700;letter-spacing:.5px}
+    #chs-root .chs-battery{position:relative;width:27px;height:14px;background:rgba(255,255,255,.4);border-radius:4px;margin-left:2px}
+    #chs-root .chs-battery-level{position:absolute;left:0;top:0;width:95%;height:100%;background:#fff;border-radius:4px}
+    #chs-root .chs-battery-number{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;line-height:1;color:#000;letter-spacing:-.5px}
+    #chs-root .chs-battery-cap{position:absolute;right:-3px;top:5px;width:3px;height:4px;background:rgba(255,255,255,.5);border-radius:0 2px 2px 0}
+
+    /* 배경은 검은색, 내용만 스크롤. 상태바와 독은 언제나 고정 */
+    #chs-root .chs-scroll-area{
+      position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+      padding:calc(72px + env(safe-area-inset-top,0px)) 20px calc(150px + env(safe-area-inset-bottom,0px));
+      overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+    }
+    #chs-root .chs-scroll-area::-webkit-scrollbar{display:none}
+    #chs-root .chs-widget-area{width:100%;max-width:350px;display:flex;flex-direction:column;align-items:center;margin:0 auto}
+    /* 음악은 실제 재생하지 않음: 이퀄라이저와 진행 막대로 재생 효과만 표시 */
+    #chs-root .chs-music-widget{width:100%;min-height:148px;display:block;position:relative;overflow:hidden;border-radius:22px;padding:18px 20px;margin-bottom:30px;background:#242426;color:#fff;transition:transform .15s}
+    #chs-root .chs-music-widget:active{transform:scale(.97)}
+    #chs-root .chs-music-top{display:flex;align-items:center;gap:14px}
+    #chs-root .chs-music-info{flex:1;min-width:0}
+    #chs-root .chs-music-caption{display:flex;align-items:center;gap:6px;color:#d0d0d4;font-size:9px;font-weight:700;letter-spacing:1.4px;margin-bottom:7px}
+    #chs-root .chs-music-title{font-size:20px;line-height:1.2;font-weight:700;letter-spacing:-.5px;white-space:nowrap}
+    #chs-root .chs-music-artist{font-size:12px;color:#b7b7bd;margin-top:4px}
+    #chs-root .chs-equalizer{display:flex;align-items:center;gap:2px;height:12px}
+    #chs-root .chs-equalizer i{display:block;width:2px;height:10px;border-radius:2px;background:#d0d0d4;animation:chs-eq .9s ease-in-out infinite alternate}
+    #chs-root .chs-equalizer i:nth-child(2){animation-delay:-.4s;height:7px}
+    #chs-root .chs-equalizer i:nth-child(3){animation-delay:-.7s}
+    #chs-root .chs-equalizer i:nth-child(4){animation-delay:-.2s;height:6px}
+    #chs-root .chs-pause{display:flex;gap:4px;margin-left:2px}
+    #chs-root .chs-pause i{width:4px;height:17px;border-radius:1px;background:#fff}
+    #chs-root .chs-music-progress{height:3px;border-radius:4px;background:#ffffff26;margin-top:17px;overflow:hidden}
+    #chs-root .chs-music-progress span{display:block;width:32%;height:100%;background:#ffffff;border-radius:4px;animation:chs-progress 160s linear infinite}
+    #chs-root .chs-music-footer{display:flex;justify-content:space-between;margin-top:7px;font-size:9px;letter-spacing:.3px;color:#a5a5ad}
+    @keyframes chs-eq{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+    @keyframes chs-progress{from{width:32%}to{width:100%}}
+    #chs-root .chs-app-grid{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 15px;justify-items:center}
+    #chs-root .chs-app-icon{
+      width:62px;height:62px;min-width:0;min-height:0;flex-shrink:0;border-radius:15px;
+      display:flex;justify-content:center;align-items:center;position:relative;overflow:hidden;
+      padding:0;margin:0;background:#fff;transition:transform .15s cubic-bezier(.2,0,0,1)
+    }
+    #chs-root .chs-app-icon:active{transform:scale(.85)}
+    #chs-root .chs-app-icon svg{display:block;width:100%;height:100%;flex:none}
+    #chs-root .chs-icon-kakao{background:#fae100}
+
+    /* 하단 독. 앱 그리드와 클래스명을 분리해 CSS 충돌 방지 */
+    #chs-root .chs-dock{
+      position:absolute;left:50%;transform:translateX(-50%);
+      bottom:calc(30px + env(safe-area-inset-bottom,0px));z-index:40;
+      display:flex;justify-content:space-evenly;align-items:center;
+      width:92%;max-width:400px;padding:16px 10px;
+      border-radius:35px;background:rgba(255,255,255,.4);
+      -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    }
+    #chs-root .chs-dock-icon{
+      width:62px;height:62px;border-radius:15px;flex-shrink:0;display:flex;
+      align-items:center;justify-content:center;overflow:hidden;
+      transition:transform .15s cubic-bezier(.2,0,0,1)
+    }
+    #chs-root .chs-dock-icon:active{transform:scale(.85)}
+    #chs-root .chs-dock-icon svg{display:block;width:36px;height:36px;flex:none}
+    #chs-root .chs-dock-phone,#chs-root .chs-dock-message{background:linear-gradient(180deg,#5de468 0%,#34c744 100%)}
+    #chs-root .chs-dock-intranet{background:#1761da}
+    #chs-root .chs-dock-intranet svg{width:100%;height:100%}
+    #chs-root .chs-dock-safari{background:#fff}
+    #chs-root .chs-dock-safari svg{width:54px;height:54px}
+    @media(max-width:345px){
+      #chs-root .chs-scroll-area{padding-left:12px;padding-right:12px}
+      #chs-root .chs-app-grid{gap:20px 8px}
+      #chs-root .chs-app-icon{width:56px;height:56px}
+      #chs-root .chs-dock{padding:12px 8px;bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+      #chs-root .chs-dock-icon{width:54px;height:54px}
+    }
+    @media(prefers-reduced-motion:reduce){#chs-root .chs-app-icon,#chs-root .chs-dock-icon,#chs-root .chs-music-widget{transition:none}#chs-root .chs-equalizer i,#chs-root .chs-music-progress span{animation:none}}
+  </style>
+</head>
+<body>
+<div id="chs-root">
+  <!-- 1. 고정 상태바 -->
+  <header class="chs-statusbar" aria-label="휴대폰 상태바">
+    <div class="chs-status-left"><span id="iphone-time" style="letter-spacing:-.5px">8:25</span></div>
+    <div class="chs-status-right">
+      <div class="chs-signal" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <span class="chs-lte">LTE</span>
+      <div class="chs-battery" aria-label="배터리 95%">
+        <div class="chs-battery-level"></div><span class="chs-battery-number">95</span><div class="chs-battery-cap"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. 홈 화면 본문 (안쪽만 스크롤됨) -->
+  <main class="chs-scroll-area" aria-label="홈 화면">
+  <div class="chs-widget-area">
+<!-- 음악 위젯: 노래 제목, 가수, 이동 링크를 여기서 수정 -->
+<a class="chs-music-widget" href="https://youtu.be/TU0q9CW3Xmo?si=TXwxvgOQ7kYmZRcn" aria-label="Troye Sivan — Angel Baby, YouTube에서 보기">
+  <div class="chs-music-top">
+<div class="chs-music-info">
+      <div class="chs-music-caption"><span class="chs-equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>NOW PLAYING</div>
+      <div class="chs-music-title">Angel Baby</div>
+      <div class="chs-music-artist">Troye Sivan</div>
+    </div>
+    <span class="chs-pause" aria-hidden="true"><i></i><i></i></span>
+  </div>
+  <div class="chs-music-progress" aria-hidden="true"><span></span></div>
+  <div class="chs-music-footer"><span>Angel Baby — Single</span><span>Young K ver</span></div>
+</a>
+<!-- 앱 아이콘 -->
+<div class="chs-app-grid">
+<!-- 1. 카카오톡 -->
+<a aria-label="카카오톡" class="chs-app-icon chs-icon-kakao" href="kakao.html">
+<svg aria-hidden="true" style="width: 62px !important; height: 62px !important; max-width: none !important; display: block !important;" viewbox="0 0 100 100"><rect fill="#FEE500" height="100" width="100"></rect><path d="M50 23c-19.3 0-35 12.1-35 27 0 9.7 6.5 18.2 16.3 22.9l-4 13 15.1-9.4c2.5.4 5 .6 7.6.6 19.3 0 35-12.1 35-27S69.3 23 50 23Z" fill="#392020"></path></svg>
+</a>
+<!-- 2. 메모 -->
+<a aria-label="메모" class="chs-app-icon" href="memo.html">
+<svg aria-hidden="true" style="width: 62px !important; height: 62px !important; max-width: none !important; display: block !important;" viewbox="0 0 100 100"><rect fill="#FFFDF7" height="100" width="100"></rect><path d="M0 0h100v29H0Z" fill="#FFD52E"></path><path d="M0 29h100" stroke="#E2B821" stroke-width="1"></path><path d="M0 37h100" stroke="#E8E4D9" stroke-dasharray="2 2" stroke-width="1"></path><g stroke="#DAD8D1" stroke-width="1.4"><path d="M0 53h100M0 69h100M0 85h100"></path></g></svg>
+</a>
+<!-- 베러데이 -->
+<a aria-label="베러데이" class="chs-app-icon chs-icon-language" href="betterday.html">
+<svg aria-hidden="true" viewBox="0 0 100 100"><rect width="100" height="100" fill="#ffda58"/><path d="M25 25h50a10 10 0 0 1 10 10v29a10 10 0 0 1-10 10H51L35 85V74H25a10 10 0 0 1-10-10V35a10 10 0 0 1 10-10" fill="#fff8dc"/><!-- HI!를 폰트 없이 그려 기기마다 동일하게 표시 --><g fill="none" stroke="#695128" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"><path d="M30 40v20m15-20v20M30 50h15M57 40v20M70 40v11"/></g><circle cx="70" cy="59" r="3" fill="#695128"/></svg>
+</a>
+<!-- LMD -->
+<a aria-label="LMD" class="chs-app-icon chs-icon-couple" href="lmd.html">
+<svg aria-hidden="true" viewBox="0 0 100 100"><rect width="100" height="100" fill="#fbe9ef"/>
+<!-- 연두색 동산 -->
+<path d="M0 74Q49 51 100 73v27H0Z" fill="#c9dda8"/>
+<ellipse cx="50" cy="80" rx="29" ry="5" fill="#b7ce94"/>
+<!-- 왼쪽 강아지: 오른쪽으로 기대는 뒷모습 -->
+<g transform="rotate(8 39 66)">
+<path d="M29 69c-12-3-14 9-5 11h10" fill="none" stroke="#c8a380" stroke-width="6" stroke-linecap="round"/>
+<path d="M27 77c0-16 2-28 13-28s16 12 16 28q-14 9-29 0" fill="#ead2b6"/>
+<rect x="25" y="30" width="30" height="29" rx="14" fill="#ead2b6"/>
+<path d="M27 33c-8-3-11 5-9 16 1 6 7 7 10 3l3-15Z" fill="#b99372"/>
+<path d="M52 33c7-2 10 5 9 13-1 6-6 8-9 3l-3-12Z" fill="#b99372"/>
+</g>
+<!-- 오른쪽 고양이: 왼쪽으로 기대는 뒷모습 -->
+<g transform="rotate(-8 63 66)">
+<path d="M53 77c0-16 1-28 11-28s14 14 14 28q-11 8-25 0" fill="#fff9f0"/>
+<path d="M50 43l1-17 12 8 13-8 2 17c3 11-4 18-14 18S48 54 50 43" fill="#fff9f0"/>
+
+<path d="M73 75c16 7 17-9 9-12" fill="none" stroke="#fff9f0" stroke-width="6" stroke-linecap="round"/>
+</g></svg>
+</a>
+</div>
+</div>
+  </main>
+
+  <!-- 3. 하단 독: 전화, 문자, 인트라넷, 사파리 -->
+  <nav class="chs-dock" aria-label="자주 사용하는 앱">
+    <a href="call.html" class="chs-dock-icon chs-dock-phone" aria-label="전화">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+    </a>
+    <a href="message.html" class="chs-dock-icon chs-dock-message" aria-label="문자">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="white" aria-hidden="true"><path d="M50 15 C20 15 5 33 5 53 C5 65 12 76 24 83 C24 83 22 93 14 97 C26 97 38 90 43 85 C45 85.5 48 86 50 86 C80 86 95 68 95 48 C95 28 80 15 50 15 Z"/></svg>
+    </a>
+    <a aria-label="DBS" class="chs-dock-icon chs-dock-intranet" href="dbs.html">
+<svg aria-hidden="true" viewBox="0 0 100 100"><defs><linearGradient id="chs-blue" x2="0" y2="1"><stop stop-color="#439cff"/><stop offset="1" stop-color="#1761da"/></linearGradient></defs><rect width="100" height="100" fill="url(#chs-blue)"/><rect x="25" y="37" width="50" height="39" rx="10" fill="#fff"/><path d="M38 37V26h24v11" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/><path d="M38 49v14M50 45v22M62 49v14" stroke="#2879e8" stroke-width="5" stroke-linecap="round"/><path d="M20 23l-5-5M80 23l5-5" stroke="#b8dcff" stroke-width="4" stroke-linecap="round"/></svg>
+</a>
+    <a href="google.html" class="chs-dock-icon chs-dock-safari" aria-label="사파리">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="46" fill="#1da1f2"/>
+        <polygon points="32,68 55,55 45,45" fill="white"/>
+        <polygon points="68,32 55,55 45,45" fill="#ff3b30"/>
+        <circle cx="50" cy="50" r="3" fill="white"/>
+      </svg>
+    </a>
+  </nav>
+</div>
+<script>
+/* 4. 가상 시계: 처음 접속하면 08:25, 페이지 이동·새로고침 후에도 경과 시간 이어짐 */
+(function(){
+  const virtualKey='characterTime_virtualStart';
+  const realKey='characterTime_realStart';
+  let fallbackVirtual=null;
+  let fallbackReal=null;
+  function updateVirtualClock(){
+    const now=Date.now();
+    let savedVirtualStart=null,savedRealStart=null;
+    try{
+      savedVirtualStart=localStorage.getItem(virtualKey);
+      savedRealStart=localStorage.getItem(realKey);
+    }catch(error){/* 저장 공간 접근 불가 시 현재 탭 동안만 흐르게 함 */}
+    let virtualStart=Number(savedVirtualStart),realStart=Number(savedRealStart);
+    if(!savedVirtualStart||!savedRealStart||!Number.isFinite(virtualStart)||!Number.isFinite(realStart)){
+      if(fallbackVirtual!==null&&fallbackReal!==null){
+        virtualStart=fallbackVirtual;realStart=fallbackReal;
+      }else{
+        const start=new Date(now);start.setHours(8,25,0,0);
+        virtualStart=start.getTime();realStart=now;
+        fallbackVirtual=virtualStart;fallbackReal=realStart;
+        try{
+          localStorage.setItem(virtualKey,String(virtualStart));
+          localStorage.setItem(realKey,String(realStart));
+        }catch(error){}
+      }
+    }
+    const currentVirtualTime=new Date(virtualStart+(now-realStart));
+    const h=currentVirtualTime.getHours();
+    const m=String(currentVirtualTime.getMinutes()).padStart(2,'0');
+    const timeElement=document.getElementById('iphone-time');
+    if(timeElement)timeElement.textContent=h+':'+m;
+  }
+  updateVirtualClock();
+  setInterval(updateVirtualClock,1000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)updateVirtualClock()});
+})();
+</script>
+</body>
+</html>

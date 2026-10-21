@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="format-detection" content="telephone=no"><title>LMD · 렛츠고 나의 듀오</title>
+<style>
+:root{--ink:#344342;--muted:#91a09c;--blue:#e3f0fb;--green:#e9f2df;--pink:#fae4eb;--accent:#597d70;--line:#e9eeea}*{box-sizing:border-box}html,body{margin:0;height:100%;width:100%;overflow:hidden;background:#fcfdf9}body,button,input,textarea{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink)}button,input,textarea{font-size:14px}button{border:0;background:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}button:active{opacity:.65}button:focus-visible{outline:2px solid #7099b2;outline-offset:3px}svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block}h1,h2,h3,p{margin:0}#app{position:fixed;inset:0;width:100%;height:100%;height:100dvh;display:flex;flex-direction:column;background:#fcfdf9}.top{flex:none;display:flex;justify-content:space-between;align-items:center;padding:calc(13px + env(safe-area-inset-top,0px)) 22px 13px;background:#fcfdf9;border-bottom:1px solid #edf1e9}.logo{font-size:25px;letter-spacing:-1.5px;font-weight:900;display:flex;align-items:center;gap:7px}.logo svg{color:#c8889e;width:18px;height:18px;fill:var(--pink);stroke-width:1.4}.top-right{display:flex;align-items:center;gap:14px}.day-tag{font-size:11px;padding:7px 10px;background:var(--green);border-radius:30px;color:#65805d;font-weight:600}main{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:24px 20px 28px}main::-webkit-scrollbar{display:none}.nav{display:grid;grid-template-columns:repeat(5,1fr);flex:none;padding:8px 5px calc(9px + env(safe-area-inset-bottom,0px));height:calc(66px + env(safe-area-inset-bottom,0px));background:#fff;border-top:1px solid var(--line)}.nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;color:#a2aaa4}.nav button.active{color:#4e7566;font-weight:700}.nav button.active svg{fill:var(--green)}.eyebrow{font-size:10px;letter-spacing:1.6px;color:#91a098;font-weight:600;margin-bottom:9px}.title{font-size:25px;line-height:1.45;letter-spacing:-1px;font-weight:700}.sub{font-size:12px;color:#87978f;line-height:1.7;margin-top:7px}.card{background:#fff;border:1px solid var(--line);border-radius:23px;overflow:hidden}.section{display:flex;align-items:center;justify-content:space-between;margin:26px 1px 13px}.section h2{font-size:16px;letter-spacing:-.5px}.link{font-size:11px;color:#8b9d90;display:flex;align-items:center;gap:3px}.link svg{width:14px;height:14px}.couple-hero{position:relative;border:1px solid #dce8dd;background:#edf5e7;border-radius:32px;padding:23px 20px;text-align:center;overflow:hidden}.couple-hero:before{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:#f8ebe6;left:-66px;top:110px;opacity:.6}.couple-hero:after{content:'';position:absolute;width:130px;height:130px;border-radius:50%;background:#deebf6;right:-65px;top:-35px;opacity:.7}.hero-top{font-size:11px;letter-spacing:1px;position:relative;z-index:1;color:#7b9274}.day-number{font-size:75px;font-weight:800;letter-spacing:-5px;line-height:1.2;margin-top:10px;color:#4d6c53;position:relative;z-index:1}.day-number span{font-size:19px;letter-spacing:-.5px;margin-left:5px;font-weight:500}.since{font-size:10px;letter-spacing:1px;color:#879a80}.duo{display:flex;justify-content:center;align-items:center;gap:18px;margin:22px 0 5px;position:relative;z-index:1}.person{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px}.avatar{width:62px;height:62px;background:var(--blue);border:3px solid white;border-radius:23px;display:grid;place-items:center;overflow:hidden}.avatar.pink{background:var(--pink)}.avatar svg{width:58px;height:58px;flex:none;display:block;stroke-width:initial}.avatar.pink svg{color:#30302f}.avatar.emoji .avatar-emoji{font-size:35px;line-height:1;display:block;transform:translateY(1px)}.duo-heart{color:#bf889b;transform:rotate(-10deg)}.duo-heart svg{fill:#f5dce5;width:28px;height:28px}.doodle{font-size:19px;color:#8cae96;position:absolute;right:28px;top:75px}.mood-card{display:flex;align-items:center;justify-content:space-between;padding:17px 18px;margin-top:12px;border:1px solid #e8edf0;background:#fff;border-radius:19px}.mood-card p{font-size:12px;color:#6e8275}.moods{display:flex;gap:7px}.moods button{font-size:21px;width:32px;height:32px;border-radius:50%}.moods button.selected{background:var(--green);outline:2px solid #c9dec1}.question-card{background:var(--pink);border:1px solid #f0dbe3;padding:23px;border-radius:25px;position:relative}.pill{display:inline-flex;padding:5px 9px;border-radius:30px;font-size:10px;background:#fff9;color:#9a7885;font-weight:600;line-height:1.3}.question-card h2{font-size:20px;letter-spacing:-.6px;line-height:1.6;margin:15px 0 19px;font-weight:600}.question-card button{background:#fff;border-radius:14px;padding:12px 15px;width:100%;font-size:12px;display:flex;align-items:center;justify-content:space-between}.question-card button svg{width:16px;height:16px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.tile{padding:19px 16px;text-align:left;border-radius:24px;border:1px solid #dce8ed;background:var(--blue);width:100%;min-height:146px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between}.tile.green{background:var(--green);border-color:#e0e8d7}.tile b{font-size:15px;letter-spacing:-.4px;display:block;margin:14px 0 4px}.tile p{font-size:11px;line-height:1.5;color:#7b8e92}.tile.green p{color:#859176}.row{display:flex;align-items:center;gap:12px;width:100%;padding:17px 18px;text-align:left;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.grow{flex:1;min-width:0}.row-title{font-size:13px;font-weight:600;line-height:1.6}.small{font-size:10px;color:#9ba69f;line-height:1.6;margin-top:5px}.row svg.arrow{width:15px;height:15px;color:#a8b5ab;flex:none}.backhead{display:flex;align-items:center;gap:12px;margin-bottom:22px}.backhead button{padding:6px;background:white;border:1px solid var(--line);border-radius:50%}.backhead h1{font-size:20px;letter-spacing:-.6px}.backhead svg{width:20px;height:20px}.primary{background:#5f7f6d;color:white;font-size:13px;width:100%;padding:14px;border-radius:14px;font-weight:600}.primary:disabled{background:#bbc8bc;cursor:default}.secondary{border:1px solid var(--line);background:white;border-radius:14px;padding:12px;width:100%;font-size:12px}.field{display:block;margin:17px 0}.field span{display:block;font-size:12px;margin-bottom:9px;font-weight:600}.field input,.field textarea{width:100%;border:1px solid #dce5dd;border-radius:13px;background:#fff;padding:12px;outline:none;line-height:1.6;font-size:14px}.field textarea{min-height:115px;resize:vertical}.field input:focus,.field textarea:focus{border-color:#7c9d86}.form{padding:20px}.answer{padding:20px}.answer-head{display:flex;align-items:center;gap:9px;font-size:12px;margin-bottom:12px}.answer-head .mini{font-size:10px;background:var(--green);padding:5px 7px;border-radius:8px;color:#6c8262}.answer p{font-size:14px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere}.answer.blue{background:#f0f7fb;border-color:#e1edf2}.answer.pink{background:#fff2f5;border-color:#f2e5e9}.stack{display:flex;flex-direction:column;gap:12px}.divider{text-align:center;font-size:10px;color:#a0aba3;margin:12px 0 25px}.lmd-message{display:flex;gap:8px;margin-bottom:17px;align-items:flex-end}.lmd-message.lmd-mine{justify-content:flex-end}.lmd-chat-avatar{width:29px;height:29px;border-radius:11px;background:var(--blue);align-self:flex-start;display:grid;place-items:center;font-size:11px}.lmd-chat-avatar.emoji-chat{font-size:17px;line-height:1}.lmd-chat-body{max-width:78%;min-width:0}.lmd-chat-name{font-size:10px;color:#92a297;margin-bottom:5px}.lmd-bubble{padding:12px 14px;background:white;border:1px solid var(--line);border-radius:4px 18px 18px;font-size:13px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}.lmd-message.lmd-mine .lmd-bubble{background:var(--pink);border-color:#f0dfe6;border-radius:18px 4px 18px 18px}.lmd-chat-time{font-size:9px;color:#a4ada7;margin-top:5px}.lmd-message.lmd-mine .lmd-chat-time{text-align:right}.composer{display:flex;gap:8px;padding:10px 16px;background:white;flex:none;border-top:1px solid var(--line)}.composer input{flex:1;min-width:0;background:#f6f8f3;border:1px solid #e8ede4;border-radius:16px;padding:12px;font-size:16px;outline:none}.composer button{width:43px;border-radius:15px;background:#e6efde;display:grid;place-items:center;color:#68815d}.map{height:285px;position:relative;overflow:hidden;background:#edf3e8;border:1px solid #e0e9d9;border-radius:26px;margin:20px 0 16px}.map>svg{position:absolute;inset:0;width:100%;height:100%;stroke:none}.map-tag{position:absolute;bottom:12px;left:12px;background:#fffffff0;color:#83917c;font-size:9px;border-radius:20px;padding:6px 9px}.pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px}.pin .face{height:44px;width:44px;border:3px solid white;border-radius:50%;display:grid;place-items:center;background:var(--blue);box-shadow:0 4px 12px #36503815;font-size:11px;font-weight:700}.pin .face.emoji-face{font-size:24px;line-height:1;font-weight:400}.pin.me .face{background:var(--pink)}.pin small{background:white;border-radius:20px;padding:5px 9px;font-size:10px;white-space:nowrap}.location-status{display:flex;align-items:center;justify-content:space-between;padding:17px 18px}.switch{background:#92b59b;border-radius:20px;width:40px;height:24px;padding:3px;display:flex;align-items:center;justify-content:flex-end}.switch[aria-checked=false]{background:#d7ded7;justify-content:flex-start}.switch i{width:18px;height:18px;background:white;border-radius:50%;box-shadow:0 1px 3px #0001}.note{font-size:10px;line-height:1.8;color:#9aa79c;text-align:center;margin-top:15px}.big-label{font-size:29px;letter-spacing:-1px;line-height:1.4;margin:12px 0}.wish-check{width:21px;height:21px;border:1.5px solid #b9cdb5;border-radius:7px;flex:none;display:grid;place-items:center;background:#fff;color:#6b8965}.wish-check.done{background:var(--green)}.wish-check svg{width:14px;height:14px}.done-text{text-decoration:line-through;color:#a1aca0}.empty{padding:30px;text-align:center;color:#95a390;font-size:12px}.coupon{border:1px dashed #dcb7c6;border-radius:20px;background:#fff2f6;padding:22px;text-align:center;margin:13px 0}.coupon h3{font-size:19px;margin:10px 0}.coupon p{font-size:11px;color:#a58b96;line-height:1.7;margin-bottom:17px}.coupon.used{opacity:.6}.timebox{padding:20px;background:var(--blue);border-radius:23px;border:1px solid #dbe7ef}.progress{height:6px;border-radius:10px;background:#ffffffaa;overflow:hidden;margin:18px 0 10px}.progress span{display:block;background:#8aafbc;height:100%;width:91%}.timeline{display:flex;justify-content:space-between;font-size:10px;color:#7e97a2}.badge{font-size:22px;width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:var(--green)}#toast{position:fixed;bottom:calc(84px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#4f685b;color:white;font-size:12px;padding:12px 17px;border-radius:15px;max-width:90%;width:max-content;z-index:40;line-height:1.5}[hidden]{display:none!important}@media(min-width:700px){main{padding-left:max(24px,calc((100% - 600px)/2));padding-right:max(24px,calc((100% - 600px)/2))}}
+
+/* 다른 페이지의 공통 CSS와 충돌하지 않도록 채팅 스타일 고정 */
+#app #main{display:block!important;min-width:0;overflow-x:hidden;}
+#app .lmd-chat-list{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:17px!important;width:100%!important;min-width:0;}
+#app .lmd-message{display:flex!important;flex-direction:row!important;align-items:flex-end!important;justify-content:flex-start!important;width:100%!important;max-width:100%!important;float:none!important;position:static!important;margin:0!important;gap:8px;min-width:0;}
+#app .lmd-message.lmd-mine{justify-content:flex-end!important;}
+#app .lmd-chat-avatar{width:32px!important;height:32px!important;min-width:32px;flex:0 0 32px!important;white-space:nowrap;align-self:flex-start;}
+#app .lmd-chat-body{display:block!important;flex:0 1 auto!important;width:auto!important;min-width:0;max-width:calc(100% - 48px)!important;}
+#app .lmd-message.lmd-mine .lmd-chat-body{max-width:80%!important;}
+#app .lmd-chat-list>.lmd-message{flex:0 0 auto!important;min-height:0!important;}
+#app .lmd-message .lmd-chat-body{overflow:visible!important;}
+#app .lmd-chat-name,#app .lmd-chat-time{white-space:nowrap;}
+#app .lmd-bubble{min-width:0!important;max-width:100%!important;}
+#app .lmd-bubble{display:block!important;width:auto!important;white-space:pre-wrap!important;word-break:normal;overflow-wrap:anywhere;line-height:1.65;writing-mode:horizontal-tb!important;background:#fff!important;color:#344342!important;}
+#app .lmd-message.lmd-mine .lmd-bubble{background:#fae4eb!important;}
+.duo-x{font-size:18px;font-weight:400;color:#8a9c93;align-self:center;margin-bottom:24px;}
+
+
+</style>
+</head>
+<body>
+<div id="app"><header class="top"><button class="logo" data-go="home" aria-label="LMD 홈">LMD</button><div class="top-right"><span class="day-tag">우리 +272</span><button data-go="about" aria-label="우리 정보" id="info-icon"></button></div></header><main id="main"></main><form id="composer" class="composer" hidden=""><input id="chat-input" aria-label="도운이에게 메시지" placeholder="도운이에게 하고 싶은 말" autocomplete="off" required=""><button id="send-icon" aria-label="전송"></button></form><nav class="nav" id="nav"></nav></div><div id="toast" role="status" hidden=""></div>
+<script>
+(()=>{
+/* ━━━ 이름·날짜·장소·대화 수정 영역 ━━━
+   272일은 수정한 화면 설정값으로 고정합니다.
+   위치는 실제 GPS가 아닌 아래에 지정한 장소입니다.
+   작성 내용은 이번 접속 동안만 유지되며 재접속하면 초기화됩니다. */
+const CONFIG = /* LMD_CONFIG_START */{
+  "couple": {
+    "me": "강영현",
+    "partner": "윤도운",
+    "start": "2026.11.27",
+    "today": "2027.08.25",
+    "days": 272
+  },
+  "places": {
+    "me": {
+      "name": "DBS",
+      "detail": "국장님 대머리 되면 좋겠다",
+      "x": 29,
+      "y": 62
+    },
+    "partner": {
+      "name": "스튜디오 J",
+      "detail": "와 오늘 애들 말 겁나 안 듣는다",
+      "x": 72,
+      "y": 34
+    }
+  },
+  "initialMessages": [
+    {
+      "from": "them",
+      "text": "강영영 점심 먹었엉?",
+      "time": "13:14"
+    },
+    {
+      "from": "me",
+      "text": "아직",
+      "time": "14:16"
+    },
+    {
+      "from": "them",
+      "text": "또 밥도 안 주고 부려먹노",
+      "time": "14:17"
+    },
+    {
+      "from": "them",
+      "text": "뭐라도 묵고 해라",
+      "time": "14:17"
+    }
+  ],
+  "questions": [
+    {
+      "id": 272,
+      "date": "2027.08.25",
+      "question": "오늘, [도운이]와 함께 하고 싶은\n아주 사소한 일은?",
+      "partner": "사랑한다고 말하기",
+      "mine": null
+    },
+    {
+      "id": 271,
+      "date": "2027.08.24",
+      "question": "나만 아는 상대의 비밀이 있다면?",
+      "partner": "허벅지에 점",
+      "mine": "귀만큼 몸도 잘 빨개짐"
+    },
+    {
+      "id": 270,
+      "date": "2027.08.23",
+      "question": "지난주, 몰래 숨긴 잘못이 있다면?",
+      "partner": "그날 형 알람 끈거 나야 미안",
+      "mine": "일 하는데 혼자 자는 거 얄미워서 코 꼬집음"
+    },
+    {
+      "id": 269,
+      "date": "2027.08.22",
+      "question": "다시 가 보고 싶은 우리의 장소는?",
+      "partner": "밀라노",
+      "mine": "밀라노 대성당"
+    }
+  ],
+  "initialWishes": [
+    {
+      "text": "로또 1등 돼서 잠수 타기",
+      "done": false
+    },
+    {
+      "text": "로또 1등",
+      "done": false
+    },
+    {
+      "text": "하루에 한 번 안아주기",
+      "done": true
+    }
+  ],
+  "initialPlans": [
+    {
+      "title": "윤도운도윤 생일",
+      "date": "2027-08-25",
+      "place": "식당 예약 19:30, 여행 계획 짜기"
+    },
+    {
+      "title": "함께한 지 300일",
+      "date": "2027-09-21",
+      "place": "야 이날 뭐할래? 몰라 뭐해야 되 나 새삼 어 음성인식 켜졌네 웃긴다 등록할게 머를"
+    }
+  ],
+  "coupons": [
+    [
+      "뽀뽀",
+      "무조건 뽀뽀하기 짜증내기 없음"
+    ],
+    [
+      "약속 취소하기",
+      "외출 두 시간 전까지 말 할 것"
+    ],
+    [
+      "무조건 용서하기",
+      "화 절대 내면 안 됨 무조건 알았다 하기"
+    ]
+  ]
+}/* LMD_CONFIG_END */;
+let {couple,places,initialMessages,questions,initialWishes,initialPlans,coupons}=CONFIG;
+
+/* ━━━ 수정 영역 끝 ━━━ */
+const $=id=>document.getElementById(id),I={heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',home:'<path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-6h6v6"/>',chat:'<path d="M21 11a8 8 0 0 1-8 8H8l-5 3V11a9 9 0 0 1 18 0Z"/>',pin:'<path d="M19 10c0 6-7 12-7 12S5 16 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="9" r="2.5"/>',question:'<rect x="4" y="3" width="16" height="19" rx="4"/><path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4M12 17h.01"/>',box:'<rect x="3" y="8" width="18" height="13" rx="3"/><path d="M3 12h18M12 8v13M12 8c-10 0-7-8-3-5 2 1 3 5 3 5s1-4 3-5c4-3 7 5-3 5Z"/>',arrow:'<path d="m9 5 7 7-7 7"/>',back:'<path d="m15 5-7 7 7 7"/>',send:'<path d="m3 11 18-8-8 18-2-10-8 0Zm8 0L21 3"/>',calendar:'<rect x="3" y="5" width="18" height="16" rx="4"/><path d="M7 3v5M17 3v5M3 11h18M8 15h2M14 15h2"/>',check:'<path d="m5 12 4 4 10-10"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/>',star:'<path d="m12 3 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z"/>'};
+const icon=(k,c='')=>`<svg class="${c}" viewBox="0 0 24 24" aria-hidden="true">${I[k]||I.heart}</svg>`;
+/* 참고 그림처럼 검은 펜으로 그린, 조금 삐뚤고 순한 강아지와 고양이 */
+const FACE_SVG={
+ dog:`<svg viewBox="0 0 64 64" role="img" aria-label="귀여운 강아지" xmlns="http://www.w3.org/2000/svg">
+   <path d="M18 21 C12 16,6 20,8 30 C9 36,13 38,18 33" fill="none" stroke="#2f2f2f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+   <path d="M46 21 C52 16,58 20,56 30 C55 36,51 38,46 33" fill="none" stroke="#2f2f2f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+   <path d="M20 19 Q24 13 32 14 Q40 13 44 19 Q48 24 48 33 Q48 43 42.5 48 Q37.5 52 32 52 Q26.5 52 21.5 48 Q16 43 16 33 Q16 24 20 19 Z" fill="#fffdfb" stroke="#2f2f2f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+   <circle cx="25.5" cy="32" r="2.8" fill="#252525"/>
+   <circle cx="38.5" cy="32" r="2.8" fill="#252525"/>
+   <ellipse cx="32" cy="39.5" rx="3.5" ry="2.9" fill="#252525"/>
+   <path d="M28.5 44.3 Q32 46.8 35.5 44.3" fill="none" stroke="#2f2f2f" stroke-width="2.6" stroke-linecap="round"/>
+   <path d="M23 18.3 Q24.7 17.1 26.6 18" fill="none" stroke="#2f2f2f" stroke-width="2.2" stroke-linecap="round"/>
+ </svg>`,
+ cat:`<svg viewBox="0 0 64 64" role="img" aria-label="귀여운 고양이" xmlns="http://www.w3.org/2000/svg">
+   <path d="M17 24 L15 11 L26 18 Q32 14.5 38 18 L49 11 L47 24 Q49 27 49 33 Q49 42.5 42.7 48 Q37.8 52.2 32 52.2 Q26.2 52.2 21.3 48 Q15 42.5 15 33 Q15 27 17 24 Z" fill="#fffdfb" stroke="#2f2f2f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+   <path d="M21 17 L23 23" fill="none" stroke="#e3a7bb" stroke-width="3" stroke-linecap="round"/>
+   <path d="M43 17 L41 23" fill="none" stroke="#e3a7bb" stroke-width="3" stroke-linecap="round"/>
+   <circle cx="25.5" cy="33" r="2.8" fill="#252525"/>
+   <circle cx="38.5" cy="33" r="2.8" fill="#252525"/>
+   <path d="M32 38.8 l-2.1 2.2 h4.2 Z" fill="#252525" stroke="#252525" stroke-linejoin="round"/>
+   <path d="M27.8 43.2 Q30 45.8 32 43.6 Q34 45.8 36.2 43.2" fill="none" stroke="#2f2f2f" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>`
+};
+const profileEmoji=who=>who==='me'?mood:'😑';
+const face=(who='partner')=>`<div class="avatar emoji ${who==='me'?'pink':''}" aria-label="${who==='me'?'선택한 기분 이모지':'도운이 이모지'}"><span class="avatar-emoji">${profileEmoji(who)}</span></div>`;
+const duo=(own=false)=>`<div class="duo"><div class="person">${face('partner')}<span>${esc(couple.partner)}</span></div><span class="duo-x" aria-label="그리고">X</span><div class="person">${face('me')}<span>${esc(couple.me)}${own?' · 나':''}</span></div></div>`;
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const clone=v=>JSON.parse(JSON.stringify(v));
+let messages=clone(initialMessages),answers=clone(questions),wishes=clone(initialWishes),plans=clone(initialPlans),used=[],mood='🥳',sharing=true,view='home',arg=null,stack=[],draft='',answerDraft='';
+function toast(t){$('toast').textContent=t;$('toast').hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').hidden=true,2600)}
+function go(v,a=null,push=true){if(view==='chat')draft=$('chat-input').value;if(view==='question'&&$('answer-input'))answerDraft=$('answer-input').value;if(push)stack.push([view,arg]);view=v;arg=a;render();$('main').scrollTop=0;if(v==='chat'){$('chat-input').value=draft;$('main').scrollTop=$('main').scrollHeight}if(v==='question'&&$('answer-input'))$('answer-input').value=answerDraft}
+function back(){const p=stack.pop()||['home',null];go(p[0],p[1],false)}
+const heading=(t,s='')=>`<div class="eyebrow">LET’S GO, MY DUO</div><h1 class="title">${t}</h1>${s?`<p class="sub">${s}</p>`:''}`;
+const backhead=t=>`<div class="backhead"><button data-back aria-label="뒤로">${icon('back')}</button><h1>${esc(t)}</h1></div>`;
+const section=(t,v)=>`<div class="section"><h2>${t}</h2><button class="link" data-go="${v}">열어보기 ${icon('arrow')}</button></div>`;
+function home(){return `<div class="couple-hero"><div class="hero-top">너와 나, 어느새</div><div class="day-number">${esc(couple.days)}<span>일째</span></div><div class="since">SINCE ${esc(couple.start)}</div><span class="doodle">✳</span>${duo()}</div><div class="mood-card"><p>오늘의 기분은?</p><div class="moods">${['🥳','😑','🥱','🥺'].map(m=>`<button data-mood="${m}" class="${mood===m?'selected':''}" aria-label="기분 ${m}">${m}</button>`).join('')}</div></div>${section('오늘의 우리 질문','question')}<div class="question-card"><span class="pill">DAY ${esc(couple.days)} · 하루 한 번</span><h2>${esc(answers[0].question).replace(/\n/g,'<br>')}</h2><button data-go="question"><span>${answers[0].mine===null?'내 답변 적고 [도운이] 답변 보기':'우리의 답변 다시 보기'}</span>${icon('arrow')}</button></div><div class="grid2" style="margin-top:16px"><button class="tile" data-go="location">${icon('pin')}<div><b>지금 어디야?</b><p>윤도운 [레슨] 하는 중!</p></div></button><button class="tile green" data-go="plans">${icon('calendar')}<div><b>08:25 윤도운도윤 생일</b><p>식당 예약 19:30, 여행 계획 짜기</p></div></button></div>${section('2027 우리는,','wishes')}<div class="card">${wishes.slice(0,2).map((w,i)=>wishRow(w,i)).join('')}</div><p class="note">LET’S GO, MY DUO</p>`}
+function question(){const q=answers[0],answered=q.mine!==null;return `${heading('오늘의 질문','하루에 하나씩, 서로를 더 알아가는 중')}<div class="question-card" style="margin:22px 0 16px"><span class="pill">#${q.id} · ${q.date}</span><h2 style="margin-bottom:0">${esc(q.question).replace(/\n/g,'<br>')}</h2></div>${answered?answerCards(q):`<form class="card form" id="answer-form"><label class="field" style="margin-top:0"><span>[나]의 답변</span><textarea id="answer-input" name="answer" required maxlength="1500" placeholder="멋진 말이 아니어도 괜찮아."></textarea></label><p class="sub" style="margin-bottom:15px">답변을 남기면 [도운이]의 답변도 열려요.<br>오늘의 답변은 한 번만 등록할 수 있어요.</p><button class="primary">오늘의 마음 남기기</button></form><div class="card answer blue" style="margin-top:12px"><div class="answer-head">윤도운 <span class="mini">답변 완료</span></div><p style="color:#8d9fa8;font-size:13px">[도운이]가 먼저 마음을 남겼어요.<br>나의 답변을 기다리는 중!</p></div>`}<button class="secondary" style="margin-top:18px" data-go="history">지난 질문과 답변 보기</button>`}
+function answerCards(q){return `<div class="stack"><div class="card answer pink"><div class="answer-head">강영현 <span class="mini">나의 답변</span></div><p>${esc(q.mine)}</p></div><div class="card answer blue"><div class="answer-head">윤도운 <span class="mini">짝꿍의 답변</span></div><p>${esc(q.partner)}</p></div></div>`}
+function history(){return `${backhead('우리가 남긴 답변')}<p class="sub" style="margin-bottom:18px">별거 아닌 마음들이 모여, 우리의 이야기가 돼.</p><div class="card">${answers.filter(q=>q.mine!==null).map(q=>`<button class="row" data-go="past" data-arg="${q.id}"><span class="badge" style="background:var(--pink);font-size:12px">${q.id}</span><div class="grow"><div class="small">${q.date}</div><div class="row-title">${esc(q.question)}</div></div>${icon('arrow','arrow')}</button>`).join('')}</div>`}
+function past(){const q=answers.find(q=>q.id===Number(arg));return `${backhead('우리의 답변')}<div class="question-card" style="margin-bottom:16px"><span class="pill">#${q.id} · ${q.date}</span><h2 style="margin-bottom:0">${esc(q.question)}</h2></div>${answerCards(q)}`}
+function chat(){return `${heading('조잘조잘','둘만 듣는 이야기, 둘만 아는 마음')}<div class="divider">2027년 8월 25일</div><div class="lmd-chat-list">${messages.map(m=>`<div class="lmd-message ${m.from==='me'?'lmd-mine':''}">${m.from!=='me'?`<div class="lmd-chat-avatar emoji-chat">${profileEmoji('partner')}</div>`:''}<div class="lmd-chat-body">${m.from!=='me'?'<div class="lmd-chat-name">윤도운</div>':''}<div class="lmd-bubble">${esc(m.text)}</div><div class="lmd-chat-time">${m.from==='me'&&m.new?'1 · ':''}${esc(m.time)}</div></div></div>`).join('')}</div>`}
+function location(){return `${heading('지금 어디야?','나는 [DBS]에서 [일] 하는 중!')}<div class="map"><svg viewBox="0 0 350 285" preserveAspectRatio="none" aria-hidden="true"><rect x="20" y="17" width="98" height="75" rx="18" fill="#dce9d3"/><rect x="242" y="170" width="90" height="96" rx="20" fill="#e1ead5"/><path d="M-20 155Q95 100 140 160T380 130" fill="none" stroke="#d2e6f3" stroke-width="35"/><path d="M-20 70 370 230M155-20 74 300M290-20 200 300" fill="none" stroke="#fffdf6" stroke-width="15"/><path d="M20 255 320 20" fill="none" stroke="#fffdf6" stroke-width="9"/><rect x="161" y="32" width="36" height="25" rx="5" fill="#f1e7df"/><rect x="133" y="217" width="28" height="31" rx="5" fill="#e7e6dd"/></svg>${sharing?`<div class="pin me" style="left:${places.me.x}%;top:${places.me.y}%"><div class="face emoji-face">${profileEmoji('me')}</div><small>${places.me.name}</small></div>`:''}<div class="pin" style="left:${places.partner.x}%;top:${places.partner.y}%"><div class="face emoji-face">${profileEmoji('partner')}</div><small>${places.partner.name}</small></div><span class="map-tag">우리의 장소 · 설정된 위치</span></div><div class="card"><div class="location-status"><div><div class="row-title">내 위치 보여주기</div><p class="small">${sharing?'[도운이]에게 내 장소를 보여줘요':'내 장소를 잠시 숨겼어요'}</p></div><button class="switch" data-toggle role="switch" aria-label="내 위치 보여주기" aria-checked="${sharing}"><i></i></button></div></div><div class="card" style="margin-top:12px"><div class="row"><span class="badge" style="background:var(--blue)">${icon('pin')}</span><div class="grow"><div class="row-title">윤도운 · ${places.partner.name}</div><p class="small">${places.partner.detail}</p></div></div>${sharing?`<div class="row"><span class="badge" style="background:var(--pink)">${icon('pin')}</span><div class="grow"><div class="row-title">강영현 · ${places.me.name}</div><p class="small">${places.me.detail}</p></div></div>`:''}</div><button class="primary" style="margin-top:17px" data-go="chat">도운이에게 연락하기</button>`}
+function box(){return `${heading('우리의 작은 서랍','좋아하는 것들을 차곡차곡 담아 두자')}<div class="timebox" style="margin-top:22px"><span class="pill">NEXT MILESTONE</span><h2 class="big-label">300일까지<br>28일 남았어.</h2><div class="progress"><span></span></div><div class="timeline"><span>272일, 오늘의 우리</span><span>300일</span></div></div><div class="card" style="margin-top:18px">${[['plans','calendar','우리의 약속','같이 보낼 하루를 정해 두기'],['wishes','star','2027년 우리는,','같이 하고 싶은 것들이 이만큼이나!'],['coupons','box','[월간 쿠폰] 8월','한 달에 세 번, 우리만 쓸 수 있는 쿠폰 발행'],['history','question','지난 질문과 답변','우리가 남긴 마음 다시 보기'],['about','heart','우리 이야기','LET’S GO, MY DUO']].map(([v,i,t,s])=>`<button class="row" data-go="${v}"><span class="badge">${icon(i)}</span><div class="grow"><div class="row-title">${t}</div><p class="small">${s}</p></div>${icon('arrow','arrow')}</button>`).join('')}</div>`}
+function wishRow(w,i){return `<button class="row" data-wish="${i}"><span class="wish-check ${w.done?'done':''}">${w.done?icon('check'):''}</span><span class="row-title ${w.done?'done-text':''}">${esc(w.text)}</span></button>`}
+function wishPage(){return `${backhead('2027년 우리는,')}<p class="sub" style="margin-bottom:18px">지발제발 싸우지 말자</p><div class="card">${wishes.map(wishRow).join('')||'<div class="empty">우리의 첫 소원을 적어보자.</div>'}</div><form class="card form" id="wish-form" style="margin-top:16px"><label class="field" style="margin-top:0"><span>새로운 작은 소원</span><input name="wish" required maxlength="120" placeholder="예: 비 오는 날 같이 전 부치기"></label><button class="primary">우리 소원함에 넣기</button></form>`}
+function planPage(){return `${backhead('우리의 약속')}<div class="card">${plans.map(p=>`<div class="row"><span class="badge" style="background:var(--blue)">${icon('calendar')}</span><div class="grow"><div class="small">${esc(p.date.replaceAll('-','.'))}</div><div class="row-title">${esc(p.title)}</div><p class="small">${esc(p.place)}</p></div></div>`).join('')}</div><form class="card form" id="plan-form" style="margin-top:16px"><label class="field" style="margin-top:0"><span>어떤 약속이야?</span><input name="title" required maxlength="80" placeholder="함께 하고 싶은 일"></label><label class="field"><span>언제 만날까?</span><input name="date" type="date" required value="2027-08-25"></label><label class="field"><span>어디에서?</span><input name="place" required maxlength="120" placeholder="만날 장소"></label><button class="primary">약속 잡기</button></form>`}
+function couponPage(){return `${backhead('[월간 쿠폰] 8월')}<p class="sub">한 달에 세 번, 우리만 쓸 수 있는 쿠폰 발행</p>${coupons.map(([t,s],i)=>`<div class="coupon ${used.includes(i)?'used':''}"><span class="eyebrow">ONLY FOR MY DUO</span><h3>${t}</h3><p>${s}</p><button class="secondary" data-coupon="${i}" ${used.includes(i)?'disabled':''}>${used.includes(i)?'사용한 쿠폰이에요':'이 쿠폰 쓰기'}</button></div>`).join('')}`}
+function about(){return `${backhead('우리 이야기')}<div class="couple-hero"><div class="hero-top">LET’S GO, MY DUO</div>${duo(true)}<h2 style="font-size:21px;margin:20px 0 10px">세상에서 제일 소중한 나의 듀오</h2><p class="sub">${esc(couple.start)} — ${esc(couple.today)}<br>우리는 지금 ${esc(couple.days)}일째</p></div><div class="card answer" style="margin-top:16px"><div class="eyebrow">ABOUT LMD</div><h3 style="font-size:17px;margin:10px 0">레츠고 나의 듀오</h3><p style="font-size:13px;color:#87978f">LET’S GO, MY DUO!<br>세상에 단 한 명 뿐인 소중한 너에게,<br>우리의 사소한 하루를 모아 두는 곳.</p></div>`}
+function render(){$('app').querySelector('.day-tag').textContent='우리 +'+couple.days;const views={home,question,history,past,chat,location,box,wishes:wishPage,plans:planPage,coupons:couponPage,about};$('main').innerHTML=(views[view]||home)();$('composer').hidden=view!=='chat';let active=['history','past'].includes(view)?'question':['wishes','plans','coupons','about'].includes(view)?'box':view;$('nav').innerHTML=[['home','우리'],['chat','채팅'],['location','위치'],['question','질문'],['box','서랍']].map(([v,t])=>`<button data-go="${v}" class="${v===active?'active':''}" ${v===active?'aria-current="page"':''}>${icon(v==='location'?'pin':v)}<span>${t}</span></button>`).join('');}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;if(d.go)go(d.go,d.arg??null);else if(d.back!==undefined)back();else if(d.mood){mood=d.mood;render();toast('오늘의 기분을 남겼어.')}else if(d.toggle!==undefined){sharing=!sharing;render()}else if(d.wish!==undefined){const i=Number(d.wish);wishes[i].done=!wishes[i].done;render();if(wishes[i].done)toast('우리의 소원 하나, 완료!')}else if(d.coupon!==undefined){const i=Number(d.coupon);if(used.includes(i))return;used.push(i);render();toast('짝꿍에게 쿠폰을 보여줘!')}});
+
+/* ━━━ 윤도운 채팅 자동 답장: 서버 없이, 이번 페이지 접속 동안만 유지 ━━━
+   호칭과 다른 말이 함께 쓰이면 실제 내용부터 확인해 답장합니다.
+   답변이 여러 개라면 서로 다른 말풍선으로 순서대로 도착합니다. */
+const replyTimers=new Set();
+function randomDowoonReply(options){return options[Math.floor(Math.random()*options.length)];}
+function chooseDowoonReplies(message){
+ const text=String(message).trim().replace(/\s+/g,' ');
+ const compact=text.replace(/\s/g,'');
+ // 내용 키워드를 호칭보다 먼저 판별합니다.
+ if(compact.includes('헤어지자'))return ['하지마라고 그거'];
+ if(compact.includes('그만하자'))return ['뭘 그만해'];
+ if(compact.includes('사랑해'))return randomDowoonReply([
+  ['내가 더'],
+  ['나도 사랑해'],
+  ['뭐고 부끄럽게','내도'],
+  ['그럼 애교도 함 부려봐']
+ ]);
+ if(/보고\s*싶(?:다|어)/.test(text))return randomDowoonReply([
+  ['ㅋㅋ 보러가까?','나올 수 있나'],
+  ['언제 퇴근해?','빨리 보고 싶다'],
+  ['간만에 드라이브 함 하까'],
+  ['얼마나?','얼마나 보고 싶은데 강영영~'],
+  ['통했는갑다','내 방송국 밑에 카펜데','내려올래?']
+ ]);
+ if(compact.includes('미워')||compact.includes('밉다'))return ['왜 또 앙탈이고'];
+ if(compact.includes('싫어'))return ['뭘 싫어 난 좋아'];
+ if(compact.includes('밥은'))return ['대충 먹었다','형은?','밥 거르지 마'];
+ if(compact.includes('뭐해'))return ['일하지…'];
+ if(compact.includes('어디야'))return ['나 학원'];
+ if(compact.includes('어디'))return ['인제 출발한다 10분 이따 내려온나'];
+ // 단독 호칭 또는 호칭만 포함된 문장
+ if(compact.includes('도운아'))return ['엉'];
+ if(compact.includes('도운이')||compact.includes('도우니'))return ['왜 우리 영혀니'];
+ if(compact.includes('윤도운'))return ['왜용'];
+ if(/(^|\s)야([\s!?~.,]|$)/.test(text))return ['정색하지마라 무섭게'];
+ return [];
+}
+function queueDowoonReply(text,sentMessage){
+ const replies=chooseDowoonReplies(text);
+ replies.forEach((reply,i)=>{
+  const delay=1000+i*900;
+  const timer=setTimeout(()=>{
+   replyTimers.delete(timer);
+   const time=new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());
+   // 도운이가 답장하는 순간, 그 답장을 유발한 메시지까지 읽음 처리합니다.
+   // 화면의 메시지 시각만 갱신해 입력하던 내용과 포커스는 유지합니다.
+   if(i===0){
+    const lastSeenIndex=messages.indexOf(sentMessage);
+    if(lastSeenIndex>=0){
+     const chatRows=view==='chat'?$('main').querySelectorAll('.lmd-chat-list > .lmd-message'):null;
+     messages.forEach((message,index)=>{
+      if(index<=lastSeenIndex&&message.from==='me'&&message.new){
+       message.new=false;
+       const timestamp=chatRows?.[index]?.querySelector('.lmd-chat-time');
+       if(timestamp)timestamp.textContent=message.time;
+      }
+     });
+    }
+   }
+   messages.push({from:'them',text:reply,time,new:true});
+   if(view==='chat'){
+    // 채팅 말풍선만 추가해 작성 중인 입력과 키보드 포커스를 지킵니다.
+    const list=$('main').querySelector('.lmd-chat-list');
+    if(list){
+     list.insertAdjacentHTML('beforeend',`<div class="lmd-message"><div class="lmd-chat-avatar emoji-chat">${profileEmoji('partner')}</div><div class="lmd-chat-body"><div class="lmd-chat-name">윤도운</div><div class="lmd-bubble">${esc(reply)}</div><div class="lmd-chat-time">${esc(time)}</div></div></div>`);
+     $('main').scrollTop=$('main').scrollHeight;
+    }
+   }
+  },delay);
+  replyTimers.add(timer);
+ });
+}
+
+document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f));if(f.id==='composer'){const text=$('chat-input').value.trim();if(!text)return;const time=new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());const sentMessage={from:'me',text,time,new:true};messages.push(sentMessage);draft='';$('chat-input').value='';render();$('main').scrollTop=$('main').scrollHeight;$('chat-input').focus();queueDowoonReply(text,sentMessage)}else if(f.id==='answer-form'){if(answers[0].mine!==null)return;if(!d.answer.trim())return;answers[0].mine=d.answer.trim();answerDraft='';render();toast('도운이의 답변이 열렸어.')}else if(f.id==='wish-form'){if(!d.wish.trim())return;wishes.push({text:d.wish.trim(),done:false});render();toast('우리의 소원이 하나 늘었어.')}else if(f.id==='plan-form'){if(!d.title.trim()||!d.place.trim())return;plans.push(d);plans.sort((a,b)=>a.date.localeCompare(b.date));render();toast('같이 보낼 하루를 적어 뒀어.')}});
+window.addEventListener('pageshow',e=>{if(!e.persisted)return;for(const timer of replyTimers)clearTimeout(timer);replyTimers.clear();messages=clone(initialMessages);answers=clone(questions);wishes=clone(initialWishes);plans=clone(initialPlans);used=[];mood='☺️';sharing=true;view='home';arg=null;stack=[];draft='';answerDraft='';$('chat-input').value='';clearTimeout(toast.t);$('toast').hidden=true;render();$('main').scrollTop=0});
+
+$('info-icon').innerHTML=icon('info');$('send-icon').innerHTML=icon('send');render();
+})();
+</script></body></html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no, date=no, email=no, address=no">
+<title>카카오톡</title>
+<style>
+html,body{margin:0!important;padding:0!important;width:100%!important;height:100%!important;background:#fff!important;overflow:hidden!important}
+*{box-sizing:border-box}button{font:inherit;color:inherit;border:0;padding:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}button:disabled{cursor:default} [hidden]{display:none!important}
+.kakao-app-wrapper{position:fixed;inset:0;width:100%;height:100%;height:100dvh;display:flex;flex-direction:column;background:#fff;color:#111;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;z-index:9999}
+.app-header{display:flex;justify-content:space-between;align-items:center;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 8px;background:#fff;z-index:10;flex:none}
+.header-title{font-size:22px;font-weight:700;color:#000;margin:0;letter-spacing:-.5px}.header-icons{display:flex;align-items:center;gap:16px}.header-icons svg{width:22px;height:22px;stroke:#111;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.main-content{flex:1;min-height:0;overflow-y:auto;padding:0 16px}.main-content::-webkit-scrollbar{display:none}
+.profile-img-default{background:#e5e5ea;border-radius:40%;display:flex;justify-content:center;align-items:center;overflow:hidden;flex-shrink:0}.profile-img-default svg{fill:#fff;width:70%;height:70%;display:block}.profile-img-default img{display:block;width:100%;height:100%;object-fit:cover}
+.my-profile{display:flex;align-items:center;padding:12px 0 20px;border-bottom:1px solid #f2f2f7}.my-profile .profile-img-default{width:56px;height:56px}.my-name{font-size:17px;font-weight:600;margin-left:14px}
+.section-header{font-size:12px;color:#8e8e93;padding:16px 0 8px;display:flex;justify-content:space-between;align-items:center}.section-header svg{width:12px;height:12px;stroke:#8e8e93;stroke-width:2;fill:none;stroke-linecap:round}
+.list-profile{display:flex;align-items:center;margin:0 -16px;padding:10px 16px}.list-profile .profile-img-default{width:44px;height:44px}.list-name{font-size:15px;font-weight:500;margin-left:14px}
+.bottom-tab-bar{display:flex;justify-content:space-around;align-items:center;background:#fafafa;border-top:1px solid #ebebeb;height:calc(56px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);flex:none}.tab-icon{display:flex;justify-content:center;align-items:center;width:25%;height:100%}.tab-icon svg{width:26px;height:26px;stroke:#111;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.tab-icon.active svg{fill:#111;stroke:none}
+.chat-filter{font-size:14px;font-weight:600;padding:14px 0 8px}.chat-row{display:flex;align-items:center;gap:13px;width:calc(100% + 32px);margin:0 -16px;padding:14px 16px;text-align:left}.chat-row:active{background:#f5f5f5}.chat-row .profile-img-default{width:54px;height:54px}.chat-copy{flex:1;min-width:0}.chat-name{font-size:16px;font-weight:500;line-height:1.4}.chat-preview{font-size:14px;color:#8e8e93;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chat-time{align-self:flex-start;margin-top:4px;flex:none;font-size:11px;color:#999;white-space:nowrap}
+/* 채팅방: 참고 코드의 알약 헤더, 날짜, 양쪽 말풍선 */
+.room{position:absolute;inset:0;background:#aebfd1;display:flex;flex-direction:column;z-index:20}
+.room-header{position:relative;display:flex;justify-content:space-between;align-items:center;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 12px;flex:none}
+.room-pill{height:38px;background:#fff;border-radius:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px #0000000d}
+.room-back{width:44px}.room-pill svg{width:22px;height:22px;fill:none;stroke:#111;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.room-tools{padding:0 14px;gap:16px}.room-tools svg{width:20px;height:20px}
+.room-title{position:absolute;left:50%;transform:translateX(-50%);max-width:calc(100% - 220px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:17px;font-weight:600;margin:0;pointer-events:none}
+.room-content{flex:1;min-height:0;overflow:auto;padding:12px 16px}.room-date{display:flex;justify-content:center;margin:8px 0 16px}.room-date span{background:rgba(0,0,0,.08);padding:6px 16px;border-radius:20px;font-size:12px;color:#333}
+.room-message{display:flex;gap:9px;align-items:flex-start;margin-bottom:16px}.room-message .profile-img-default{width:36px;height:36px}.room-message .chat-copy{flex:initial;max-width:calc(100% - 45px)}.room-sender{font-size:12px;color:#364654;margin-bottom:7px}.bubble-line{display:flex;align-items:flex-end;gap:6px}.bubble{background:#fff;padding:9px 14px;border-radius:17px;line-height:1.4;font-size:15px;overflow-wrap:anywhere;white-space:pre-wrap;min-width:0}.bubble-time{font-size:11.5px;color:#546473;flex:none;margin-bottom:2px}.message-meta{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}.message-unread{font-size:11px;line-height:1.2;color:#fee500}
+.room-message.me{justify-content:flex-end;align-items:flex-end;gap:6px}.room-message.me .bubble{background:#fee500;color:#000;border-radius:17px;max-width:72%}
+.room-input{padding:10px 16px calc(14px + env(safe-area-inset-bottom,0px));flex:none}.input-pill{background:#fff;border-radius:24px;min-height:44px;display:flex;align-items:center;padding:0 14px;gap:12px}.input-pill svg{width:22px;height:22px;stroke:#111;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}.message-input{flex:1;min-width:0;width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;padding:12px 0}.send-button{font-size:13px;background:#fee500;border-radius:12px;padding:7px 9px;flex:none}.send-button:disabled{background:#f0f0f0;color:#aaa}
+
+.birthday-link{width:100%;border-bottom:1px solid #f2f2f7;padding-bottom:16px;text-align:left}.list-profile{width:calc(100% + 32px);text-align:left}.chat-row:disabled:active{background:transparent}.chat-side{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:8px;align-self:flex-start;min-width:42px}.unread-badge{display:flex;align-items:center;justify-content:center;min-width:19px;height:19px;border-radius:10px;padding:0 5px;background:#ff573d;color:#fff;font-size:11px}.birthday-page{position:absolute;inset:0;background:#fff;z-index:19;display:flex;flex-direction:column}.birthday-header{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 12px;border-bottom:1px solid #f2f2f7;flex:none}.birthday-header h2{font-size:18px;text-align:center;margin:0}.birthday-header button{height:40px;display:grid;place-items:center}.birthday-header svg,.gift-button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.birthday-content{flex:1;overflow:auto;padding:26px 20px}.birthday-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}.birthday-heading h3{font-size:16px;margin:0}.birthday-heading time{font-size:13px;color:#8e8e93}.birthday-person{display:flex;align-items:center;gap:12px}.birthday-person .profile-img-default{width:54px;height:54px}.birthday-name{flex:1;font-size:16px;font-weight:600;min-width:0}.birthday-name span{display:block;font-size:12px;color:#8e8e93;font-weight:400;margin-top:7px}.gift-button{display:flex;align-items:center;gap:4px;border:1px solid #e6e6e6;border-radius:17px;padding:7px 9px;font-size:12px;white-space:nowrap}.gift-button svg{width:17px;height:17px;color:#ef666a}
+
+.birthday-inline{padding:14px 0 18px;border-bottom:1px solid #f2f2f7}.birthday-inline .birthday-heading{margin-bottom:18px}.birthday-inline .birthday-heading h3{font-size:14px}.birthday-person-link{display:flex;align-items:center;gap:12px;flex:1;min-width:0;text-align:left}.birthday-person-link .birthday-name{font-size:15px}.birthday-person-link .profile-img-default{width:44px;height:44px}.room-message{margin-bottom:14px}.room-message.group-next{margin-bottom:6px}.avatar-spacer{width:36px;flex:none}.room-message .bubble-line{min-width:0}
+.dw-profile,.dw-gift{position:absolute;inset:0;display:flex;flex-direction:column}.dw-profile{background:#7a8289;color:#fff;z-index:21}.dw-profile svg,.dw-gift svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.dw-profile-header{display:flex;justify-content:space-between;align-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) 20px 20px;flex:none}.dw-close{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#111}.dw-menu{display:flex;gap:14px;align-items:center;background:#fff;color:#111;border-radius:20px;height:36px;padding:0 16px}.dw-menu button{display:grid;place-items:center}.dw-menu svg{width:18px;height:18px}.dw-profile-main{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;justify-content:flex-end;padding:20px 20px calc(120px + env(safe-area-inset-bottom,0px))}.dw-profile-block{display:flex;align-items:center;flex-direction:column;align-self:flex-start;margin-bottom:24px}.dw-profile-block .profile-img-default{width:86px;height:86px;margin-bottom:12px}.dw-profile-block h2{font-size:24px;font-weight:600;margin:0}.dw-chat{display:flex;align-items:center;justify-content:center;gap:6px;min-height:48px;width:100%;border:1px solid #aeb3b8;border-radius:10px;color:#fff;font-size:14px}.dw-chat svg{width:16px;height:16px}.dw-bottom-text{position:absolute;bottom:calc(40px + env(safe-area-inset-bottom,0px));width:100%;text-align:center;font-size:13px;color:#e3e5e7}.dw-gift{background:#f4f5f7;z-index:23}.dw-gift-header{display:flex;justify-content:space-between;align-items:center;background:#fff;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 12px;border-bottom:1px solid #f0f0f0;flex:none}.dw-gift-header h2{font-size:17px;margin:0}.dw-header-icons{display:flex;align-items:center;gap:14px}.dw-header-icons button{display:grid;place-items:center;min-height:32px}.dw-gift-scroll{flex:1;min-height:0;overflow:auto;padding-bottom:16px}.dw-gift-person{display:flex;align-items:center;gap:12px;padding:16px 20px}.dw-gift-person .profile-img-default{width:44px;height:44px}.dw-gift-person strong{font-size:18px;flex:1}.dw-memory{font-size:12px;color:#555;background:#fff;border:1px solid #e0e0e0;border-radius:20px;padding:6px 12px;white-space:nowrap}.dw-message-card{background:#fff;border-radius:12px;margin:0 20px 16px;padding:20px}.dw-message-card p{font-size:15px;color:#333;margin:0 0 20px;line-height:1.4}.dw-message-card button{width:100%;background:#f4f6fa;padding:14px 0;border-radius:8px;font-size:14px}.dw-gift-card{background:#fff;border-radius:12px;margin:0 20px 24px;padding:30px 20px;display:flex;flex-direction:column;align-items:center}.dw-gift-image{width:min(200px,100%);aspect-ratio:1;background:#d8d8d8;border-radius:16px;margin-bottom:20px;filter:blur(8px)}.dw-gift-brand{font-size:13px;color:#888;margin-bottom:6px}.dw-gift-card h3{font-size:18px;line-height:1.5;text-align:center;margin:0 0 30px}.dw-gift-card h3 span{font-size:16px}.dw-barcode{display:flex;flex-direction:column;align-items:center;width:100%;filter:blur(4px)}.dw-gift .dw-bars{width:65%;height:45px;margin-bottom:10px;fill:#111;stroke:none;filter:none}.dw-barcode-number{display:flex;align-items:center;gap:6px}.dw-barcode-number span{font-size:17px;font-weight:700;color:#222;letter-spacing:1px}.dw-gift .dw-copy-icon{width:14px;height:14px;stroke:#888;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}.dw-gift-footer{flex:none;background:#fff;border-top:1px solid #eee;padding:10px 20px calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:12px}.dw-gift-footer button{flex:1;background:#f2f2f2;color:#333;font-size:15px;padding:16px 0;border-radius:8px}
+
+.dw-gift-message{display:flex;align-items:flex-start;gap:8px}.dw-gift .dw-camera-icon{width:18px;height:18px;flex:none;fill:#b0b0b0;stroke:none;margin-top:2px}
+.room-message .bubble{position:relative}.room-message:not(.group-prev) .bubble::before{content:"";position:absolute;top:0;left:-4px;width:12px;height:12px;background:#fff;clip-path:path('M 0 0 C 5 0 9 2 12 6 L 12 12 L 4 12 C 4 7 3 3 0 0 Z');pointer-events:none}.room-message.me:not(.group-prev) .bubble::before{left:auto;right:-4px;background:#fee500;transform:scaleX(-1)}
+
+/* 스크롤 동작은 유지하고 모든 내부 화면의 스크롤바만 숨깁니다. */
+.kakao-app-wrapper .main-content,
+.kakao-app-wrapper .room-content,
+.kakao-app-wrapper .birthday-content,
+.kakao-app-wrapper .dw-profile-main,
+.kakao-app-wrapper .dw-gift-scroll{scrollbar-width:none;-ms-overflow-style:none}
+.kakao-app-wrapper .main-content::-webkit-scrollbar,
+.kakao-app-wrapper .room-content::-webkit-scrollbar,
+.kakao-app-wrapper .birthday-content::-webkit-scrollbar,
+.kakao-app-wrapper .dw-profile-main::-webkit-scrollbar,
+.kakao-app-wrapper .dw-gift-scroll::-webkit-scrollbar{display:none;width:0;height:0}
+</style>
+<style>
+/* 프로필의 채팅 · 통화 */
+.dw-contact-actions{display:flex;align-items:center;border:1px solid #aeb3b8;border-radius:10px;width:100%}
+.dw-contact-actions .dw-chat{flex:1;min-width:0;border:0;border-radius:0;position:relative}
+.dw-contact-actions .dw-chat + .dw-chat:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:1px;background:#aeb3b8}
+#vt-screen{position:fixed;inset:0;width:100%;height:100%;height:100dvh;display:flex;flex-direction:column;justify-content:space-between;background:#2a2b2d;color:#fff;box-sizing:border-box;padding:calc(40px + env(safe-area-inset-top,0px)) 20px calc(80px + env(safe-area-inset-bottom,0px));font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;z-index:10000;overflow:hidden}
+#vt-screen .vt-top-half,#vt-screen .vt-center,#vt-screen .vt-bottom-half{display:flex;flex-direction:column;align-items:center}
+#vt-screen .vt-header{text-align:center;margin-bottom:50px}#vt-screen .vt-title{font-size:15px;color:#999;font-weight:500;letter-spacing:-.5px}
+#vt-screen .vt-profile-img{background:#e5e5ea;border-radius:40%;width:110px;height:110px;overflow:hidden;margin-bottom:20px}#vt-screen .vt-profile-img img{display:block;width:100%;height:100%;object-fit:cover}
+#vt-screen .vt-name{font-size:28px;font-weight:600;color:#fff;margin-bottom:12px;letter-spacing:-.5px}#vt-screen .vt-status{font-size:16px;color:#aaa;font-weight:400;font-variant-numeric:tabular-nums}
+#vt-screen .vt-bottom-half{width:100%}#vt-screen .vt-utilities{display:flex;justify-content:center;gap:20px;width:100%;margin-bottom:50px}
+#vt-screen .util-item{display:flex;flex-direction:column;align-items:center;gap:10px}#vt-screen .util-icon{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;justify-content:center;align-items:center}
+#vt-screen .util-icon svg{width:24px;height:24px;stroke:#fff;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}#vt-screen .util-text{font-size:12px;color:#999}
+#vt-screen .end-call-btn{width:72px;height:72px;background:#ff3b30;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent}#vt-screen .end-call-btn:active{background:#d63026}#vt-screen .end-call-btn svg{width:34px;height:34px;fill:#fff;transform:rotate(135deg)}
+#vt-screen .vt-retry{font-size:14px;color:#fff;border:1px solid #777;border-radius:8px;padding:9px 14px;margin-top:14px}
+@media(max-height:690px){#vt-screen{padding-top:calc(24px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}#vt-screen .vt-header{margin-bottom:26px}#vt-screen .vt-profile-img{width:90px;height:90px}#vt-screen .vt-utilities{margin-bottom:24px}}
+@media(max-width:360px){#vt-screen .vt-utilities{gap:14px}#vt-screen .util-icon{width:54px;height:54px}}
+</style></head>
+<body>
+<div class="kakao-app-wrapper">
+<header class="app-header"><h1 class="header-title" id="page-title">친구</h1><div class="header-icons" id="header-icons" aria-hidden="true"></div></header>
+<main class="main-content">
+<section id="friends-view">
+<div class="my-profile"><div class="profile-img-default"><img src="https://zebz1p.dothome.co.kr/public/uploads/ke1.JPEG?_t=1792490486" alt="강영현"></div><div class="my-name">강영현</div></div>
+<div class="birthday-inline"><div class="birthday-heading"><h3>오늘 생일인 친구</h3><time datetime="2027-08-25">8월 25일</time></div><div class="birthday-person"><button class="birthday-person-link" id="birthday-dowoon" aria-label="윤도운이 프로필"><div class="profile-img-default"><img src="https://zebz1p.dothome.co.kr/public/uploads/woon2.jpg?_t=1792490486" alt="윤도운이"></div><div class="birthday-name">윤도운이<span>생일을 축하해주세요!</span></div></button><button class="gift-button" id="birthday-gift"><svg viewBox="0 0 24 24"><path d="M3 8h18v5H3zM5 13v8h14v-8M12 8v13"/><path d="M12 8H8a3 3 0 1 1 3-3l1 3 1-3a3 3 0 1 1 3 3h-4"/></svg>선물하기</button></div></div>
+<div class="section-header"><span>즐겨찾는 친구 1</span><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg></div>
+<button type="button" id="favorite-dowoon" class="list-profile"><div class="profile-img-default"><img src="https://zebz1p.dothome.co.kr/public/uploads/woon2.jpg?_t=1792490486" alt="윤도운이"></div><div class="list-name">윤도운이</div></button>
+<div class="section-header" style="margin-top:8px"><span>친구</span><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+</section>
+<section id="chats-view" hidden><div id="chat-list"></div></section>
+</main>
+<nav class="bottom-tab-bar" aria-label="하단 메뉴">
+<button type="button" class="tab-icon active" id="friends-tab" aria-label="친구" aria-current="page"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></button>
+<button type="button" class="tab-icon" id="chats-tab" aria-label="채팅"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></button>
+<div class="tab-icon" aria-label="쇼핑"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg></div>
+<div class="tab-icon" aria-label="더보기"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle></svg></div>
+</nav>
+<section class="room" id="room" hidden aria-label="채팅방">
+<header class="room-header">
+<button type="button" class="room-pill room-back" id="room-back" aria-label="전체 목록으로"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+<h2 class="room-title" id="room-title"></h2>
+<div class="room-pill room-tools" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></div>
+</header>
+<div class="room-content" id="room-content"></div>
+<form class="room-input" id="message-form"><div class="input-pill">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+<input class="message-input" id="message-input" aria-label="메시지" placeholder="메시지 입력" autocomplete="off">
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"></path></svg>
+<button type="submit" class="send-button" id="send-button" disabled>전송</button>
+</div></form>
+</section>
+<section class="dw-profile" id="dowoon-profile" hidden aria-label="윤도운 프로필"><header class="dw-profile-header"><button class="dw-close" id="profile-close" aria-label="프로필 닫기"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button><div class="dw-menu"><button id="profile-gift" aria-label="선물하기"><svg viewBox="0 0 24 24"><path d="M3 8h18v5H3zM5 13v8h14v-8M12 8v13"/><path d="M12 8H8a3 3 0 1 1 3-3l1 3 1-3a3 3 0 1 1 3 3h-4"/></svg></button><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m7 8 3 8 2-6 2 6 3-8M7 12h10"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></div></header><div class="dw-profile-main"><div class="dw-profile-block"><div class="profile-img-default"><img src="https://zebz1p.dothome.co.kr/public/uploads/woon2.jpg?_t=1792490486" alt="윤도운이"></div><h2>윤도운이</h2></div><div class="dw-contact-actions"><button id="profile-chat" class="dw-chat"><svg viewBox="0 0 24 24"><path d="M21 11a9 9 0 0 1-9 9c-1.5 0-3-.4-4-1l-5 2 1-5a9 9 0 1 1 17-5Z"/></svg>1:1 채팅</button><button type="button" id="profile-call" class="dw-chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>통화</button></div></div><div class="dw-bottom-text">아직 친구가 남긴 소식이 없어요</div></section>
+<section class="dw-gift" id="gift-page" hidden aria-label="윤도운이 보낸 선물"><header class="dw-gift-header"><div class="dw-header-icons"><button id="gift-back" aria-label="뒤로"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></button><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 3-3 4v14h18V7l-3-4H6ZM3 7h18M8 11a4 4 0 0 0 8 0"/></svg></div><h2>선물하기</h2><div class="dw-header-icons"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="m16 16 5 5"/></svg><button id="gift-close" aria-label="선물 창 닫기"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div></header><div class="dw-gift-scroll"><div class="dw-gift-person"><div class="profile-img-default"><img src="https://zebz1p.dothome.co.kr/public/uploads/woon2.jpg?_t=1792490486" alt="윤도운이"></div><strong>윤도운의 선물</strong><span class="dw-memory">선물추억</span></div><div class="dw-message-card"><p class="dw-gift-message"><svg class="dw-camera-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3z"/></svg><span>말 없이 보낸 선물입니다.</span></p><button disabled>나도 선물하기</button></div><div class="dw-gift-card"><div class="dw-gift-image" aria-label="흐리게 표시된 상품 이미지"></div><div class="dw-gift-brand">DK24</div><h3>어쨌든 간에 내일은 온다<br><span>(피로회복제 + 비타민)</span></h3><div class="dw-barcode" aria-hidden="true"><svg class="dw-bars" viewBox="0 0 200 50" preserveAspectRatio="none"><path d="M10,0 h5 v50 h-5 M20,0 h2 v50 h-2 M25,0 h7 v50 h-7 M35,0 h3 v50 h-3 M42,0 h1 v50 h-1 M45,0 h8 v50 h-8 M55,0 h2 v50 h-2 M60,0 h4 v50 h-4 M67,0 h5 v50 h-5 M75,0 h2 v50 h-2 M80,0 h6 v50 h-6 M88,0 h3 v50 h-3 M95,0 h5 v50 h-5 M105,0 h2 v50 h-2 M110,0 h7 v50 h-7 M120,0 h3 v50 h-3 M125,0 h8 v50 h-8 M135,0 h4 v50 h-4 M142,0 h2 v50 h-2 M148,0 h6 v50 h-6 M158,0 h2 v50 h-2 M163,0 h5 v50 h-5 M170,0 h3 v50 h-3 M175,0 h7 v50 h-7 M185,0 h5 v50 h-5" fill="#111111"></path></svg><div class="dw-barcode-number"><span>2229 5917 7420</span><svg class="dw-copy-icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><footer class="dw-gift-footer"><button disabled>삭제</button><button disabled>후기 작성</button></footer></section>
+
+</div>
+<script>
+(function(){
+/* ━━━ 대화 수정 영역 ━━━
+name: 상대방 이름 / date: 날짜 구분선
+messages 안에서 sender:'them'은 상대방(왼쪽 흰색), sender:'me'는 나(오른쪽 노란색).
+text: 내용 / time: 시간. 메시지를 아래에 추가하면 대화가 이어집니다.
+목록에는 각 채팅방의 마지막 메시지와 시간이 자동으로 나옵니다.
+윤도운이 외 목록은 preview / listTime / unread로 수정합니다. */
+const chats = [
+  {
+    "name": "윤도운이",
+    "date": "2027년 8월 25일 수요일",
+    "messages": [
+      {
+        "sender": "me",
+        "text": "우리 도우니 생일 축하해",
+        "time": "00:00"
+      },
+      {
+        "sender": "me",
+        "text": "ㅅㄹㅎ",
+        "time": "00:00"
+      },
+      {
+        "sender": "them",
+        "text": "고마워 나도 사랑해",
+        "time": "00:05"
+      },
+      {
+        "sender": "me",
+        "text": "난 사랑한다고 안 했는데?",
+        "time": "00:05"
+      },
+      {
+        "sender": "me",
+        "text": "사랑해 아니고 시러해였는데?",
+        "time": "00:05"
+      },
+      {
+        "sender": "them",
+        "text": "참나",
+        "time": "00:05"
+      },
+      {
+        "sender": "me",
+        "text": "ㅋㅋ 사랑행",
+        "time": "00:06"
+      },
+      {
+        "sender": "them",
+        "text": "언제 끝나? 오늘 올수 있는건 맞나",
+        "time": "00:06"
+      },
+      {
+        "sender": "me",
+        "text": "가야지 아침에 미역국 먹여야지",
+        "time": "00:06"
+      },
+      {
+        "sender": "them",
+        "text": "내가 끓이는데 형이 먹이는게 맞아?",
+        "time": "00:07"
+      },
+      {
+        "sender": "me",
+        "text": "(나한테) 미역국 먹여야지",
+        "time": "00:07"
+      },
+      {
+        "sender": "them",
+        "text": "어련하시겠어",
+        "time": "00:07"
+      },
+      {
+        "sender": "them",
+        "text": "모시러 갈까요 주인님",
+        "time": "00:07"
+      },
+      {
+        "sender": "me",
+        "text": "놉 많이 남음",
+        "time": "00:08"
+      },
+      {
+        "sender": "me",
+        "text": "택시 타고 갈게",
+        "time": "00:08"
+      },
+      {
+        "sender": "me",
+        "text": "빨리 자",
+        "time": "00:08"
+      },
+      {
+        "sender": "me",
+        "text": "체력 아껴",
+        "time": "00:08"
+      },
+      {
+        "sender": "them",
+        "text": "안 아껴도 형보단 내가 낫지",
+        "time": "00:08"
+      },
+      {
+        "sender": "me",
+        "text": "마 자신있나",
+        "time": "00:08"
+      },
+      {
+        "sender": "me",
+        "text": "자신있냐고",
+        "time": "00:08"
+      },
+      {
+        "sender": "them",
+        "text": "일이나 하소",
+        "time": "00:09"
+      },
+      {
+        "sender": "them",
+        "text": "빨리 하고 온나 보고싶다",
+        "time": "00:09"
+      },
+      {
+        "sender": "me",
+        "text": "넵넵",
+        "time": "00:09"
+      }
+    ]
+  },
+  {
+    "name": "DB은행",
+    "listTime": "어제",
+    "preview": "강영현님, 항상 저희 DB은행을 이용해주셔서 감사드립니다. ...",
+    "unread": 0,
+    "messages": []
+  },
+  {
+    "name": "백OO",
+    "listTime": "어제",
+    "preview": "그래~ 도운이랑 한 번 보자",
+    "unread": 1,
+    "messages": []
+  },
+  {
+    "name": "도케에너지",
+    "listTime": "어제",
+    "preview": "도케에너지(주) 2027년 8월 요금안내...",
+    "unread": 0,
+    "messages": []
+  },
+  {
+    "name": "구름스토어",
+    "listTime": "어제",
+    "preview": "안녕하세요. 구름스토어입니다. 강영현 회읜님의 10% 할인 쿠폰이 곧...",
+    "unread": 0,
+    "messages": []
+  },
+  {
+    "name": "류OO",
+    "listTime": "8월 23일",
+    "preview": "영현아 자니?",
+    "unread": 3,
+    "messages": []
+  },
+  {
+    "name": "케케테이블",
+    "listTime": "8월 23일",
+    "preview": "OOTB 예악 확정 안내 방문일: 2027년 8월 25일 19시 30분...",
+    "unread": 0,
+    "messages": []
+  },
+  {
+    "name": "아버지",
+    "listTime": "8월 23일",
+    "preview": "넵",
+    "unread": 0,
+    "messages": []
+  },
+  {
+    "name": "DBS 신OO 과장님 (인사팀)",
+    "listTime": "8월 23일",
+    "preview": "확인했습니다 감사합니다",
+    "unread": 0,
+    "messages": []
+  },
+  {
+    "name": "박OO",
+    "listTime": "8월 23일",
+    "preview": "요새 만나는 사람 있어?",
+    "unread": 5,
+    "messages": []
+  },
+  {
+    "name": "이OO",
+    "listTime": "8월 23일",
+    "preview": "연락 좀 줘",
+    "unread": 2,
+    "messages": []
+  },
+  {
+    "name": "정OO",
+    "listTime": "8월 22일",
+    "preview": "나 아직 너 좋아해",
+    "unread": 10,
+    "messages": []
+  }
+];
+/* ━━━ 대화 수정 끝 ━━━ */
+const colors=['#e5e5ea','#d5bec7','#b8c9db','#c4cbb5','#d9c5ae','#c2bed7','#aecbc9','#c4c6cf'];
+const person='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>';
+const $=id=>document.getElementById(id);
+// 원본 상단 아이콘을 그대로 유지. 음악 링크 없음.
+$('header-icons').innerHTML=`<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="20" y1="20" x2="16" y2="16"></line></svg><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>`;
+function el(tag,cls,text){const e=document.createElement(tag);e.className=cls;if(text!==undefined)e.textContent=text;return e;}
+function avatar(i){const a=el('div','profile-img-default');a.style.backgroundColor=colors[i % colors.length];if(i===0){const img=document.createElement('img');img.src='https://zebz1p.dothome.co.kr/public/uploads/woon2.jpg?_t=1792490486';img.alt=chats[i].name;a.append(img);}else a.innerHTML=person;return a;}
+function switchTab(tab){const isChat=tab==='chats';$('friends-view').hidden=isChat;$('chats-view').hidden=!isChat;$('page-title').textContent=isChat?'전체':'친구';['friends','chats'].forEach(t=>{const b=$(t+'-tab');b.classList.toggle('active',t===tab);if(t===tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});}
+function renderList(){
+ $('chat-list').replaceChildren();
+ chats.forEach((chat,i)=>{const last=chat.messages.at(-1)||{text:'',time:''};const row=el('button','chat-row');row.type='button';row.disabled=i!==0;const copy=el('div','chat-copy');copy.append(el('div','chat-name',chat.name),el('div','chat-preview',chat.preview??last.text));const side=el('div','chat-side');side.append(el('time','chat-time',chat.listTime??last.time));if(chat.unread){const badge=el('span','unread-badge',String(chat.unread));badge.setAttribute('aria-label','안 읽음 '+chat.unread+'개');side.append(badge);}row.append(avatar(i),copy,side);if(i===0)row.addEventListener('click',()=>openRoom(i));$('chat-list').append(row);});
+}
+let selected=0;
+const drafts=chats.map(()=>'');
+function renderMessages(){
+ const chat=chats[selected];const body=$('room-content');body.replaceChildren();
+ const date=el('div','room-date');date.append(el('span','',chat.date));body.append(date);
+ chat.messages.forEach((msg,i)=>{
+  const prev=chat.messages[i-1],next=chat.messages[i+1];
+  const same=m=>m&&m.sender===msg.sender&&m.time===msg.time;
+  const joinedPrev=!!same(prev),joinedNext=!!same(next);
+  const row=el('div','room-message'+(msg.sender==='me'?' me':'')+(joinedPrev?' group-prev':'')+(joinedNext?' group-next':''));
+  const bubble=el('div','bubble',msg.text);
+  const time=!joinedNext?el('time','bubble-time',msg.time):null;
+  if(msg.sender==='me'){const meta=el('div','message-meta');if(msg.unread){const unread=el('span','message-unread','1');unread.setAttribute('aria-label','안 읽음 1');meta.append(unread);}if(time)meta.append(time);row.append(meta,bubble);}
+  else{const copy=el('div','chat-copy');const line=el('div','bubble-line');line.append(bubble);if(time)line.append(time);if(!joinedPrev)copy.append(el('div','room-sender',chat.name));copy.append(line);row.append(joinedPrev?el('div','avatar-spacer'):avatar(selected),copy);}
+  body.append(row);
+ });
+ body.scrollTop=body.scrollHeight;
+}
+let roomOrigin=null;
+function openRoom(i){if(i!==0)return;roomOrigin=document.activeElement;selected=i;$('room-title').textContent=chats[i].name;$('dowoon-profile').hidden=true;$('room').hidden=false;$('message-input').value=drafts[i];$('send-button').disabled=!drafts[i].trim();renderMessages();$('room-back').focus();}
+$('room-back').addEventListener('click',()=>{$('message-input').blur();$('room').hidden=true;if(roomOrigin?.id==='profile-chat')$('dowoon-profile').hidden=false;roomOrigin?.focus();});
+$('message-input').addEventListener('input',()=>{drafts[selected]=$('message-input').value;$('send-button').disabled=!drafts[selected].trim();});
+$('message-form').addEventListener('submit',event=>{
+ event.preventDefault();const input=$('message-input');const text=input.value.trim();if(!text)return;
+ const time=new Intl.DateTimeFormat('ko-KR',{hour:'numeric',minute:'2-digit',hour12:true,timeZone:'Asia/Seoul'}).format(new Date());
+ chats[selected].messages.push({sender:'me',text,time,unread:true});drafts[selected]='';input.value='';$('send-button').disabled=true;renderMessages();renderList();input.focus();
+});
+renderList();
+let profileOrigin=null,giftOrigin=null;
+function openProfile(){profileOrigin=document.activeElement;$('dowoon-profile').hidden=false;$('profile-close').focus();}
+function openGift(){giftOrigin=document.activeElement;$('gift-page').hidden=false;$('gift-back').focus();}
+function closeGift(){$('gift-page').hidden=true;giftOrigin?.focus();}
+$('favorite-dowoon').addEventListener('click',openProfile);
+$('birthday-dowoon').addEventListener('click',openProfile);
+$('profile-close').addEventListener('click',()=>{$('dowoon-profile').hidden=true;profileOrigin?.focus();});
+$('profile-chat').addEventListener('click',()=>openRoom(0));
+$('profile-gift').addEventListener('click',openGift);
+$('birthday-gift').addEventListener('click',openGift);
+$('gift-back').addEventListener('click',closeGift);
+$('gift-close').addEventListener('click',closeGift);
+$('friends-tab').addEventListener('click',()=>switchTab('friends'));
+$('chats-tab').addEventListener('click',()=>switchTab('chats'));
+})();
+</script>
+<section id="vt-screen" hidden role="dialog" aria-modal="true" aria-label="윤도운이와 보이스톡"><div class="vt-top-half"><div class="vt-header"><div class="vt-title">보이스톡</div></div><div class="vt-center"><div class="vt-profile-img"><img src="https://zebz1p.dothome.co.kr/public/uploads/woon2.jpg?_t=1792490486" alt="윤도운이"></div><div class="vt-name">윤도운이</div><div id="vt-status" class="vt-status">연결 중...</div><button type="button" class="vt-retry" id="vt-retry" hidden>음성 재생</button></div></div><div class="vt-bottom-half"><div class="vt-utilities"><div class="util-item"><div class="util-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v4"/></svg></div><div class="util-text">음소거</div></div><div class="util-item"><div class="util-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="util-text">카메라</div></div><div class="util-item"><div class="util-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div><div class="util-text">스피커</div></div><div class="util-item"><div class="util-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg></div><div class="util-text">대화방</div></div></div><button type="button" class="end-call-btn" id="vt-end" aria-label="통화 종료"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></button></div></section>
+<script>
+(()=>{
+'use strict';
+const screen=document.getElementById('vt-screen');
+const status=document.getElementById('vt-status');
+const retry=document.getElementById('vt-retry');
+const opener=document.getElementById('profile-call');
+const end=document.getElementById('vt-end');
+const app=document.querySelector('.kakao-app-wrapper');
+// 같은 오디오 요소를 재사용해 모바일의 사용자 재생 허용을 이어갑니다.
+const audio=new Audio();audio.preload='auto';audio.setAttribute('playsinline','');
+const ringUrl='https://zebz1p.dothome.co.kr/public/uploads/voicetalk.mp3?_t=1792601361';
+const voiceUrl='https://zebz1p.dothome.co.kr/public/uploads/call.m4a?_t=1792600963';
+let phase='idle',session=0,connectTimer=null,clockTimer=null;
+function clearTimers(){clearTimeout(connectTimer);clearInterval(clockTimer);connectTimer=null;clockTimer=null;}
+function stop(focus=true){
+ ++session;phase='idle';clearTimers();audio.pause();audio.removeAttribute('src');audio.load();
+ screen.hidden=true;retry.hidden=true;app.inert=false;
+ if(focus)opener.focus({preventScroll:true});
+}
+function showPlaybackError(){
+ if(phase==='idle')return;
+ clearTimers();audio.pause();status.textContent='음성을 재생할 수 없습니다.';retry.hidden=false;
+}
+function play(){
+ const token=session;retry.hidden=true;
+ const promise=audio.play();
+ if(promise)promise.catch(()=>{if(token===session&&phase!=='idle')showPlaybackError();});
+}
+function connect(){
+ if(phase!=='ring')return;
+ connectTimer=null;phase='voice';audio.pause();audio.loop=false;audio.volume=.85;
+ audio.src=voiceUrl;status.textContent='음성 연결 중...';play();
+}
+function updateClock(){
+ const seconds=Math.floor(audio.currentTime||0);
+ status.textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
+}
+audio.addEventListener('playing',()=>{
+ if(phase==='ring'){
+  status.textContent='연결 중...';
+  // 실제 연결음이 재생되기 시작한 시점부터 5초.
+  if(connectTimer===null)connectTimer=setTimeout(connect,5000);
+ }else if(phase==='voice'){
+  updateClock();if(clockTimer===null)clockTimer=setInterval(updateClock,250);
+ }
+});
+audio.addEventListener('ended',()=>{if(phase==='voice')stop();});
+audio.addEventListener('error',showPlaybackError);
+opener.addEventListener('click',()=>{
+ if(phase!=='idle')return;
+ ++session;phase='ring';screen.hidden=false;app.inert=true;retry.hidden=true;
+ status.textContent='연결 중...';end.focus({preventScroll:true});
+ audio.loop=true;audio.volume=.55;audio.src=ringUrl;play();
+});
+end.addEventListener('click',()=>stop());
+retry.addEventListener('click',()=>{if(phase!=='idle'){audio.load();play();}});
+screen.addEventListener('keydown',event=>{
+ if(event.key==='Escape'){event.preventDefault();stop();}
+ if(event.key==='Tab'){
+  const buttons=retry.hidden?[end]:[retry,end];const i=buttons.indexOf(document.activeElement);
+  event.preventDefault();buttons[(i+(event.shiftKey?-1:1)+buttons.length)%buttons.length].focus();
+ }
+});
+window.addEventListener('pagehide',()=>stop(false));
+})();
+</script>
+</body>
+</html>

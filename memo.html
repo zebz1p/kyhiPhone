@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><meta name="format-detection" content="telephone=no"><title>메모</title>
+<style>
+:root{--bg:#f2f2f7;--paper:#fff;--ink:#161616;--muted:#8e8e93;--line:#e5e5ea;--gold:#b98500}*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:var(--bg)}body,input,textarea,button{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Apple SD Gothic Neo",Arial,sans-serif;color:var(--ink);font-size:17px}button{cursor:pointer;border:0;background:none;padding:0;-webkit-tap-highlight-color:transparent}button:active{opacity:.55}button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}#app{position:fixed;top:0;left:0;width:100%;height:100dvh;display:flex;flex-direction:column;background:var(--bg)}header{flex:none;padding:calc(8px + env(safe-area-inset-top)) 18px 8px;min-height:65px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:10px;background:var(--bg)}.actions{display:flex;gap:12px;align-items:center}.circle{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:white;border:1px solid #dfdfe4}.textbtn{color:var(--gold);min-height:44px;padding:0 9px;font-size:17px}.back{display:flex;align-items:center;gap:3px;min-height:44px;color:var(--gold);max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.back svg{width:22px}main{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:20px 20px 32px;scrollbar-width:none}main::-webkit-scrollbar{display:none}h1{font-size:34px;letter-spacing:-1.3px;margin:0 0 6px;line-height:1.2;font-weight:750}h2{font-size:21px;margin:28px 0 12px;letter-spacing:-.5px}.sub{font-size:15px;color:var(--muted);margin:0}.group{background:white;border-radius:22px;overflow:hidden}.folder{display:flex;align-items:center;width:100%;text-align:left;padding:0 17px;gap:16px;min-height:58px}.folder>svg{color:#d5a000}.folder .inner{display:flex;align-items:center;flex:1;min-height:58px;border-bottom:1px solid var(--line);gap:10px}.folder:last-child .inner{border:0}.folder .name{flex:1}.count{color:var(--muted);font-size:16px}.chevron{width:16px;height:16px;color:#c4c4c7}.note{display:block;width:100%;padding:0 20px;text-align:left}.note-inner{padding:15px 0;border-bottom:1px solid var(--line)}.note:last-child .note-inner{border:0}.note b{display:block;font-size:17px;line-height:1.4;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.preview{font-size:15px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.6}.preview time{margin-right:9px}.folder-tag{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:13px;margin-top:3px}.folder-tag svg{width:15px;height:15px}footer{flex:none;border-top:1px solid var(--line);background:var(--bg);padding:10px 20px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:13px;min-height:75px}.searchbox{display:flex;align-items:center;gap:8px;flex:1;min-width:0;border:1px solid #dedee3;background:#fff;border-radius:28px;padding:0 15px;height:46px}.searchbox svg{width:21px;height:21px}.searchbox input{border:0;background:none;outline:0;width:100%;min-width:0;font-size:16px}.searchbox input::placeholder{color:#96969b}.compose{width:46px;height:46px;flex:none}.empty{text-align:center;color:var(--muted);padding:65px 10px;line-height:1.7}.empty svg{width:44px;height:44px;color:#c6c6cb}.empty strong{display:block;font-size:21px;color:#555;margin:14px 0 4px}.editor{background:#fff!important}.editor header,.editor footer{background:#fff}.editor main{padding:0 24px 30px}.date{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 28px}.title-input{display:block;font-size:27px;font-weight:700;letter-spacing:-.6px;width:100%;padding:0;margin:0 0 15px;border:0;outline:0;background:none;line-height:1.4}.body-input{display:block;width:100%;padding:0;border:0;outline:0;resize:none;font-size:18px;line-height:1.8;min-height:260px;overflow:hidden;background:none}.readonly-title{font-size:27px;line-height:1.4;overflow-wrap:anywhere;margin:0 0 15px}.readonly-body{white-space:pre-wrap;overflow-wrap:anywhere;font-size:18px;line-height:1.8}.spacer{flex:1}.footer-label{font-size:13px;color:var(--muted)}.tool{display:grid;place-items:center;width:42px;height:44px;color:var(--gold)}.tool svg{width:24px;height:24px}dialog{border:0;border-radius:24px;background:var(--bg);padding:12px;width:min(360px,calc(100% - 32px));box-shadow:0 12px 50px #0002}dialog::backdrop{background:#0005}dialog h2{margin:12px 10px 16px;text-align:center;font-size:18px}dialog button{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px;border-radius:12px;background:white;margin-top:7px;color:var(--gold)}dialog button.danger{color:#e33d35}.dialog-note{font-size:14px;text-align:center;line-height:1.5;color:#777;padding:0 10px}.selected{color:var(--gold)}#toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#333;color:white;border-radius:14px;padding:12px 18px;font-size:14px;z-index:10;max-width:90%;text-align:center}[hidden]{display:none!important}@media(min-width:700px){main{padding-left:max(28px,calc((100% - 760px)/2));padding-right:max(28px,calc((100% - 760px)/2))}.editor main{padding-left:max(28px,calc((100% - 760px)/2));padding-right:max(28px,calc((100% - 760px)/2))}}
+.note:disabled{opacity:1;color:var(--ink);cursor:default}.note:disabled:active{opacity:1}
+</style></head><body>
+<div id="app"><header id="top"></header><main id="main"></main><footer id="bottom"></footer></div><dialog id="menu"></dialog><div id="toast" role="status" hidden></div>
+<script>
+/* =========================================================
+   미리 작성해 둘 메모는 아래 NOTES_CONFIG에서 수정하세요.
+   folder: 'work' = 업무 / 'personal' = 개인 일정
+   pinned: true = 상단 고정 / false = 일반 메모
+   본문은 백틱(`) 안에 줄바꿈하여 작성합니다.
+   allowSeedEditing: false이면 미리 작성한 메모는 방문자가 수정할 수 없습니다.
+   방문자가 새로 만든 메모는 항상 작성·수정할 수 있습니다.
+   모든 변경은 현재 접속 중에만 유지되고 새로고침·재접속하면 초기화됩니다.
+   서버 저장, localStorage, sessionStorage를 사용하지 않습니다.
+   ========================================================= */
+const NOTES_CONFIG = {
+  "allowSeedEditing": false,
+  "notes": [
+    {
+      "id": "birthday",
+      "folder": "personal",
+      "title": "도운이 생일",
+      "preview": "반지 픽업 두시",
+      "body": "반지 두 시, 케이크 두 시 반\n케이크 미리 식당에 맡겨두기 (가기 전에 전화)\n\n집 가서 선물 챙겨오기\n\n저녁 OOTB 19:30 예약 완",
+      "date": "2027-08-24T12:00:00+09:00",
+      "pinned": true,
+      "modified": true
+    },
+    {
+      "id": "holiday",
+      "folder": "personal",
+      "title": "추석 휴가",
+      "preview": "으으음",
+      "body": "으으음\n\n호텔 9/10 ~ 16 (체크인 재직증명서 필요)",
+      "date": "2027-08-21T12:00:00+09:00",
+      "pinned": true
+    },
+    {
+      "id": "meeting",
+      "folder": "work",
+      "title": "주간 회의",
+      "preview": "사내 체육대회 진행팀 구성",
+      "body": "",
+      "date": "2027-08-23T12:00:00+09:00",
+      "pinned": false
+    },
+    {
+      "id": "hosoon",
+      "folder": "personal",
+      "title": "호수니 엑스레이",
+      "preview": "병원 갔다가 도운이 본가 들리기",
+      "body": "",
+      "date": "2027-07-11T12:00:00+09:00",
+      "pinned": false
+    },
+    {
+      "id": "cake",
+      "folder": "personal",
+      "title": "도우니 생일 케이크",
+      "preview": "아 얘 이거 다 못 먹을 것같은데",
+      "body": "",
+      "date": "2027-08-01T12:00:00+09:00",
+      "pinned": false,
+      "deleted": true
+    },
+    {
+      "id": "ring",
+      "folder": "personal",
+      "title": "반지 디자인",
+      "preview": "후보 1 OO쥬얼리 D라인",
+      "body": "",
+      "date": "2027-07-04T12:00:00+09:00",
+      "pinned": false,
+      "deleted": true
+    }
+  ]
+};
+(()=>{'use strict';
+const $=id=>document.getElementById(id), labels={all:'모든 iCloud',work:'업무',personal:'개인 일정',trash:'최근 삭제된 항목'};
+const paths={folder:'<path d="M3 7V5a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7h18"/>',trash:'<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>',back:'<path d="m15 4-8 8 8 8"/>',right:'<path d="m9 5 7 7-7 7"/>',compose:'<path d="M12 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-7M10 14l1-5L20 0l4 4-9 9-5 1Z" transform="translate(0 1) scale(.9)"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',more:'<circle cx="4" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="20" cy="12" r="1"/>',check:'<circle cx="5" cy="6" r="3"/><circle cx="5" cy="18" r="3"/><path d="m3.5 6 1 1 2-2M12 6h10M12 18h10"/>',pin:'<path d="m9 3 6 0-1 7 4 4H6l4-4-1-7M12 14v7"/>',note:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>'};
+const icon=k=>`<svg viewBox="0 0 24 24" aria-hidden="true">${paths[k]||paths.note}</svg>`;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let notes=NOTES_CONFIG.notes.map(n=>({deleted:false,...n,seed:true})),view='list',folder='all',current=null,query='',sort='date',backView='list';
+const active=()=>notes.find(n=>n.id===current),editable=n=>!n.seed||NOTES_CONFIG.allowSeedEditing;
+const canOpen=n=>!!n&&(!n.seed||(n.pinned&&!n.deleted));
+const btn=(action,label,ic,cls='circle')=>`<button class="${cls}" data-action="${action}" aria-label="${esc(label)}">${ic?icon(ic):esc(label)}</button>`;
+// 새 메모 및 작성 중인 메모의 표시 날짜는 고정합니다.
+const now=()=>'2027-08-25T12:00:00+09:00';
+function stamp(d,full=false){if(!full){const parts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',month:'2-digit',day:'2-digit'}).formatToParts(new Date(d));return parts.find(p=>p.type==='month').value+'.'+parts.find(p=>p.type==='day').value+'.';}return new Date(d).toLocaleDateString('ko-KR',full?{timeZone:'Asia/Seoul',year:'numeric',month:'long',day:'numeric'}:{timeZone:'Asia/Seoul',month:'numeric',day:'numeric'});}
+function filtered(){return notes.filter(n=>(folder==='trash'?n.deleted:!n.deleted&&(folder==='all'||n.folder===folder))&&(!query||(n.title+' '+n.body+' '+(n.preview||'')).toLocaleLowerCase().includes(query.toLocaleLowerCase()))).sort((a,b)=>sort==='title'?a.title.localeCompare(b.title,'ko'):new Date(b.date)-new Date(a.date));}
+function searchFooter(){return `<label class="searchbox">${icon('search')}<input id="search" type="search" placeholder="검색" aria-label="메모 검색" value="${esc(query)}" autocomplete="off"></label>${folder==='trash'&&view==='list'?'':btn('new','새 메모','compose','circle compose')}`;}
+function render(){
+$('app').classList.toggle('editor',view==='note');
+$('top').hidden=view==='folders';
+$('bottom').hidden=view==='note';
+if(view==='note'){renderNote();return;}
+$('top').innerHTML=view==='folders'?``:btn('folders','폴더','back');
+$('bottom').innerHTML=searchFooter();renderList();$('main').scrollTop=0;
+$('search')?.addEventListener('input',e=>{query=e.target.value;if(view==='folders'&&query){view='list';folder='all';$('top').innerHTML=btn('folders','폴더','back');}renderList();});
+}
+function renderList(){
+if(view==='folders'){$('main').innerHTML=`<h1>폴더</h1><h2>iCloud</h2><div class="group">${Object.entries(labels).map(([k,l])=>`<button class="folder" data-folder="${k}">${icon(k==='trash'?'trash':'folder')}<span class="inner"><span class="name">${l}</span><span class="count">${notes.filter(n=>k==='trash'?n.deleted:!n.deleted&&(k==='all'||n.folder===k)).length}</span>${icon('right').replace('<svg','<svg class="chevron"')}</span></button>`).join('')}</div>`;return;}
+const list=filtered(), pinned=list.filter(n=>n.pinned&&folder!=='trash'),rest=list.filter(n=>!n.pinned||folder==='trash');
+const rows=arr=>`<div class="group">${arr.map(n=>`<button class="note" data-note="${esc(n.id)}" ${canOpen(n)?'':'disabled'}><div class="note-inner"><b>${esc(n.title||'새로운 메모')}</b><div class="preview"><time>${stamp(n.date)}</time>${esc(n.preview??(n.body.split('\n').find(s=>s.trim())||'추가 텍스트 없음'))}</div>${folder==='all'||folder==='trash'?`<div class="folder-tag">${icon('folder')}${labels[n.folder]}</div>`:''}</div></button>`).join('')}</div>`;
+const months = new Map();
+for(const n of rest){const d=new Date(n.date);const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');if(!months.has(key))months.set(key,[]);months.get(key).push(n);}
+if(!query&&folder==='all')for(const key of ['2027-08','2027-07'])if(!months.has(key))months.set(key,[]);
+const sections=folder==='trash'?(rest.length?`<h2>삭제된 메모</h2>${rows(rest)}`:''):[...months.keys()].sort().reverse().map(key=>`<h2>${Number(key.split('-')[1])}월</h2>${months.get(key).length?rows(months.get(key)):'<p class="sub" style="padding:4px 0 8px">메모 없음</p>'}`).join('');
+$('main').innerHTML=`<h1>${query?'검색 결과':labels[folder]}</h1><p class="sub">${list.length}개의 메모</p>${!list.length&&!(folder==='all'&&!query)?`<div class="empty">${icon(query?'search':'note')}<strong>${query?'검색 결과 없음':'메모 없음'}</strong>${query?'다른 검색어로 찾아보세요.':folder==='trash'?'삭제한 메모가 여기에 표시됩니다.':'오른쪽 아래 버튼을 눌러 메모를 작성하세요.'}</div>`:`${pinned.length?`<h2>고정된 메모</h2>${rows(pinned)}`:''}${sections}`}`;
+}
+function renderNote(){const n=active();if(!canOpen(n)){view='list';render();return;}
+$('top').innerHTML=`<button class="back" data-action="back">${icon('back')}<span>${labels[folder]}</span></button><div class="actions">${editable(n)&&!n.deleted?btn('done','완료',null,'textbtn'):''}</div>`;
+$('main').innerHTML=`<div class="date">${stamp(n.date,true)}${n.modified?' (수정됨)':''}</div>${editable(n)&&!n.deleted?`<input id="title" class="title-input" aria-label="메모 제목" placeholder="제목" value="${esc(n.title)}"><textarea id="body" class="body-input" aria-label="메모 내용" placeholder="메모를 입력하세요">${esc(n.body)}</textarea>`:`<h1 class="readonly-title">${esc(n.title||'새로운 메모')}</h1><div class="readonly-body">${esc(n.body)}</div>`}`;
+$('bottom').innerHTML='';
+const update=()=>{n.title=$('title').value;n.body=$('body').value;n.date=now();resize();};$('title')?.addEventListener('input',update);$('body')?.addEventListener('input',update);resize();$('main').scrollTop=0;
+}
+function resize(){const el=$('body');if(el){el.style.height='auto';el.style.height=Math.max(260,el.scrollHeight)+'px';}}
+function showMenu(title,items,description=''){$('menu').innerHTML=`<h2>${title}</h2>${description?`<p class="dialog-note">${description}</p>`:''}${items.map(([a,t,d])=>btn(a,t,null,d?'danger':'')).join('')}${btn('close','취소')}`;$('menu').showModal();}
+function toast(s){$('toast').textContent=s;$('toast').hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').hidden=true,1800);}
+function leave(){const n=active();if(n&&!n.seed&&!n.title.trim()&&!n.body.trim())notes=notes.filter(x=>x!==n);current=null;view=backView;render();}
+function action(a){if(a!=='close'&&$('menu').open)$('menu').close();const n=active();if(n?.seed&&['delete','purge','confirmPurge','restore','pin','movework','movepersonal'].includes(a))return;switch(a){
+case 'folders':query='';view='folders';folder='all';render();break;
+case 'back':leave();break;
+case 'new':if(view==='note'){const old=active();if(old&&!old.seed&&!old.title.trim()&&!old.body.trim())notes=notes.filter(x=>x!==old);}backView='list';if(folder==='trash')folder='all';query='';current='new-'+Date.now()+'-'+Math.random().toString(36).slice(2);notes.unshift({id:current,folder:folder==='work'?'work':'personal',title:'',body:'',date:now(),pinned:false,deleted:false,seed:false});view='note';render();$('title').focus();break;
+case 'done':document.activeElement.blur();break;
+case 'pin':n.pinned=!n.pinned;renderNote();toast(n.pinned?'메모를 고정했어요':'고정을 해제했어요');break;
+case 'notemenu':showMenu('메모',n.deleted?[['restore','메모 복원'],['purge','영구 삭제',true]]:[['pin',n.pinned?'고정 해제':'메모 고정'],['move','폴더 이동'],['delete','메모 삭제',true]]);break;
+case 'listmenu':showMenu('정렬 방식',[['sortdate',(sort==='date'?'✓ ':'')+'수정일 순'],['sorttitle',(sort==='title'?'✓ ':'')+'제목 순']]);break;
+case 'sortdate':sort='date';renderList();break;case 'sorttitle':sort='title';renderList();break;
+case 'move':showMenu('폴더로 이동',[['movework','업무'],['movepersonal','개인 일정']]);break;
+case 'movework':case 'movepersonal':n.folder=a==='movework'?'work':'personal';folder=n.folder;renderNote();toast('메모를 이동했어요');break;
+case 'delete':n.deleted=true;n.pinned=false;leave();toast('최근 삭제된 항목으로 이동했어요');break;
+case 'restore':n.deleted=false;leave();toast('메모를 복원했어요');break;
+case 'purge':showMenu('이 메모를 삭제할까요?',[['confirmPurge','메모 영구 삭제',true]],'현재 접속 중에는 복원할 수 없습니다.');break;
+case 'confirmPurge':notes=notes.filter(x=>x.id!==current);leave();break;
+case 'checklist':{const el=$('body');if(!el)return;const start=el.selectionStart,end=el.selectionEnd,prefix=start&&el.value[start-1]!=='\n'?'\n':'';el.setRangeText(prefix+'☐ ',start,end,'end');el.dispatchEvent(new Event('input'));el.focus();break;}
+case 'close':$('menu').close();break;
+}}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.folder){folder=b.dataset.folder;query='';view='list';render();}else if(b.dataset.note){if(!canOpen(notes.find(n=>n.id===b.dataset.note)))return;current=b.dataset.note;backView='list';view='note';render();}else if(b.dataset.action)action(b.dataset.action);});
+$('menu').addEventListener('click',e=>{if(e.target===$('menu')){const r=$('menu').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)$('menu').close();}});
+// iPhone 키보드가 열려도 하단 도구막대가 가려지지 않게 실제 보이는 영역에 맞춥니다.
+function viewport(){if(window.visualViewport){$('app').style.height=visualViewport.height+'px';$('app').style.top=visualViewport.offsetTop+'px';}}
+window.visualViewport?.addEventListener('resize',viewport);window.visualViewport?.addEventListener('scroll',viewport);window.addEventListener('resize',resize);
+// 외부 페이지에 나갔다가 브라우저 뒤로가기로 다시 접속한 경우에도 초기화합니다.
+window.addEventListener('pageshow',e=>{if(e.persisted)location.reload();});render();viewport();
+})();
+</script></body></html>

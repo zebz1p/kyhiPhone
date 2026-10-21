@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#fffef9">
+<title>mellow. · 하루 한 문장</title>
+<style>
+:root{--ink:#242922;--muted:#909388;--line:#ecede5;--base:#fffef9;--paper:#f8f9f2;--yellow:#ffd953;--soft-yellow:#fff7cf;--deep-yellow:#c79108;--green:#5b775b;--shadow:0 12px 36px rgba(72,62,27,.05)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--base)}body,button,input,textarea,select{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Segoe UI',sans-serif;color:var(--ink)}button,input,textarea{font-size:14px}button{border:0;background:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible{outline:2px solid #c49d2b;outline-offset:3px}button:active{opacity:.7}button[disabled]{cursor:default;opacity:1}h1,h2,h3,p{margin:0}svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}#app{position:fixed;inset:0;height:100%;height:100dvh;background:var(--base);display:flex;flex-direction:column;overflow:hidden}
+.top{flex:none;min-height:69px;padding:calc(13px + env(safe-area-inset-top,0px)) 20px 12px;display:flex;align-items:center;justify-content:space-between;background:#fffef9;border-bottom:1px solid var(--line)}.brand-button{text-align:left;display:flex;align-items:center;gap:9px}.brand-symbol{width:31px;height:31px;background:var(--yellow);border-radius:12px;display:grid;place-items:center;transform:rotate(-8deg);font-size:23px;font-weight:800;line-height:1}.brand-title{display:block;font-size:24px;font-weight:850;letter-spacing:-1.5px;line-height:1}.brand-caption{display:block;font-size:10px;font-weight:650;color:#a7a086;letter-spacing:-.2px;margin-top:3px}.head-right{display:flex;gap:15px;align-items:center}.head-avatar{width:34px;height:34px;border-radius:50%;background:#ffec9c;display:grid;place-items:center;color:#6b5923;font-size:11px;font-weight:800;letter-spacing:-.5px}
+#main{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:25px 20px 36px}#main::-webkit-scrollbar{display:none}.page{width:100%;max-width:600px;margin:0 auto}.bottom{height:calc(72px + env(safe-area-inset-bottom,0px));padding:9px 6px calc(9px + env(safe-area-inset-bottom,0px));flex:none;background:white;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px}.bottom button{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;color:#a7a9a0;font-size:10px;font-weight:600}.bottom button svg{width:23px;height:23px}.bottom button.active{color:#413b22;font-weight:800}.bottom button.active .nav-icon{background:#fff0ac;color:#745c15}.nav-icon{width:36px;height:31px;border-radius:11px;display:grid;place-items:center}
+.kicker{display:flex;align-items:center;gap:7px;color:#7d806f;font-size:11px;font-weight:750;letter-spacing:1.3px}.kicker .seed{width:7px;height:7px;border-radius:50%;background:#e8b722}.page-headline{font-size:28px;line-height:1.44;letter-spacing:-1.2px;font-weight:800;margin-top:10px}.muted{color:var(--muted)}.subtitle{font-size:12px;color:#989b91;line-height:1.75;margin-top:7px}.section{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:27px 1px 13px}.section h2{font-size:16px;letter-spacing:-.6px}.section .meta{font-size:11px;color:#a0a39c}.card{border:1px solid var(--line);border-radius:22px;background:white;overflow:hidden}.surface{background:#fff;border:1px solid var(--line);border-radius:20px}
+.sunny{margin-top:24px;background:var(--yellow);border-radius:31px;padding:25px 23px 23px;position:relative;overflow:hidden;border:1px solid #f3cc4e;box-shadow:var(--shadow)}.sunny::before{content:'';position:absolute;right:-45px;top:-60px;border:30px solid rgba(255,255,255,.21);width:130px;height:130px;border-radius:50%;pointer-events:none}.sunny::after{content:'✳';position:absolute;right:21px;bottom:98px;font-size:23px;color:#f7e598;pointer-events:none}.sunny-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}.sunny-tag{font-size:10px;font-weight:800;letter-spacing:1.2px}.sunny-day{font-size:10px;background:#ffffff8a;padding:7px 10px;border-radius:20px;font-weight:750}.quote-mark{font-family:Georgia,serif;font-size:76px;line-height:.65;margin-top:39px;color:#a77b06;opacity:.6}.sentence{font-size:33px;line-height:1.27;letter-spacing:-1.5px;font-weight:850;margin:9px 0 17px;position:relative;z-index:1;max-width:390px;overflow-wrap:anywhere}.translation{font-size:15px;line-height:1.7;letter-spacing:-.5px;font-weight:650}.sunny-foot{border-top:1px solid #c9a94572;margin-top:30px;padding-top:15px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:11px;color:#67561c}.sunny-foot .wave{display:flex;gap:3px;align-items:center}.wave i{width:3px;border-radius:4px;background:#746024;display:block}.wave i:nth-child(1),.wave i:nth-child(5){height:7px}.wave i:nth-child(2),.wave i:nth-child(4){height:12px}.wave i:nth-child(3){height:18px}
+.grammar{padding:19px;display:grid;grid-template-columns:37px 1fr;gap:12px;align-items:start}.grammar-icon{width:37px;height:37px;border-radius:14px;background:#fff4cc;display:grid;place-items:center;color:#bd9020}.grammar-icon svg{width:19px;height:19px}.grammar h3{font-size:13px;margin:2px 0 7px}.grammar p{font-size:12px;line-height:1.75;color:#7c8276}.sample{padding:18px 19px;margin-top:11px}.sample-head{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:800;color:#b19541;letter-spacing:1.1px}.sample-english{font-size:15px;line-height:1.65;font-weight:650;margin-top:13px}.sample-korean{font-size:12px;line-height:1.7;color:#8b9187;margin-top:7px}.small-link{display:flex;align-items:center;gap:3px;font-size:11px;color:#968d61;font-weight:700}.small-link svg{width:14px;height:14px}.word-card{padding:18px 19px;display:flex;align-items:center;gap:13px}.word-icon{height:44px;width:44px;background:#fff5d5;color:#9d7b22;border-radius:15px;display:grid;place-items:center;font-size:24px;font-weight:700}.word-card .grow{min-width:0;flex:1}.word-card b{font-size:14px}.word-card p{font-size:11px;color:#8d9187;line-height:1.65;margin-top:5px}.ghost-cta{margin-top:18px;background:#fff8e2;border:1px solid #f5e8bd;padding:17px 19px;border-radius:19px;display:flex;justify-content:space-between;align-items:center;gap:14px;width:100%;text-align:left}.ghost-cta b{font-size:13px}.ghost-cta p{font-size:11px;color:#9b927a;margin-top:5px}.ghost-cta svg{width:17px;height:17px;color:#a0802f}
+.profile-hero{background:#fff8da;border:1px solid #f3eccf;border-radius:27px;padding:23px 20px 22px;margin-top:18px;position:relative;overflow:hidden}.profile-hero:after{content:'✳';color:#f0df93;font-size:55px;position:absolute;right:-6px;top:23px;transform:rotate(-12deg)}.profile-row{display:flex;gap:13px;align-items:center;position:relative;z-index:1}.profile-photo{width:65px;height:65px;flex:none;border:3px solid white;background:#ffd65f;border-radius:23px;display:grid;place-items:center;font-size:21px;font-weight:850;letter-spacing:-.7px;color:#6b531d}.profile-row h1{font-size:22px;letter-spacing:-.7px}.profile-row p{color:#9a9277;font-size:11px;margin-top:6px}.level{display:inline-flex;align-items:center;gap:5px;background:white;border:1px solid #f1e2b4;border-radius:20px;padding:6px 9px;color:#a07a21;font-size:10px;font-weight:800;margin-top:14px}.profile-sub{margin-top:18px;padding-top:16px;border-top:1px solid #eadcb1;display:flex;align-items:center;justify-content:space-between;gap:12px}.lang-row{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700}.flag{font-size:21px}.caption{font-size:10px;color:#a39b84;margin-bottom:5px}.score{background:#fff;border:1px solid #f1eadc;box-shadow:var(--shadow);border-radius:24px;padding:21px 20px;margin-top:12px;display:flex;justify-content:space-between;gap:12px;align-items:center}.score .score-title{font-size:11px;letter-spacing:1px;font-weight:800;color:#a29b81}.score b{font-size:44px;letter-spacing:-2px;line-height:1.15}.score b span{font-size:13px;letter-spacing:0;color:#a2a49c;font-weight:500;margin-left:4px}.score-sub{font-size:11px;color:#8c9187;margin-top:6px}.score-medal{width:58px;height:58px;border-radius:20px;background:#fff2bb;display:grid;place-items:center;color:#b58e24}.score-medal svg{width:29px;height:29px}.stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}.stat-tile{background:white;border:1px solid var(--line);border-radius:18px;text-align:center;padding:17px 5px}.stat-tile b{font-size:23px;letter-spacing:-1px}.stat-tile p{font-size:10px;color:#999d93;margin-top:6px}.stat-tile .unit{font-size:11px;color:#777f74;font-weight:550;margin-left:2px}
+.progress-card{padding:20px}.progress-top{display:flex;justify-content:space-between;gap:14px;align-items:end}.progress-top strong{font-size:22px;letter-spacing:-.7px}.progress-top strong span{color:#a4aa9c;font-size:13px}.progress-label{font-size:11px;color:#9aa094;margin-bottom:6px}.bar-track{height:11px;background:#f4f3e9;border-radius:100px;overflow:hidden;margin-top:17px}.bar-fill{height:100%;background:var(--yellow);border-radius:100px}.progress-desc{font-size:11px;color:#858d7e;line-height:1.65;margin-top:12px}.daily-row{display:flex;justify-content:space-between;gap:9px;padding-top:15px;margin-top:18px;border-top:1px solid var(--line)}.daily-row span{font-size:11px;color:#8e9687}.daily-row b{font-size:13px}.daily-bar{height:7px;margin-top:10px;border-radius:100px;background:#f1f2e7;overflow:hidden}.daily-bar span{display:block;background:#99b89c;height:100%;border-radius:100px}
+.chart{padding:21px 16px 18px}.chart-axis{display:flex;align-items:end;gap:9px;height:132px;padding:0 4px;border-bottom:1px solid #edefe5}.chart-col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:6px;min-width:0}.chart-num{font-size:10px;color:#8b927f}.chart-bar{width:70%;max-width:38px;border-radius:10px 10px 2px 2px;background:#e9eee0;min-height:3px}.chart-col:last-child .chart-bar{background:var(--yellow)}.chart-labels{display:flex;gap:9px;margin:10px 4px 0}.chart-labels span{flex:1;text-align:center;font-size:10px;color:#9ba095}.chart-foot{padding:13px 5px 0;font-size:11px;color:#91978c}.chart-foot b{color:#93803a}
+.friend-list{display:flex;flex-direction:column}.friend-group{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:800;color:#a69a73;letter-spacing:1px;padding:16px 17px 7px}.friend{padding:15px 17px;display:flex;align-items:center;gap:12px;min-width:0;border-bottom:1px solid #f0f0e9}.friend:last-child{border-bottom:0}.friend-face{width:44px;height:44px;flex:none;display:grid;place-items:center;font-size:11px;font-weight:800;border-radius:15px;color:#696c63}.friend-face.lavender{background:#f1e9f4;color:#82638a}.friend-face.mint{background:#e8f2e6;color:#648567}.friend-face.peach{background:#fff0e5;color:#a77d5e}.friend-face.sky{background:#e8f1f8;color:#6889a2}.friend-face.sand{background:#f1efe4;color:#968868}.friend-body{min-width:0;flex:1}.friend-name{font-size:13px;font-weight:750;display:flex;align-items:center;gap:5px}.friend-name .star{font-size:14px;color:#e4b02e}.friend-detail{font-size:10px;color:#a0a59c;margin-top:6px}.last{font-size:10px;color:#919a90;white-space:nowrap;flex:none}.last b{font-size:10px;color:#676e65;font-weight:600;display:block;text-align:right;margin-top:6px}.friend-favorite{background:#fffaf0;border:1px solid #f4eacc;border-radius:14px;margin:0 9px 8px}.friend-favorite .last b{color:#a28e5b}.achievement-list{display:flex;gap:9px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}.achievement-list::-webkit-scrollbar{display:none}.achievement{min-width:130px;flex:1;padding:17px 13px;border:1px solid var(--line);border-radius:19px;background:#fff;text-align:center}.achievement .mark{font-size:25px;color:#d7a72e;height:34px}.achievement b{font-size:11px;display:block;margin:9px 0 5px}.achievement p{color:#a2a69e;font-size:10px;line-height:1.5}.history{padding:0 18px}.history-row{display:flex;gap:12px;align-items:center;padding:15px 0;border-bottom:1px solid var(--line)}.history-row:last-child{border:0}.history-icon{width:36px;height:36px;border-radius:13px;background:#fff6db;display:grid;place-items:center;color:#b49231;font-size:17px}.history-row .grow{flex:1;min-width:0}.history-row b{font-size:12px}.history-row p{font-size:10px;color:#969e91;margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.history-date{font-size:10px;color:#9aa299;white-space:nowrap}.profile-footer{font-size:10px;text-align:center;color:#adb0a6;margin:25px 0 8px;line-height:1.7}
+
+@media(min-width:700px){#main{padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="top" id="site-header">
+    <button class="brand-button" data-go="home" aria-label="홈으로"><span class="brand-symbol">✳</span><span><span class="brand-title" id="brand-title">mellow.</span><span class="brand-caption" id="brand-caption">하루에 한 문장씩</span></span></button>
+    <div class="head-right">
+      <button class="head-avatar" data-go="profile" aria-label="마이페이지" id="mini-avatar">YH</button>
+    </div>
+  </header>
+  <main id="main"></main>
+  <nav class="bottom" id="bottom" aria-label="하단 메뉴"></nav>
+</div>
+
+<script>
+(()=>{
+'use strict';
+/* 공개용 기본 콘텐츠 설정 */
+const CONFIG = {
+  "app": {
+    "brand": "Better Day",
+    "tagline": "하루에 한 문장씩",
+    "date": "2027.08.25",
+    "languageTag": "ENGLISH DAILY",
+    "heroLabel": "오늘의 한 문장",
+    "footer": "작은 한 문장이 쌓여, 어느새 큰 실력이 돼요."
+  },
+  "profile": {
+    "name": "강영현",
+    "nickname": "imkyhiyo",
+    "initials": "영현",
+    "language": "영어",
+    "languageEnglish": "ENGLISH",
+    "languageFlag": "🇬🇧",
+    "level": "Advanced",
+    "toeic": 970,
+    "toeicMax": 990,
+    "targetToeic": 990,
+    "studyStreak": 20,
+    "totalHours": 10,
+    "completionRate": 93,
+    "joined": "2027.02.27",
+    "friendCountDisplay": "20명"
+  },
+  "today": {
+    "sentence": "Won't bore you to death",
+    "translation": "지루하게 하지 않을게",
+    "tip": "'~를 지루해 죽게 만들다'는 뜻의 관용 표현입니다. ",
+    "type": "babo | Young K • Letters with notes",
+    "example": "Stick with me. I won't bore you to death!",
+    "exampleTranslation": "내 옆에 있어줘. 지루하게 안 할게.",
+    "word": "bore",
+    "meaning": "지루하게 하다",
+    "number": "DAY 180"
+  },
+  "goals": {
+    "dailyTarget": 20,
+    "dailyDone": 16,
+    "monthlyTarget": 25,
+    "monthlyDone": 20,
+    "weeklyMinutes": [
+      16,
+      22,
+      18,
+      26,
+      20,
+      24,
+      16
+    ],
+    "weekdays": [
+      "월",
+      "화",
+      "수",
+      "목",
+      "금",
+      "토",
+      "일"
+    ],
+    "monthlyDescription": "이번 달은 목표까지 단 4일 남았어요!",
+    "chartMonthSummary": "21일(예상)"
+  },
+  "months": [
+    {
+      "label": "3월",
+      "days": 12
+    },
+    {
+      "label": "4월",
+      "days": 15
+    },
+    {
+      "label": "5월",
+      "days": 14
+    },
+    {
+      "label": "6월",
+      "days": 18
+    },
+    {
+      "label": "7월",
+      "days": 20
+    },
+    {
+      "label": "8월",
+      "days": 21
+    }
+  ],
+  "friends": [
+    {
+      "name": "윤도운",
+      "initials": "DW",
+      "caption": "도운",
+      "language": "일본어",
+      "lastActive": "6개월 전",
+      "favorite": true,
+      "color": "lavender"
+    },
+    {
+      "name": "김OO",
+      "initials": "OO",
+      "caption": "서연",
+      "language": "영어",
+      "lastActive": "오늘",
+      "favorite": false,
+      "color": "mint"
+    },
+    {
+      "name": "박OO",
+      "initials": "OO",
+      "caption": "지훈",
+      "language": "중국어",
+      "lastActive": "어제",
+      "favorite": false,
+      "color": "peach"
+    },
+    {
+      "name": "이OO",
+      "initials": "OO",
+      "caption": "도현",
+      "language": "영어",
+      "lastActive": "3일 전",
+      "favorite": false,
+      "color": "sky"
+    },
+    {
+      "name": "최OO",
+      "initials": "OO",
+      "caption": "유진",
+      "language": "중국어",
+      "lastActive": "2주 전",
+      "favorite": false,
+      "color": "sand"
+    }
+  ],
+  "achievements": [
+    {
+      "icon": "✦",
+      "name": "꾸준함의 달인",
+      "detail": "14일 연속 학습 성공"
+    },
+    {
+      "icon": "★",
+      "name": "영어 마스터",
+      "detail": "TOEIC 950점 돌파"
+    },
+    {
+      "icon": "☀",
+      "name": "아침형 학습러",
+      "detail": "오전 학습 30회"
+    }
+  ],
+  "activity": [
+    {
+      "title": "오늘의 문장 학습",
+      "detail": "Won't bore you to death.",
+      "date": "오늘 · 08:25",
+      "icon": "☀"
+    },
+    {
+      "title": "실전 영어 표현",
+      "detail": "미팅에서 자주 쓰는 문장",
+      "date": "어제 · 21:10",
+      "icon": "✦"
+    },
+    {
+      "title": "단어 복습",
+      "detail": "헷갈리는 동사 표현 12개",
+      "date": "8월 23일",
+      "icon": "◇"
+    }
+  ]
+};
+/* ============ 기본 설정 끝 ============ */
+const $=id=>document.getElementById(id);
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const iconSet={home:'<path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-6h6v6"/>',book:'<path d="M4 5.5C7 4 10 4 12 6c2-2 5-2 8-.5V20c-3-1.5-6-1.5-8 0-2-1.5-5-1.5-8 0Z"/><path d="M12 6v14"/>',note:'<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h6M8 16h4"/>',person:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-10 16-10 16 0"/>',chevron:'<path d="m9 5 7 7-7 7"/>',back:'<path d="m15 5-7 7 7 7"/>',spark:'<path d="m12 2 2.7 7.3L22 12l-7.3 2.7L12 22l-2.7-7.3L2 12l7.3-2.7Z"/>',flag:'<path d="M5 22V3m0 2c5-3 10 3 15 0v11c-5 3-10-3-15 0"/>',headphones:'<path d="M4 13V11a8 8 0 0 1 16 0v2M4 13h4v7H6a2 2 0 0 1-2-2ZM20 13h-4v7h2a2 2 0 0 0 2-2Z"/>',medal:'<circle cx="12" cy="15" r="5"/><path d="M8 3 6 8l4 3M16 3l2 5-4 3M10 15l1.5 1.5 3-3"/>',lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',check:'<path d="m4 12 5 5 11-11"/>'};
+const icon=(name)=>`<svg viewBox="0 0 24 24" aria-hidden="true">${iconSet[name]||iconSet.spark}</svg>`;
+const clamp=(x,max=100)=>Math.max(0,Math.min(max,Number(x)||0));
+let view='home';
+function header(){ $('brand-title').textContent=CONFIG.app.brand;$('brand-caption').textContent=CONFIG.app.tagline;$('mini-avatar').textContent=CONFIG.profile.initials; }
+function nav(){return [['home','오늘','home'],['practice','연습','book'],['notes','노트','note'],['profile','마이','person']].map(([id,title,ico])=>`<button ${id==='practice'||id==='notes'?'data-inert="true"':'data-go="'+id+'"'} class="${view===id?'active':''}" aria-label="${title}" ${(view===id)?'aria-current="page"':''}><span class="nav-icon">${icon(ico)}</span><span>${title}</span></button>`).join('')}
+const kicker=(label)=>`<div class="kicker"><span class="seed"></span>${esc(label)}</div>`;
+const section=(title,extra='')=>`<div class="section"><h2>${esc(title)}</h2>${extra?`<span class="meta">${esc(extra)}</span>`:''}</div>`;
+function home(){const a=CONFIG.app,t=CONFIG.today;return `<div class="page">
+${kicker(a.languageTag)}<h1 class="page-headline">오늘도 영어 한 스푼,<br>차곡차곡 쌓아 봐요.</h1><p class="subtitle">${esc(a.date)} · 오늘의 작은 배움</p>
+<div class="sunny"><div class="sunny-top"><span class="sunny-tag">${esc(a.heroLabel)}</span><span class="sunny-day">${esc(t.number)}</span></div><div class="quote-mark">“</div><h2 class="sentence">${esc(t.sentence)}</h2><p class="translation">${esc(t.translation)}</p><div class="sunny-foot"><span>${esc(t.type)}</span><span class="wave" aria-label="오디오 파형"><i></i><i></i><i></i><i></i><i></i></span></div></div>
+${section('오늘의 포인트','LET’S LEARN')}<div class="card grammar"><div class="grammar-icon">${icon('spark')}</div><div><h3>Bore (someone) to death</h3><p>${esc(t.tip)}</p></div></div><div class="card sample"><div class="sample-head">✦ EXAMPLE</div><p class="sample-english">${esc(t.example)}</p><p class="sample-korean">${esc(t.exampleTranslation)}</p></div>
+${section('오늘 기억할 단어')}<div class="card word-card"><span class="word-icon">Aa</span><span class="grow"><b>${esc(t.word)}</b><p>${esc(t.meaning)}</p></span>${icon('chevron')}</div>
+<button class="ghost-cta" data-go="profile"><span><b>나의 학습 기록 보러 가기</b><p>영어 실력과 진도를 확인해 보세요.</p></span>${icon('chevron')}</button><p class="profile-footer">${esc(a.footer)}</p></div>`}
+function medal(){return `<div class="score-medal">${icon('medal')}</div>`}
+function chart(){const months=CONFIG.months||[];const highest=Math.max(25,...months.map(m=>Number(m.days)||0));return `<div class="card chart"><div class="chart-axis">${months.map(m=>`<div class="chart-col"><span class="chart-num">${esc(m.days)}</span><div class="chart-bar" style="height:${Math.max(5,clamp(m.days/highest*100))}%"></div></div>`).join('')}</div><div class="chart-labels">${months.map(m=>`<span>${esc(m.label)}</span>`).join('')}</div><p class="chart-foot">이번 달 <b>${esc(CONFIG.goals.chartMonthSummary)}</b> 학습 · 매달 조금씩 성장 중!</p></div>`}
+function friendRow(f,featured=false){const style=['lavender','mint','peach','sky','sand'].includes(f.color)?f.color:'sand';return `<div class="friend ${featured?'friend-favorite':''}"><div class="friend-face ${style}">${esc(f.initials)}</div><div class="friend-body"><div class="friend-name">${esc(f.name)}${f.favorite?'<span class="star">★</span>':''}</div><p class="friend-detail">${esc(f.language)} 학습 중</p></div><div class="last">최근 접속<b>${esc(f.lastActive)}</b></div></div>`}
+function profile(){const p=CONFIG.profile,g=CONFIG.goals,friendList=CONFIG.friends||[];const favorites=friendList.filter(f=>f.favorite),other=friendList.filter(f=>!f.favorite);return `<div class="page">
+${kicker('MY LANGUAGE SPACE')}<h1 class="page-headline">나의 공부 기록<span style="color:#edba2d">.</span></h1><p class="subtitle">한 문장 한 문장이 모여 만든 나의 성장</p>
+<div class="profile-hero"><div class="profile-row"><div class="profile-photo">${esc(p.initials)}</div><div><h1>${esc(p.name)}</h1><p>@${esc(p.nickname)}</p></div></div><span class="level">✦ ${esc(p.level)} LEARNER</span><div class="profile-sub"><div><p class="caption">선택한 학습 언어</p><div class="lang-row"><span class="flag">${esc(p.languageFlag)}</span><span>${esc(p.language)} · ${esc(p.languageEnglish)}</span></div></div><span class="caption">SINCE ${esc(p.joined)}</span></div></div>
+<div class="score"><div><p class="score-title">MY TOEIC SCORE</p><b>${esc(p.toeic)}<span>/ ${esc(p.toeicMax)}</span></b><p class="score-sub">목표 점수 ${esc(p.targetToeic)}점까지 도전 중!</p></div>${medal()}</div>
+<div class="stat-grid"><div class="stat-tile"><b>${esc(p.studyStreak)}<span class="unit">일</span></b><p>연속 학습</p></div><div class="stat-tile"><b>${esc(p.totalHours)}<span class="unit">h</span></b><p>누적 학습 시간</p></div><div class="stat-tile"><b>${esc(p.completionRate)}<span class="unit">%</span></b><p>학습 달성률</p></div></div>
+${section('이번 달의 목표','AUGUST')}<div class="card progress-card"><div class="progress-top"><div><p class="progress-label">월간 목표 학습일</p><strong>${esc(g.monthlyDone)}<span> / ${esc(g.monthlyTarget)}일</span></strong></div><span style="font-size:13px;color:#ad8a2e;font-weight:850">${Math.round(clamp(g.monthlyDone/Math.max(1,g.monthlyTarget)*100))}%</span></div><div class="bar-track"><div class="bar-fill" style="width:${clamp(g.monthlyDone/Math.max(1,g.monthlyTarget)*100)}%"></div></div><p class="progress-desc">${esc(g.monthlyDescription)}</p><div class="daily-row"><span>오늘의 학습 목표</span><b>${esc(g.dailyDone)} / ${esc(g.dailyTarget)}분</b></div><div class="daily-bar"><span style="width:${clamp(g.dailyDone/Math.max(1,g.dailyTarget)*100)}%"></span></div></div>
+${section('월별 학습 진도','최근 6개월')}${chart()}
+${section('학습 배지',esc(CONFIG.achievements.length)+'개 획득')}<div class="achievement-list">${CONFIG.achievements.map(a=>`<div class="achievement"><div class="mark">${esc(a.icon)}</div><b>${esc(a.name)}</b><p>${esc(a.detail)}</p></div>`).join('')}</div>
+${section('내 친구',esc(p.friendCountDisplay))}<div class="card friend-list">${favorites.length?`<div class="friend-group">★ 즐겨찾는 친구</div>${favorites.map(f=>friendRow(f,true)).join('')}`:''}${other.length?`<div class="friend-group">FRIENDS</div>${other.map(f=>friendRow(f)).join('')}`:''}</div>
+${section('최근 학습 기록')}<div class="card history">${CONFIG.activity.map(a=>`<div class="history-row"><span class="history-icon">${esc(a.icon)}</span><div class="grow"><b>${esc(a.title)}</b><p>${esc(a.detail)}</p></div><span class="history-date">${esc(a.date)}</span></div>`).join('')}</div><p class="profile-footer"><br>${esc(CONFIG.app.footer)}</p></div>`}
+function render(){
+ header();
+ $('main').innerHTML=view==='profile'?profile():home();
+ $('bottom').innerHTML=nav();
+}
+function go(v){
+ if(v!=='home'&&v!=='profile')return;
+ view=v;
+ render();
+ $('main').scrollTop=0;
+}
+document.addEventListener('click',e=>{
+ const btn=e.target.closest('button');
+ if(!btn)return;
+ if(btn.dataset.go)go(btn.dataset.go);
+});
+render();
+})();
+</script></body></html>

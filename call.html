@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#F2F2F7">
+<title>전화 · 최근 통화</title>
+<style>
+:root{--blue:#007AFF;--blue-soft:#EAF3FF;--ink:#101114;--muted:#8E8E93;--divider:#E5E5EA;--bg:#F2F2F7;--red:#FF3B30;--white:#FFFFFF}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--bg)}body,button,input{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Helvetica Neue",Arial,sans-serif;color:var(--ink)}button{border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;font:inherit}button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}button:active{opacity:.78}svg{display:block;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}#app{width:100%;height:100%;height:100dvh;position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}.shell{max-width:540px;width:100%;margin:0 auto}.top-wrap{flex:none;background:#fff;border-bottom:1px solid var(--divider)}
+.head-main{height:107px;padding:3px 20px 15px}.head-line{display:flex;align-items:center;justify-content:space-between;height:43px}.text-control{color:var(--blue);font-size:16px;padding:8px 3px;font-weight:450}.segmented{display:flex;background:#F0F0F3;padding:3px;border-radius:10px;gap:2px;min-width:158px}.segmented button{font-size:13px;font-weight:630;padding:7px 13px;border-radius:8px;flex:1;color:#67686e}.segmented button.on{color:#101114;background:#fff;box-shadow:0 1px 2px #10111415}.header-large{font-size:33px;letter-spacing:-1.5px;line-height:44px;font-weight:770;margin:8px 0 0}.subhead{height:55px;padding:4px 19px 12px;display:flex;align-items:center;justify-content:space-between}.back-button{display:flex;align-items:center;gap:3px;color:var(--blue);font-size:16px;font-weight:470;min-height:39px;max-width:75%}.back-button svg{height:22px;width:22px;stroke-width:2.3;flex:none}.subhead-title{font-size:16px;font-weight:670;letter-spacing:-.3px;position:absolute;left:50%;transform:translateX(-50%);pointer-events:none}.subhead-right{height:39px;width:43px;display:grid;place-items:center;color:var(--blue)}.subhead-right svg{width:20px;height:20px}
+#content{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:#fff;scrollbar-width:none}#content::-webkit-scrollbar{display:none}.call-list{padding:0 0 9px;background:#fff}.call-row{width:100%;display:flex;align-items:center;text-align:left;gap:13px;padding:0 20px;min-height:73px;background:#fff}.call-row:active{background:#F5F7FA}.avatar{width:45px;height:45px;flex:none;display:grid;place-items:center;background:#E8F2FF;border-radius:50%;color:#1762BC;font-size:16px;font-weight:620;letter-spacing:-1px}.avatar.dw{background:#DDEBFF;color:#0761CD}.avatar.company{background:#E9EEF7;color:#4D719D}.avatar.family{background:#EDF3FC;color:#4C77B2}.call-row-body{border-bottom:1px solid var(--divider);height:73px;flex:1;min-width:0;display:flex;justify-content:space-between;gap:6px;align-items:center}.call-row:last-child .call-row-body{border-bottom:0}.call-name{font-size:16.5px;letter-spacing:-.4px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}.call-name.missed{color:var(--red)}.call-caption{font-size:12px;color:#929398;margin-top:3px;display:flex;align-items:center;gap:4px;white-space:nowrap}.call-caption svg{width:13px;height:13px;stroke-width:2}.call-row-right{display:flex;align-items:center;gap:9px;flex:none;min-width:0}.call-date{font-size:13px;color:#8E8E93;white-space:nowrap;letter-spacing:-.3px}.delete-circle{width:26px;height:26px;color:#FF3B30;display:grid;place-items:center;flex:none}.delete-circle svg{width:22px;height:22px}.empty{padding:60px 25px;text-align:center;color:#9898a0;font-size:14px;line-height:1.7}.empty h3{color:#3b3b40;font-weight:680;margin:0 0 9px;font-size:18px}
+.footer{flex:none;height:calc(76px + env(safe-area-inset-bottom,0px));background:#F9F9FB;border-top:1px solid #e3e3e8;padding:8px 13px calc(7px + env(safe-area-inset-bottom,0px));display:block}.footer .shell{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:100%}.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#92949a;font-size:10px;line-height:13px;font-weight:500;border-radius:12px}.tab svg{width:25px;height:25px;stroke-width:1.8}.tab.active{color:var(--blue);font-weight:650}.tab:active{background:#eaf1fa}.record-detail{background:#F2F2F7;min-height:100%;padding-bottom:30px}.detail-hero{background:var(--bg);padding:24px 20px 17px;text-align:center}.big-avatar{width:92px;height:92px;border-radius:50%;background:#e1edfc;display:grid;place-items:center;font-size:35px;font-weight:610;letter-spacing:-2px;color:#2271c9;margin:0 auto 16px}.big-avatar.company{background:#e7edf5;color:#52729e}.big-avatar.family{background:#e8f0fa;color:#537fb8}.big-avatar.dw{background:#dceafe;color:#0a66cf}.detail-name{font-size:27px;line-height:1.35;letter-spacing:-1.2px;font-weight:710;overflow-wrap:anywhere}.detail-label{font-size:13px;color:#8f919a;margin-top:5px}.detail-actions{display:flex;gap:11px;justify-content:center;margin:23px auto 4px;max-width:375px}.detail-action{flex:1;min-width:0;background:#fff;border-radius:17px;min-height:76px;padding:11px 3px 9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--blue);font-size:11px;font-weight:500}.detail-action svg{width:23px;height:23px;stroke-width:1.85}.detail-action:active{background:#E7F0FD}.detail-section{padding:7px 19px 0}.section-title{font-size:13px;font-weight:650;color:#696c72;letter-spacing:-.2px;margin:15px 0 9px 4px}.rounded-card{background:#fff;border-radius:14px;overflow:hidden}.detail-record{display:flex;align-items:center;padding:16px 17px;gap:11px;min-height:75px;border-bottom:1px solid #eeeef1}.detail-record:last-child{border-bottom:none}.record-icon{width:35px;height:35px;border-radius:11px;background:#eaf2ff;color:var(--blue);display:grid;place-items:center;flex:none}.record-icon.missed{background:#fff0ef;color:var(--red)}.record-icon svg{width:18px;height:18px;stroke-width:2}.record-center{flex:1;min-width:0}.record-direction{font-size:14px;font-weight:620}.record-timestamp{color:#8b8d94;font-size:12px;margin-top:6px;letter-spacing:-.1px}.record-duration{font-size:12px;color:#6f7278;text-align:right;white-space:nowrap}.detail-data{padding:17px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px}.detail-data b{font-size:14px;font-weight:590}.detail-data span{font-size:13px;color:#868993;white-space:nowrap}.note-small{text-align:center;font-size:11px;color:#989aa2;margin:18px auto 0;line-height:1.7;padding:0 20px}.contacts{background:#fff;padding-bottom:20px}.contacts-alphabet{padding:17px 20px 8px;color:#8e8e93;font-size:12px;font-weight:700}.contact-row{padding:15px 20px;border-bottom:1px solid #ededf0;display:flex;gap:12px;align-items:center;text-align:left;width:100%}.contact-row .avatar{height:39px;width:39px;font-size:14px}.contact-row b{font-size:16px;letter-spacing:-.3px;font-weight:590}.keypad-page{min-height:100%;background:#fff;display:flex;align-items:center;flex-direction:column;padding:34px 12px 25px}.dial-display{width:100%;max-width:320px;min-height:56px;text-align:center;font-size:27px;font-weight:490;letter-spacing:1px;word-break:break-all}.dial-grid{display:grid;grid-template-columns:repeat(3,80px);gap:15px 26px;margin-top:8px}.dial-key{width:78px;height:78px;border-radius:50%;background:#F0F0F3;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:30px;font-weight:400;line-height:31px}.dial-key span{font-size:9px;letter-spacing:1.7px;line-height:12px;color:#65666b}.dial-key:active{background:#dae9fd}.dial-tools{display:flex;align-items:center;justify-content:center;gap:43px;margin:24px auto 0}.dial-call{width:68px;height:68px;background:#34C759;color:#fff;border-radius:50%;display:grid;place-items:center}.dial-call svg{width:27px;height:27px;fill:#fff;stroke:#fff}.dial-back{width:39px;height:39px;color:#8D8F94;display:grid;place-items:center}.dial-back svg{width:26px;height:26px}.dial-placeholder{width:39px;height:39px}.call-overlay[hidden]{display:none!important}.dialog-note[hidden]{display:none!important}.call-overlay{position:absolute;inset:0;background:#1C2840;color:#fff;z-index:99;display:flex;flex-direction:column;text-align:center;align-items:center;padding:calc(112px + env(safe-area-inset-top,0px)) 20px calc(54px + env(safe-area-inset-bottom,0px))}.call-overlay h2{color:#fff;font-size:29px;font-weight:650;margin:22px 0 8px;letter-spacing:-.8px}.call-overlay p{font-size:15px;color:#cfd9ee}.call-overlay .big-avatar{background:#fff2;color:#fff;margin-top:20px}.end-call{background:#FF453A;color:#fff;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;margin-top:auto}.end-call svg{width:30px;height:30px;transform:rotate(135deg);stroke:#fff;stroke-width:2.4}.dialog-note{position:absolute;bottom:calc(94px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);max-width:90%;background:#343741;color:#fff;border-radius:12px;padding:11px 17px;font-size:12px;z-index:80;white-space:nowrap;box-shadow:0 4px 15px #0002}
+@media(max-width:345px){.head-main{padding-inline:15px}.call-row{padding-inline:13px;gap:10px}.avatar{height:40px;width:40px;font-size:15px}.call-name{font-size:15px}.call-date{font-size:12px}.call-row-right{gap:4px}.dial-grid{grid-template-columns:repeat(3,71px);gap:10px 22px}.dial-key{width:71px;height:71px}}@media(min-width:700px){.top-wrap .shell,.footer .shell{max-width:540px}#content{max-width:540px;width:100%;margin:0 auto;border-left:1px solid #e9e9ef;border-right:1px solid #e9e9ef}.top-wrap{border-bottom:0}.top-wrap .shell{border-left:1px solid #eee;border-right:1px solid #eee}.footer{display:flex;justify-content:center}.footer .shell{display:grid;grid-template-columns:repeat(3,1fr)}}
+
+/* 화면 가득 사용하며, 상단/하단 고정 · 본문만 스크롤 */
+html,body,#app{width:100%;max-width:100%;height:100%;height:100dvh;overflow:hidden}
+.top-wrap{padding-top:env(safe-area-inset-top,0px)}
+.shell{width:100%;max-width:680px;margin:0 auto}
+#content{width:100%;height:100%;min-height:0;flex:1;overscroll-behavior:contain;overflow-x:hidden;overflow-y:auto}
+.call-list{width:100%;max-width:680px;margin:0 auto;padding-top:3px;padding-bottom:32px}
+.record-detail{width:100%;max-width:680px;margin:0 auto}
+.head-main{height:113px;padding:8px 20px 14px}
+.header-large{font-size:34px}
+.back-button{padding:9px 3px;font-weight:560}
+.muted-control{font-size:16px;color:#A1A1A7;cursor:default;user-select:none}
+.call-caption{gap:0}
+.call-row{gap:12px;min-width:0}
+.call-row-body{min-width:0}
+.call-row-right{gap:8px}
+
+.detail-action:disabled{opacity:1;cursor:default}
+.detail-action:disabled:active{background:#fff}
+.footer .tab:disabled{opacity:1;cursor:default}
+.footer .tab:disabled:active{background:transparent}
+.call-overlay[hidden],.dialog-note[hidden]{display:none!important}
+@media(max-width:350px){.call-row{padding-left:13px;padding-right:13px;gap:10px}.avatar{width:40px;height:40px}.call-name{font-size:15px}.call-date{font-size:12px}.call-row-right{gap:4px}.head-main{padding-left:16px;padding-right:16px}}
+
+/* index 잠금화면의 메시지 알림 디자인을 닮은 두 장의 연속 알림 */
+#incoming-messages[hidden]{display:none!important}
+#incoming-messages{position:fixed;z-index:70;left:12px;right:12px;top:calc(67px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:9px;align-items:center;pointer-events:none}
+.incoming-message{width:min(100%,520px);min-height:73px;padding:13px 16px;border-radius:21px;display:flex;align-items:center;gap:12px;color:#111;background:#F5F5F7;box-shadow:0 4px 16px rgba(27,36,49,.15);border:1px solid #e6e6e9;animation:incoming-rise .32s cubic-bezier(.22,.78,.2,1) both}
+.incoming-message .incoming-icon{height:40px;width:40px;flex:none;border-radius:10px;background:#30D158;display:grid;place-items:center;color:#fff}
+.incoming-message .incoming-icon svg{width:29px;height:29px;fill:#fff;stroke:none}
+.incoming-copy{min-width:0;flex:1}.incoming-sender{font-size:15px;font-weight:670;line-height:1.4;margin-bottom:3px}.incoming-text{font-size:15px;font-weight:400;line-height:1.45;overflow-wrap:anywhere}
+@keyframes incoming-rise{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.call-row.is-static{cursor:default;user-select:none}.call-row.is-static:active{background:#fff;opacity:1}.call-row.is-static .call-row-right{padding-right:4px}
+.call-row:not(.is-static){cursor:pointer}.call-row:not(.is-static):active{background:#f4f8fd}
+/* 어두운 아이폰 통화 진행 화면 - 오버레이 내의 별도 레이아웃 */
+#call-overlay.live-call{position:fixed;inset:0;z-index:100;background:#1e1e1e;color:white;padding:calc(78px + env(safe-area-inset-top,0px)) 15px calc(24px + env(safe-area-inset-bottom,0px));display:block;text-align:center;width:100%;height:100%;height:100dvh;overflow:hidden}
+.live-call .call-top{display:flex;flex-direction:column;align-items:center;gap:7px}
+.live-call .live-status{font-size:18px;line-height:24px;font-weight:400;color:#a7a7a7;font-variant-numeric:tabular-nums}
+.live-call .live-name{font-size:clamp(29px,8vw,35px);font-weight:600;line-height:1.35;letter-spacing:-.7px;color:#fff;margin:0}
+.live-call .live-dialogue{position:absolute;left:3%;width:94%;bottom:calc(clamp(249px,39dvh,342px) + env(safe-area-inset-bottom,0px));text-align:center;transition:opacity .22s ease;color:#fff;min-height:82px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px}
+.live-call .live-speaker{color:#aeb1b7;font-size:13px;font-weight:550;letter-spacing:.2px;line-height:1.4}
+.live-call .live-phrase{display:inline-block;flex:none;width:max-content;max-width:none;white-space:nowrap;font-size:18px;line-height:1.5;font-weight:530;letter-spacing:-.55px;word-break:normal;overflow-wrap:normal}
+.live-call .live-controls{position:absolute;bottom:calc(clamp(25px,5dvh,67px) + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);width:min(100%,410px);padding:0 clamp(21px,6vw,38px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2.4dvh,22px) 10px;justify-items:center}
+.live-call .live-control-wrap{display:flex;align-items:center;flex-direction:column;gap:8px;min-width:0}
+.live-call .live-control{height:clamp(59px,17vw,72px);width:clamp(59px,17vw,72px);border-radius:50%;background:#464646;display:grid;place-items:center;color:#fff}
+.live-call .live-control svg{width:29px;height:29px;fill:#fff;stroke:none}
+.live-call .live-control svg.outline{stroke:white;fill:none;stroke-width:2}
+.live-call .live-control-label{color:#fff;font-size:12px;font-weight:430;white-space:nowrap;line-height:1.5}
+.live-call button.live-end{background:#FF3B30;cursor:pointer}
+.live-call button.live-end:active{background:#e52e28}
+.live-call .live-control-wrap:not(:has(button)){cursor:default}
+@media(max-height:690px){.live-call .live-dialogue{bottom:calc(227px + env(safe-area-inset-bottom,0px))}.live-call .live-controls{gap:10px 7px;bottom:calc(18px + env(safe-area-inset-bottom,0px))}.live-call .live-control{height:57px;width:57px}}
+@media(prefers-reduced-motion:reduce){.incoming-message{animation:none}.live-call .live-dialogue{transition:none}}
+
+/* ─────────────────────────────────────────────────────────────
+   DBS / 메시지 앱과 동일한 전체 화면 반응형 레이아웃
+   고정된 540px · 680px 페이지 프레임을 해제합니다.
+   상단과 하단은 브라우저 전체 너비, 본문 콘텐츠만 가운데 정렬.
+   기존 목록·문자 알림·통화 시뮬레이션에는 영향을 주지 않습니다.
+   ───────────────────────────────────────────────────────────── */
+#app, .top-wrap, #content, .footer {
+  width: 100%;
+  max-width: none;
+}
+.top-wrap { border-bottom: 1px solid var(--divider); }
+.top-wrap .shell, .footer .shell {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border-left: 0;
+  border-right: 0;
+}
+#content {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border-left: 0;
+  border-right: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.call-list, .record-detail {
+  width: 100%;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer {
+  display: block;
+  flex-shrink: 0;
+}
+.footer .shell {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (min-width: 700px) {
+  .top-wrap .shell, .footer .shell { max-width: none; }
+  #content { width: 100%; max-width: none; margin: 0; border: 0; }
+  .footer { display: block; }
+}
+</style></head><body>
+<div id="app">
+  <div class="top-wrap"><div class="shell" id="app-header"></div></div>
+  <main id="content"></main>
+  <footer class="footer"><div class="shell" id="tabbar"></div></footer>
+  <div id="incoming-messages" aria-label="새 문자 메시지" aria-live="polite" hidden></div>
+  <div id="call-overlay" class="call-overlay" hidden></div>
+</div>
+<script>
+(()=>{
+'use strict';
+const START_CALLS=[{"id":"dw1","name":"윤도운이","day":"오늘","time":"04:04","direction":"수신 통화","duration":"11분 26초","label":"휴대전화"},{"id":"mom1","name":"엄마","day":"어제","time":"20:42","direction":"수신 통화","duration":"4분 19초","label":"휴대전화"},{"id":"dw2","name":"윤도운이","day":"어제","time":"19:26","direction":"발신 통화","duration":"8분 14초","label":"휴대전화"},{"id":"dad1","name":"아버지","day":"어제","time":"18:07","direction":"발신 통화","duration":"2분 48초","label":"휴대전화"},{"id":"choi1","name":"DBS 최OO(기획2팀)","day":"어제","time":"16:23","direction":"수신 통화","duration":"5분 12초","label":"회사"},{"id":"writer1","name":"데키라 메인 작가님","day":"어제","time":"14:38","direction":"발신 통화","duration":"7분 31초","label":"휴대전화"},{"id":"lee1","name":"이OO","day":"어제","time":"11:51","direction":"부재중 전화","duration":"0초","label":"휴대전화"},{"id":"dw3","name":"윤도운이","day":"어제","time":"11:28","direction":"부재중 전화","duration":"0초","label":"휴대전화"},{"id":"hr1","name":"총무팀 내선","day":"어제","time":"09:13","direction":"수신 통화","duration":"1분 42초","label":"회사"},{"id":"dw4","name":"윤도운이","day":"8월 23일","time":"19:45","direction":"수신 통화","duration":"16분 02초","label":"휴대전화"},{"id":"press1","name":"운운 인쇄소","day":"8월 23일","time":"17:26","direction":"발신 통화","duration":"3분 09초","label":"회사"},{"id":"cp1","name":"DKS CP님","day":"8월 23일","time":"15:51","direction":"수신 통화","duration":"6분 28초","label":"휴대전화"},{"id":"ho1","name":"호OO","day":"8월 23일","time":"14:18","direction":"부재중 전화","duration":"0초","label":"휴대전화"},{"id":"park1","name":"박OO","day":"8월 23일","time":"11:07","direction":"발신 통화","duration":"2분 03초","label":"휴대전화"},{"id":"dw5","name":"윤도운이","day":"8월 22일","time":"21:16","direction":"발신 통화","duration":"5분 39초","label":"휴대전화"},{"id":"gift1","name":"KK기프트 담당자님","day":"8월 22일","time":"17:42","direction":"수신 통화","duration":"4분 17초","label":"회사"},{"id":"lee2","name":"이OO","day":"8월 22일","time":"15:08","direction":"발신 통화","duration":"57초","label":"휴대전화"},{"id":"writer2","name":"데키라 메인 작가님","day":"8월 22일","time":"12:27","direction":"수신 통화","duration":"3분 56초","label":"휴대전화"},{"id":"mom2","name":"엄마","day":"8월 22일","time":"10:12","direction":"발신 통화","duration":"1분 35초","label":"휴대전화"}];
+const PATHS={"phone":"<path d=\"M21 16.4v2.9A1.7 1.7 0 0 1 19.1 21a17.9 17.9 0 0 1-7.8-2.8A17.5 17.5 0 0 1 5.8 12.7 17.9 17.9 0 0 1 3 4.9 1.7 1.7 0 0 1 4.7 3h2.9a1.7 1.7 0 0 1 1.7 1.5c.1.9.3 1.8.6 2.6a1.7 1.7 0 0 1-.4 1.8L8.2 10.2a14.2 14.2 0 0 0 5.6 5.6l1.3-1.3a1.7 1.7 0 0 1 1.8-.4c.8.3 1.7.5 2.6.6a1.7 1.7 0 0 1 1.5 1.7Z\"/>","users":"<circle cx=\"12\" cy=\"8\" r=\"3.5\"/><path d=\"M4.5 20a7.5 7.5 0 0 1 15 0\"/>","keypad":"<circle cx=\"6\" cy=\"5.5\" r=\"1.3\"/><circle cx=\"12\" cy=\"5.5\" r=\"1.3\"/><circle cx=\"18\" cy=\"5.5\" r=\"1.3\"/><circle cx=\"6\" cy=\"12\" r=\"1.3\"/><circle cx=\"12\" cy=\"12\" r=\"1.3\"/><circle cx=\"18\" cy=\"12\" r=\"1.3\"/><circle cx=\"6\" cy=\"18.5\" r=\"1.3\"/><circle cx=\"12\" cy=\"18.5\" r=\"1.3\"/><circle cx=\"18\" cy=\"18.5\" r=\"1.3\"/>","message":"<path d=\"M20 11.6a7.6 7.6 0 0 1-7.6 7.6H7L3 22V11.6a8.5 8.5 0 0 1 17 0Z\"/>","video":"<rect x=\"3\" y=\"6.5\" width=\"13\" height=\"11\" rx=\"2.4\"/><path d=\"m16 10 5-3v10l-5-3\"/>"};
+const icon=name=>`<svg viewBox="0 0 24 24" aria-hidden="true">${PATHS[name]||PATHS.phone}</svg>`;
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const header=document.getElementById('app-header'),content=document.getElementById('content'),tabbar=document.getElementById('tabbar');
+let page='recent',filter='all',focusedId=null,savedScroll=0;
+const avatarType=name=>name==='윤도운이'?'dw':name==='엄마'||name==='아버지'?'family':/DBS|DKS|기프트|인쇄소|내선|작가/.test(name)?'company':'';
+const labelInitial=name=>name==='윤도운이'?'윤':name.startsWith('DBS')?'D':name.startsWith('DKS')?'D':name.startsWith('KK')?'K':name==='엄마'?'엄':name==='아버지'?'아':name==='총무팀 내선'?'총':name==='운운 인쇄소'?'운':name.slice(0,1);
+const avatar=(name,big=false)=>`<span class="${big?'big-avatar':'avatar'} ${avatarType(name)}" aria-hidden="true">${esc(labelInitial(name))}</span>`;
+const isMissed=c=>c.direction==='부재중 전화';
+const dateText=c=>`${c.day} · ${c.time}`;
+function renderHeader(){
+ if(page==='detail')return `<div class="subhead shell"><button class="back-button" data-action="back" aria-label="최근 통화로 돌아가기">최근 통화</button><div class="subhead-title">통화 정보</div><span class="subhead-right"></span></div>`;
+ return `<div class="head-main shell"><div class="head-line"><span class="muted-control" aria-disabled="true">편집</span><div class="segmented" role="tablist" aria-label="통화 종류"><button class="${filter==='all'?'on':''}" data-filter="all" aria-selected="${filter==='all'}">전체</button><button class="${filter==='missed'?'on':''}" data-filter="missed" aria-selected="${filter==='missed'}">부재중</button></div></div><h1 class="header-large">최근 통화</h1></div>`;
+}
+function renderFooter(){return [['recent','최근 통화','phone'],['contacts','연락처','users'],['keypad','키패드','keypad']].map(([id,title,ico])=> id==='recent'?`<div class="tab active" aria-current="page">${icon(ico)}<span>${title}</span></div>`:`<button class="tab" disabled aria-disabled="true" aria-label="${title}">${icon(ico)}<span>${title}</span></button>`).join('');}
+function recentPage(){
+ const list=START_CALLS.filter(c=>filter==='all'||isMissed(c));
+ return `<div class="call-list">${list.length?list.map(c=>{const first=c.id==='dw1';const tag=first?'button':'div';const attrs=first?`type="button" data-record="dw1" aria-label="윤도운이 오늘 04시 04분 통화 정보"`:'';return `<${tag} class="call-row ${first?'':'is-static'}" ${attrs}>${avatar(c.name)}<span class="call-row-body"><span style="min-width:0;flex:1"><span class="call-name ${isMissed(c)?'missed':''}" style="display:block">${esc(c.name)}</span><span class="call-caption">${esc(c.direction)}${c.label==='회사'?' · 회사':' · 휴대전화'}</span></span><span class="call-row-right"><span class="call-date">${esc(c.day)}</span></span></span></${tag}>`}).join(''):'<div class="empty">통화 기록이 없습니다.</div>'}</div>`;
+}
+function detailPage(){
+ const active=START_CALLS.find(c=>c.id===focusedId);
+ if(!active||focusedId!=='dw1')return '<div class="empty">통화 기록을 찾을 수 없습니다.</div>';
+ const records=START_CALLS.filter(c=>c.name===active.name);
+ return `<div class="record-detail"><section class="detail-hero">${avatar(active.name,true)}<h1 class="detail-name">${esc(active.name)}</h1><div class="detail-label">${esc(active.label==='회사'?'회사':'휴대전화')}</div><div class="detail-actions"><button type="button" class="detail-action" disabled aria-disabled="true">${icon('message')}<span>메시지</span></button><button type="button" class="detail-action" data-action="demo-call">${icon('phone')}<span>통화</span></button><button type="button" class="detail-action" disabled aria-disabled="true">${icon('video')}<span>FaceTime</span></button></div></section><section class="detail-section"><h2 class="section-title">통화 기록</h2><div class="rounded-card">${records.map(c=>`<div class="detail-record"><span class="record-icon ${isMissed(c)?'missed':''}">${icon('phone')}</span><span class="record-center"><span class="record-direction" style="${isMissed(c)?'color:#FF3B30':''}">${esc(c.direction)}</span><div class="record-timestamp">${esc(dateText(c))}</div></span><span class="record-duration">${esc(isMissed(c)?'연결되지 않음':c.duration)}</span></div>`).join('')}</div></section><section class="detail-section"><h2 class="section-title">연락처</h2><div class="rounded-card"><div class="detail-data"><b>${esc(active.name)}</b><span>${active.label==='회사'?'회사':'휴대전화'}</span></div></div></section></div>`;
+}
+function render(keepScroll=false){const pos=keepScroll?content.scrollTop:0;header.innerHTML=renderHeader();content.innerHTML=page==='detail'?detailPage():recentPage();tabbar.innerHTML=renderFooter();content.style.background=page==='detail'?'#F2F2F7':'#fff';content.scrollTop=pos;}
+// 도운이 통화 정보만 열 수 있습니다. 나머지는 버튼 요소가 아닙니다.
+const incomingBox=document.getElementById('incoming-messages');
+const callLayer=document.getElementById('call-overlay');
+const notificationIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.6 1.6 5 4.1 6.4L5 21l4.4-2.2c.8.1 1.7.2 2.6.2 5.5 0 10-3.6 10-8S17.5 3 12 3z"/></svg>';
+let messageTimers=[],conversationTimers=[],clockTimer=null,calling=false,callSeconds=0;
+function clearMessageTimers(){messageTimers.forEach(clearTimeout);messageTimers=[]}
+function clearConversationTimers(){conversationTimers.forEach(clearTimeout);conversationTimers=[];if(clockTimer!==null){clearInterval(clockTimer);clockTimer=null}}
+function hideMessages(){clearMessageTimers();incomingBox.innerHTML='';incomingBox.hidden=true}
+function appendMessage(text){incomingBox.hidden=false;incomingBox.insertAdjacentHTML('afterbegin',`<div class="incoming-message"><div class="incoming-icon">${notificationIcon}</div><div class="incoming-copy"><div class="incoming-sender">윤도운이</div><div class="incoming-text">${esc(text)}</div></div></div>`)}
+function showMessages(){hideMessages();messageTimers.push(setTimeout(()=>appendMessage('나왔어?'),280));messageTimers.push(setTimeout(()=>appendMessage('택시 타면 전화줘'),900));messageTimers.push(setTimeout(hideMessages,5400))}
+function openDetail(id){if(id!=='dw1')return;savedScroll=content.scrollTop;focusedId=id;page='detail';render();showMessages()}
+function back(){hideMessages();page='recent';focusedId=null;render();content.scrollTop=savedScroll}
+const CALL_SCRIPT=[
+ {speaker:'윤도운',text:'택시 탔어?'},
+ {speaker:'강영현',text:'그냥 자지 뭘 또 기다려'},
+ {speaker:'윤도운',text:'걱정되니까 글치'},
+ {speaker:'강영현',text:'나 백팔십 남잔디'},
+ {speaker:'윤도운',text:'아니 형 말고'},
+ {speaker:'윤도운',text:'형이 배고파서 기사님 뜯어먹을까봐'},
+ {speaker:'강영현',text:'생일이니까 봐준다'},
+ {speaker:'윤도운',text:'바로 또 출근해야 돼?'},
+ {speaker:'강영현',text:'으응'},
+ {speaker:'강영현',text:'너 나갈 때 같이 나오면 될 듯'},
+ {speaker:'윤도운',text:'형 피곤해가 오늘 뭐 하겠나'},
+ {speaker:'강영현',text:'뭐 할 건데?'},
+ {speaker:'윤도운',text:'아니 뭐 꼭 그거 아니라도... 그냥 쉴래?'},
+ {speaker:'강영현',text:'너 거기서 밥 먹으려면 몇 달 기다려야 되는지 알아?'},
+ {speaker:'윤도운',text:'밥이 문제가 내 남친 밥 먹다 죽게 생겼는데'},
+ {speaker:'강영현',text:'난 밥이 문제야'},
+ {speaker:'강영현',text:'아 졸려...'},
+ {speaker:'윤도운',text:'끊으까?'},
+ {speaker:'강영현',text:'아니이, 목소리 들을래'}
+];
+const callIcons={
+ speaker:'<path d="M11 5 6 9H2v6h4l5 4V5Zm4.5 7c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02ZM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77Z"/>',
+ video:'<path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4Z"/>',
+ mute:'<path d="M12 14c1.66 0 2.99-1.34 2.99-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3Zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7Z"/>',
+ dots:'<circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="5" cy="12" r="2"/>',
+ hangup:'<path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08c-.18-.17-.29-.42-.29-.7 0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28-.79-.74-1.69-1.36-2.67-1.85-.33-.16-.56-.5-.56-.9v-3.1C15.15 9.25 13.6 9 12 9Z"/>',
+ keypad:'<circle cx="6" cy="6" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>'
+};
+function control(kind,label,enabled=false){const svg=`<svg viewBox="0 0 24 24" aria-hidden="true">${callIcons[kind]}</svg>`;return `<div class="live-control-wrap">${enabled?`<button type="button" class="live-control live-end" data-action="end-call" aria-label="통화 종료">${svg}</button>`:`<div class="live-control" aria-hidden="true">${svg}</div>`}<span class="live-control-label">${label}</span></div>`}
+function showCallLine(line){
+ const speaker=callLayer.querySelector('#live-speaker'),phrase=callLayer.querySelector('#live-phrase');
+ if(speaker)speaker.textContent=line.speaker;
+ if(!phrase)return;
+ phrase.textContent=line.text;
+ // 한 줄로 표시: 글자 수뿐 아니라 iPhone 실제 렌더링 폭에 맞춰 글씨 크기를 조절합니다.
+ const parent=phrase.parentElement;
+ const allowedWidth=Math.max(120,parent.clientWidth-6);
+ let size=18;
+ phrase.style.fontSize=size+'px';
+ while(phrase.getBoundingClientRect().width>allowedWidth&&size>10){
+  size-=0.25;
+  phrase.style.fontSize=size+'px';
+ }
+}
+function durationForLine(line){const chars=[...line.text.replace(/\s/g,'')].length;return Math.min(4100,Math.max(1650,950+chars*100))}
+function showNextLine(index){if(!calling)return;if(index>=CALL_SCRIPT.length){conversationTimers.push(setTimeout(endCall,1900));return}showCallLine(CALL_SCRIPT[index]);conversationTimers.push(setTimeout(()=>showNextLine(index+1),durationForLine(CALL_SCRIPT[index])))}
+function mockCall(){if(page!=='detail'||focusedId!=='dw1'||calling)return;hideMessages();clearConversationTimers();calling=true;callSeconds=0;
+ callLayer.className='call-overlay live-call';
+ callLayer.innerHTML=`<div class="call-top"><span class="live-status" id="live-status">휴대전화 연결 중...</span><h2 class="live-name">윤도운이</h2></div><div class="live-dialogue"><span class="live-speaker" id="live-speaker"></span><span class="live-phrase" id="live-phrase"></span></div><div class="live-controls">${control('speaker','스피커')}${control('video','FaceTime')}${control('mute','소리 끔')}${control('dots','더 보기')}${control('hangup','종료',true)}${control('keypad','키패드')}</div>`;
+ callLayer.hidden=false;
+ conversationTimers.push(setTimeout(()=>{if(!calling)return;const status=document.getElementById('live-status');if(status)status.textContent='00:00';clockTimer=setInterval(()=>{if(!calling)return;callSeconds++;const clock=document.getElementById('live-status');if(clock)clock.textContent=`${String(Math.floor(callSeconds/60)).padStart(2,'0')}:${String(callSeconds%60).padStart(2,'0')}`},1000);showNextLine(0)},850));
+}
+function endCall(){if(!calling)return;calling=false;clearConversationTimers();callLayer.hidden=true;callLayer.innerHTML='';callLayer.className='call-overlay';page='recent';focusedId=null;filter='all';render();content.scrollTop=savedScroll}
+document.addEventListener('click',event=>{
+ const row=event.target.closest('[data-record]');if(row){openDetail(row.dataset.record);return;}
+ const btn=event.target.closest('button');if(!btn||btn.disabled)return;
+ if(btn.dataset.filter){filter=btn.dataset.filter;render(true);return;}
+ switch(btn.dataset.action){case 'back':back();break;case 'demo-call':mockCall();break;case 'end-call':endCall();break;}
+});
+render();
+window.addEventListener('resize',()=>{
+ if(!calling)return;
+ const p=callLayer.querySelector('#live-phrase'),s=callLayer.querySelector('#live-speaker');
+ if(p&&s&&p.textContent)showCallLine({speaker:s.textContent,text:p.textContent});
+});
+window.addEventListener('pageshow',event=>{if(event.persisted){hideMessages();calling=false;clearConversationTimers();page='recent';filter='all';focusedId=null;savedScroll=0;callLayer.hidden=true;callLayer.innerHTML='';callLayer.className='call-overlay';render();}});
+})();
+</script></body></html>
