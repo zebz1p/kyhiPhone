@@ -153,7 +153,6 @@ button,input,textarea{font-size:16px}button{border:0;background:none;padding:0;f
   <button id="ft-video-play" type="button" hidden>영상 재생</button>
 </section>
 <audio id="ft-ring" preload="auto" loop playsinline></audio>
-<audio id="dw-send-sound" preload="auto" playsinline src="https://zebz1p.dothome.co.kr/public/uploads/send.mp3?_t=1792594558"></audio>
 
 
 <script>
@@ -292,9 +291,7 @@ window.addEventListener('pagehide',resetFaceTime);
 window.addEventListener('pageshow',e=>{if(e.persisted)resetFaceTime()});
 
 /* iOS 자동 재생 허용 범위 안에서, 도운이 대화방을 탭할 때 오디오 재생 가능 상태를 준비. */
-const sendSound=$('dw-send-sound');
 ring.src=FACE_TIME.ringtone;ring.preload='auto';ring.load();
-sendSound.volume=.17;sendSound.preload='auto';sendSound.load();
 let soundsPrimed=false;
 function silentPrime(el,volume){
   try{
@@ -311,17 +308,7 @@ window.primeMessageSounds=function(){
   if(soundsPrimed)return;
   soundsPrimed=true;
   silentPrime(ring,.28);
-  silentPrime(sendSound,.17);
 };
-window.playDowoonSendSound=function(){
-  if(mode==='ringing'||mode==='active')return;
-  try{
-    sendSound.pause();sendSound.currentTime=0;
-    sendSound.muted=false;sendSound.volume=.17;
-    const p=sendSound.play();if(p&&p.catch)p.catch(()=>{});
-  }catch(_){}
-};
-window.addEventListener('pagehide',()=>{sendSound.pause();});
 
 // 메시지 앱에서는 마지막 문자 전송 후 showFaceTimeIncoming()을 호출합니다.
 
@@ -699,7 +686,6 @@ function scriptAppend(from,text){
  const lastTime=21*60+29+dwPlaybackIndex;
  const time=`2027-08-20T${String(Math.floor(lastTime/60)).padStart(2,'0')}:${String(lastTime%60).padStart(2,'0')}:00`;
  t.messages.push({at:time,from,text});
- if(from==='me' && activeId==='dw')window.playDowoonSendSound?.();
  const list=$('content').querySelector('.message-list');
  if(!list||activeId!=='dw')return;
  list.querySelector('.delivered')?.remove();
@@ -766,7 +752,7 @@ function scrollBottom(){requestAnimationFrame(()=>{if(activeId!==null)$('content
 function fitInput(){const e=$('chat-input');if(!e)return;e.style.height='26px';e.style.height=Math.min(105,Math.max(26,e.scrollHeight))+'px'}
 function inputState(){const input=$('chat-input'),b=$('send');if(!input||!b)return;drafts[activeId]=input.value;b.disabled=!input.value.trim();b.classList.toggle('sending',!!input.value.trim());b.innerHTML=svg(input.value.trim()?'send':'mic');fitInput()}
 function simulatedTime(){const minute=nextClock++;return `${today}T${String(Math.floor(minute/60)%24).padStart(2,'0')}:${String(minute%60).padStart(2,'0')}:00`}
-function send(){const t=chats.find(t=>t.id===activeId),input=$('chat-input');if(!t||!input||input.readOnly||!input.value.trim())return;const message=input.value.trim();t.messages.push({at:simulatedTime(),from:'me',text:message});if(t.id==='dw')window.playDowoonSendSound?.();drafts[t.id]='';showChat(t.id);}
+function send(){const t=chats.find(t=>t.id===activeId),input=$('chat-input');if(!t||!input||input.readOnly||!input.value.trim())return;const message=input.value.trim();t.messages.push({at:simulatedTime(),from:'me',text:message});drafts[t.id]='';showChat(t.id);}
 document.addEventListener('click',e=>{
  if(e.target.closest('#dw-facetime-replay')){
    if(activeId!=='dw')return;
