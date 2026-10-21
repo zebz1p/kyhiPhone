@@ -136,7 +136,7 @@ button,input,textarea{font-size:16px}button{border:0;background:none;padding:0;f
 </div>
 <!-- 수락 시 표시되는 영상 통화 -->
 <section id="ft-video-call" role="dialog" aria-label="FaceTime 영상 통화 화면" aria-modal="true" hidden>
-  <video id="ft-dowoon-video" playsinline webkit-playsinline loop preload="metadata"></video>
+  <video id="ft-dowoon-video" playsinline webkit-playsinline preload="metadata"></video>
   <div class="ft-video-overlay"></div>
   <div class="ft-call-top"><div class="ft-call-name">윤도운이</div><div class="ft-call-duration" id="ft-call-duration">FaceTime 영상 통화 · 00:00</div></div>
   <div class="ft-pip" id="ft-yeonghyeon-pip" aria-label="강영현 영상. 드래그해서 이동할 수 있습니다">
@@ -267,6 +267,8 @@ function acceptCall(){
 $('ft-decline').addEventListener('click',resetFaceTime);
 $('ft-accept').addEventListener('click',acceptCall);
 $('ft-end').addEventListener('click',resetFaceTime);
+// 도운이 영상이 끝나면 반복하지 않고 FaceTime 통화를 자동 종료합니다.
+dw.addEventListener('ended',()=>{if(mode==='active')resetFaceTime()});
 $('ft-video-play').addEventListener('click',playVideos);
 $('ft-speaker').addEventListener('click',()=>{
   if(mode!=='active')return;
