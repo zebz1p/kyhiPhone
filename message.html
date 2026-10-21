@@ -748,6 +748,54 @@ async function runDowoonSequence(){
   queueFaceTime();
  }
 }
+/* FaceTime 수신을 직접 거절했을 때만, 기존 연출에 이어 세 문장을 한 번 표시합니다. */
+const DOWOON_DECLINE_MESSAGES=[
+ {from:'them',text:'2분 지났어'},
+ {from:'me',text:'아 안 될 것 같다 이따 하자'},
+ {from:'them',text:'치사해'}
+];
+let declineMessagesPlayed=false;
+async function playDeclineMessages(){
+ if(declineMessagesPlayed||activeId!=='dw')return;
+ declineMessagesPlayed=true;
+ const token=++dwPlaybackToken;
+ const valid=()=>token===dwPlaybackToken&&activeId==='dw';
+ let input=$('chat-input');if(input)input.readOnly=true;
+ await scriptWait(380);
+ for(const msg of DOWOON_DECLINE_MESSAGES){
+  if(!valid())return;
+  if(msg.from==='me'){
+   scriptKeyboard(true);
+   input=$('chat-input');if(!input)return;
+   input.value='';inputState();
+   await scriptWait(140);if(!valid())return;
+   if(!await typeScriptText(msg.text,token))return;
+   await scriptWait(150);if(!valid())return;
+   scriptAppend('me',msg.text);
+   input.value='';inputState();
+   dwPlaybackIndex++;
+   scriptKeyboard(false);
+   await scriptWait(380);
+  }else{
+   scriptKeyboard(false);
+   const list=$('content').querySelector('.message-list');if(!list)return;
+   const typing=document.createElement('div');typing.id='script-typing';typing.className='script-typing';
+   typing.setAttribute('aria-label','윤도운이 입력 중');typing.innerHTML='<i></i><i></i><i></i>';
+   list.appendChild(typing);scrollBottom();
+   await scriptWait(Math.max(610,Math.min(1280,480+msg.text.length*33)));
+   typing.remove();if(!valid())return;
+   scriptAppend('them',msg.text);
+   dwPlaybackIndex++;
+   await scriptWait(Math.max(590,Math.min(1350,560+msg.text.length*22)));
+  }
+ }
+ if(valid()){
+  scriptKeyboard(false);
+  input=$('chat-input');if(input){input.readOnly=false;input.value='';inputState()}
+ }
+}
+$('ft-decline').addEventListener('click',playDeclineMessages);
+window.addEventListener('pageshow',e=>{if(e.persisted)declineMessagesPlayed=false});
 function showList(){clearTimeout(ftStartTimer);ftStartTimer=null;window.resetEmbeddedFaceTime?.();stopScriptPlayback();activeId=null;$('header').innerHTML=listHead();$('content').innerHTML=listBody();$('content').scrollTop=listScroll;$('footer').hidden=true;$('footer').innerHTML=''}
 function showChat(id){const t=chats.find(t=>t.id===id);if(!t||t.disabled)return;if(activeId!==id)stopScriptPlayback();if(activeId===null)listScroll=$('content').scrollTop;activeId=id;$('header').innerHTML=chatHead(t);$('content').innerHTML=chatBody(t);$('footer').hidden=false;$('footer').innerHTML=composer(t);fitInput();scrollBottom();if(id==='dw'&&dwPlaybackIndex<DOWOON_LIVE_SCRIPT.length)runDowoonSequence();else if(id==='dw')queueFaceTime()}
 function scrollBottom(){requestAnimationFrame(()=>{if(activeId!==null)$('content').scrollTop=$('content').scrollHeight})}
