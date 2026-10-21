@@ -499,7 +499,7 @@ const open=document.getElementById('open-history');
 function render(){
  const show=location.hash==='#search-history';
  home.hidden=show;historyScreen.hidden=!show;
- document.title=show?'Google 검색 내역 화면':'Google 메인 화면';
+ document.title=show?'강영현의 iPhone':'강영현의 iPhone';
  if(show)historyScreen.focus({preventScroll:true});
  else if(document.activeElement===historyScreen)open.focus({preventScroll:true});
 }
