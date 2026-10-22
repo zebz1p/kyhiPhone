@@ -1751,7 +1751,7 @@ function exitCamera(){
   window.parent.postMessage({type:'younghyun:close-camera'},'*');
 }
 function show(name){view=name;['camera','detail','library'].forEach(id=>$(id).hidden=id!==name);if(name!=='camera')video.pause();}
-function pushView(state,hash){navDepth++;} 
+function pushView(state,hash){navDepth++;window.parent.postMessage({type:'younghyun:camera-view',state},'*');} 
 function stopRecording(){recording=false;stoppedOnce=true;$('camera').classList.remove('recording');$('timer').hidden=true;$('settings').hidden=false;$('pause').style.visibility='hidden';$('snapshot').hidden=true;$('controls').hidden=false;$('record').setAttribute('aria-label','촬영 시작');}
 function startRecording(){recording=true;recordStart=video.currentTime;$('camera').classList.add('recording');$('timer').textContent='00:00:00';$('timer').hidden=false;$('settings').hidden=true;$('pause').style.visibility='visible';$('snapshot').hidden=false;$('controls').hidden=true;$('record').setAttribute('aria-label','촬영 중지');}
 function updateRecording(){if(!recording)return;const elapsed=Math.max(0,video.currentTime-recordStart);$('timer').textContent='00:00:'+String(Math.floor(elapsed)).padStart(2,'0');if(!stoppedOnce&&elapsed>=6)stopRecording();}
@@ -1798,7 +1798,8 @@ function renderPhoto(){const img=$('full-photo');img.src=photoURL(selected);img.
 function openPhoto(n,push=true){selected=n;show('detail');renderPhoto();if(push)pushView({screen:'detail',photo:n},'#photo-'+n);}
 function openLibrary(push=true){show('library');if(push)pushView({screen:'library'},'#photos');}
 for(let n=1;n<=15;n++){for(const target of ['photo-grid','filmstrip']){const b=document.createElement('button');b.dataset.photo=n;b.setAttribute('aria-label','사진 '+n+' 보기');const img=document.createElement('img');img.src=photoURL(n);img.alt='';img.loading='lazy';img.addEventListener('error',()=>imagePlaceholder(img,n));b.append(img);b.onclick=()=>openPhoto(n,view!=='detail');$(target).append(b);}}
-$('latest').onclick=()=>openPhoto(15);$('to-library').onclick=()=>openLibrary();
+$('latest').onclick=()=>openPhoto(15);
+$('to-library').onclick=()=>openLibrary();
 $('favorite').onclick=()=>{if(favorites.has(selected))favorites.delete(selected);else favorites.add(selected);renderPhoto();};
 function notice(text){$('notice').textContent=text;$('notice').hidden=false;clearTimeout(notice.timer);notice.timer=setTimeout(()=>$('notice').hidden=true,2200);}
 $('info').onclick=()=>{const im=$('full-photo');notice(selected+'.'+photoExtension(selected)+(im.naturalWidth?' · '+im.naturalWidth+' × '+im.naturalHeight:''));};
@@ -1821,6 +1822,14 @@ window.startEmbeddedCamera=function(){
   video.volume=.55;
   play();
 };
+// Restore internal view on the browser's own Back/Forward navigation.
+window.restoreEmbeddedCameraState=function(state){
+  if(!state)return;
+  if(state.screen==='detail')openPhoto(state.photo||15,false);
+  else if(state.screen==='library')openLibrary(false);
+  else {show('camera');if(!cameraEnded)play();}
+};
+window.pauseEmbeddedCamera=function(){cameraLaunched=false;video.pause();};
 // Video is not started in the background while the index is visible.
 video.muted=false;
 video.volume=.55;
@@ -1833,30 +1842,76 @@ __YH_INTERNAL_CAMERA_SCRIPT_END_2026__</body></html>
   const source=document.getElementById('embedded-camera-source');
   let cameraReady=false;
   let startPending=false;
+  let currentSession=0;
+  let cameraDepth=0;
+  let pendingRestore=null;
+  function restoreCamera(state){
+    if(!cameraReady||!frame.contentWindow||typeof frame.contentWindow.restoreEmbeddedCameraState!=='function'){
+      pendingRestore=state;
+      return;
+    }
+    frame.contentWindow.restoreEmbeddedCameraState(state);
+  }
   function beginCamera(){
     if(!startPending||!cameraReady)return;
     startPending=false;
     try {
       if(frame.contentWindow&&typeof frame.contentWindow.startEmbeddedCamera==='function'){
         frame.contentWindow.startEmbeddedCamera();
+        if(pendingRestore){const restore=pendingRestore;pendingRestore=null;restoreCamera(restore);}
       }
     } catch(err){ console.warn('카메라 재생을 시작하지 못했습니다.',err); }
   }
   frame.addEventListener('load',function(){cameraReady=true;beginCamera();});
-  function openCamera(){
+  function openCamera(pushHistory=true){
     if(!frame.hidden)return;
+    if(pushHistory){
+      currentSession++;
+      cameraDepth=1;
+      history.pushState({__younghyunCamera:true,session:currentSession,depth:1,screen:'camera'},'');
+    }
     frame.hidden=false;
     frame.setAttribute('aria-hidden','false');
     startPending=true;
     beginCamera();
   }
-  button.addEventListener('click',openCamera);
-  window.addEventListener('message',function(event){
-    if(event.source!==frame.contentWindow||!event.data||event.data.type!=='younghyun:close-camera')return;
+  function hideCamera(){
+    if(frame.hidden)return;
     frame.hidden=true;
     frame.setAttribute('aria-hidden','true');
     startPending=false;
-    // Reveal the unchanged starting index lock screen underneath.
+    pendingRestore=null;
+    try{frame.contentWindow.pauseEmbeddedCamera();}catch(error){}
+  }
+  button.addEventListener('click',()=>openCamera(true));
+  window.addEventListener('popstate',function(event){
+    const state=event.state;
+    if(state&&state.__younghyunCamera===true){
+      currentSession=state.session;
+      cameraDepth=state.depth;
+      if(frame.hidden){pendingRestore=state;openCamera(false);}
+      else restoreCamera(state);
+    }else{
+      cameraDepth=0;
+      hideCamera();
+    }
+  });
+  window.addEventListener('message',function(event){
+    if(event.source!==frame.contentWindow||!event.data)return;
+    if(event.data.type==='younghyun:camera-view'){
+      if(frame.hidden||!cameraDepth)return;
+      // Internal photo changes stay within a single camera history entry.
+      // Native Back from any photo/library view goes straight to the index.
+      cameraDepth=1;
+      const state=event.data.state||{};
+      history.replaceState({__younghyunCamera:true,session:currentSession,depth:1,screen:state.screen,photo:state.photo},'');
+    }else if(event.data.type==='younghyun:close-camera'){
+      if(frame.hidden)return;
+      const returnSteps=cameraDepth;
+      hideCamera();
+      // The movie ending closes only the overlay and returns to this index.
+      if(returnSteps>0)history.go(-returnSteps);
+    }
   });
   // Eagerly initialize the inert camera once, but never autoplay over the index.
   frame.setAttribute('aria-hidden','true');
