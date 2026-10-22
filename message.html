@@ -140,7 +140,7 @@ button,input,textarea{font-size:16px}button{border:0;background:none;padding:0;f
   <div class="ft-video-overlay"></div>
   <div class="ft-call-top"><div class="ft-call-name">윤도운이</div><div class="ft-call-duration" id="ft-call-duration">FaceTime 영상 통화 · 00:00</div></div>
   <div class="ft-pip" id="ft-yeonghyeon-pip" aria-label="강영현 영상. 드래그해서 이동할 수 있습니다">
-    <video id="ft-yeonghyeon-video" muted playsinline webkit-playsinline loop preload="metadata"></video>
+    <video id="ft-yeonghyeon-video" muted playsinline webkit-playsinline preload="metadata"></video>
     <span class="ft-pip-label">나</span><div id="ft-camera-off" hidden>카메라 꺼짐</div>
   </div>
   <div class="ft-call-controls" aria-label="영상 통화 조작">
@@ -247,6 +247,17 @@ window.resetEmbeddedFaceTime=resetFaceTime;
 function updateClock(){
   const seconds=Math.max(0,Math.floor((Date.now()-callStart)/1000));
   $('ft-call-duration').textContent='FaceTime 영상 통화 · '+String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
+}
+function matchYeonghyeonDuration(){
+  if(mode!=='active'||!Number.isFinite(dw.duration)||!Number.isFinite(yh.duration)||dw.duration<=0||yh.duration<=0)return;
+  const rate=Math.min(1,yh.duration/dw.duration);
+  yh.playbackRate=rate;
+  const position=Math.min(dw.currentTime*rate,yh.duration);
+  if(Math.abs(yh.currentTime-position)>.3)yh.currentTime=position;
+}
+for(const video of [dw,yh]){
+  video.addEventListener('loadedmetadata',matchYeonghyeonDuration);
+  video.addEventListener('durationchange',matchYeonghyeonDuration);
 }
 async function playVideos(){
   // 브라우저 정책상 볼륨 재생은 사용자가 '받기'를 누른 뒤에 시도합니다.
